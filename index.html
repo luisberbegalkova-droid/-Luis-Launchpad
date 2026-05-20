@@ -47,7 +47,10 @@
         </div>
 
         <div class="flex gap-1 p-1 bg-black/5 rounded-2xl backdrop-blur-md w-fit">
-            <button onclick="setCurrentTab('INJUSA')" id="btn-INJUSA" class="px-8 py-2 rounded-xl text-sm font-bold transition-all duration-300 tab-active">
+            <button onclick="setCurrentTab('TODAS')" id="btn-TODAS" class="px-8 py-2 rounded-xl text-sm font-bold transition-all duration-300 tab-active">
+                TODAS
+            </button>
+            <button onclick="setCurrentTab('INJUSA')" id="btn-INJUSA" class="px-8 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300">
                 INJUSA
             </button>
             <button onclick="setCurrentTab('KOVA')" id="btn-KOVA" class="px-8 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300">
@@ -96,20 +99,25 @@
         { 
             name: "KOVA CONTENT OS", 
             url: "https://kova-app-contenido.vercel.app/", 
-            // CAMBIO DE ICONO: De 'movie_studio' a 'video_library'
             icon: "video_library", 
             color: "text-slate-900" 
         }
     ];
 
-    let currentTab = 'INJUSA';
+    // Iniciamos por defecto en la pestaña 'TODAS' para ver todo de un vistazo al cargar
+    let currentTab = 'TODAS';
 
     function setCurrentTab(tab) {
         currentTab = tab;
+        
+        // Control dinámico de clases activas en las tres pestañas
+        document.getElementById('btn-TODAS').classList.toggle('tab-active', tab === 'TODAS');
+        document.getElementById('btn-TODAS').classList.toggle('text-slate-500', tab !== 'TODAS');
         document.getElementById('btn-INJUSA').classList.toggle('tab-active', tab === 'INJUSA');
         document.getElementById('btn-INJUSA').classList.toggle('text-slate-500', tab !== 'INJUSA');
         document.getElementById('btn-KOVA').classList.toggle('tab-active', tab === 'KOVA');
         document.getElementById('btn-KOVA').classList.toggle('text-slate-500', tab !== 'KOVA');
+        
         filterApps();
     }
 
@@ -119,7 +127,9 @@
         const emptyState = document.getElementById('emptyState');
         
         const filtered = apps.filter(app => {
-            const matchesTab = app.name.toUpperCase().startsWith(currentTab);
+            // Si la pestaña actual es 'TODAS', pasa el filtro de categoría directamente.
+            // Si no, comprueba si empieza por el prefijo correspondiente (INJUSA o KOVA)
+            const matchesTab = (currentTab === 'TODAS') || app.name.toUpperCase().startsWith(currentTab);
             const matchesSearch = app.name.toLowerCase().includes(searchTerm);
             return matchesTab && matchesSearch;
         });
@@ -131,12 +141,19 @@
         } else {
             emptyState.classList.add('hidden');
             filtered.forEach(app => {
+                // Lógica de visualización del nombre:
+                // Si estamos en la pestaña global "TODAS", mostramos el nombre completo (ej: "INJUSA 12W").
+                // Si estamos filtrando, recortamos el prefijo para mantener el diseño limpio.
+                const displayName = (currentTab === 'TODAS') 
+                    ? app.name 
+                    : app.name.replace(currentTab + ' ', '');
+
                 const appElement = `
                     <a class="flex flex-col items-center gap-3 group transition-transform duration-300 hover:scale-110 active:scale-95 w-32" href="${app.url}" target="_blank">
                         <div class="squircle w-20 h-20 md:w-24 md:h-24 glass-surface flex items-center justify-center p-4">
                             <span class="material-symbols-outlined text-5xl ${app.color}" style="font-variation-settings: 'FILL' 1;">${app.icon}</span>
                         </div>
-                        <span class="font-semibold text-xs md:text-sm text-slate-700 text-center leading-tight uppercase tracking-wide">${app.name.replace(currentTab + ' ', '')}</span>
+                        <span class="font-semibold text-xs md:text-sm text-slate-700 text-center leading-tight uppercase tracking-wide">${displayName}</span>
                     </a>
                 `;
                 grid.innerHTML += appElement;
