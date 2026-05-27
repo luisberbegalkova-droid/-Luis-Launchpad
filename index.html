@@ -46,11 +46,15 @@
             <div class="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white text-xs font-bold">LB</div>
         </div>
 
+        <!-- SELECTOR DE PESTAÑAS (Con la pestaña TODAS integrada) -->
         <div class="flex gap-1 p-1 bg-black/5 rounded-2xl backdrop-blur-md w-fit">
-            <button onclick="setCurrentTab('INJUSA')" id="btn-INJUSA" class="px-8 py-2 rounded-xl text-sm font-bold transition-all duration-300 tab-active">
+            <button onclick="setCurrentTab('ALL')" id="btn-ALL" class="px-6 py-2 rounded-xl text-sm font-bold transition-all duration-300 tab-active">
+                TODAS
+            </button>
+            <button onclick="setCurrentTab('INJUSA')" id="btn-INJUSA" class="px-6 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300">
                 INJUSA
             </button>
-            <button onclick="setCurrentTab('KOVA')" id="btn-KOVA" class="px-8 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300">
+            <button onclick="setCurrentTab('KOVA')" id="btn-KOVA" class="px-6 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300">
                 KOVA
             </button>
         </div>
@@ -107,14 +111,22 @@
         }
     ];
 
-    let currentTab = 'INJUSA';
+    // Iniciamos en 'ALL' por defecto para ver todo al cargar
+    let currentTab = 'ALL';
 
     function setCurrentTab(tab) {
         currentTab = tab;
+        
+        // Actualizar estados visuales de los tres botones
+        document.getElementById('btn-ALL').classList.toggle('tab-active', tab === 'ALL');
+        document.getElementById('btn-ALL').classList.toggle('text-slate-500', tab !== 'ALL');
+        
         document.getElementById('btn-INJUSA').classList.toggle('tab-active', tab === 'INJUSA');
         document.getElementById('btn-INJUSA').classList.toggle('text-slate-500', tab !== 'INJUSA');
+        
         document.getElementById('btn-KOVA').classList.toggle('tab-active', tab === 'KOVA');
         document.getElementById('btn-KOVA').classList.toggle('text-slate-500', tab !== 'KOVA');
+        
         filterApps();
     }
 
@@ -124,7 +136,8 @@
         const emptyState = document.getElementById('emptyState');
         
         const filtered = apps.filter(app => {
-            const matchesTab = app.name.toUpperCase().startsWith(currentTab);
+            // Si la pestaña es 'ALL', entran todas las apps. Si no, filtramos por el prefijo (INJUSA o KOVA).
+            const matchesTab = (currentTab === 'ALL') || app.name.toUpperCase().startsWith(currentTab);
             const matchesSearch = app.name.toLowerCase().includes(searchTerm);
             return matchesTab && matchesSearch;
         });
@@ -136,12 +149,19 @@
         } else {
             emptyState.classList.add('hidden');
             filtered.forEach(app => {
+                // Si estamos en 'ALL', determinamos el prefijo dinámicamente para limpiarlo del texto de la tarjeta
+                let prefixToRemove = '';
+                if (app.name.toUpperCase().startsWith('INJUSA')) prefixToRemove = 'INJUSA ';
+                if (app.name.toUpperCase().startsWith('KOVA')) prefixToRemove = 'KOVA ';
+
+                const displayName = app.name.replace(prefixToRemove, '');
+
                 const appElement = `
                     <a class="flex flex-col items-center gap-3 group transition-transform duration-300 hover:scale-110 active:scale-95 w-32" href="${app.url}" target="_blank">
                         <div class="squircle w-20 h-20 md:w-24 md:h-24 glass-surface flex items-center justify-center p-4">
                             <span class="material-symbols-outlined text-5xl ${app.color}" style="font-variation-settings: 'FILL' 1;">${app.icon}</span>
                         </div>
-                        <span class="font-semibold text-xs md:text-sm text-slate-700 text-center leading-tight uppercase tracking-wide">${app.name.replace(currentTab + ' ', '')}</span>
+                        <span class="font-semibold text-xs md:text-sm text-slate-700 text-center leading-tight uppercase tracking-wide">${displayName}</span>
                     </a>
                 `;
                 grid.innerHTML += appElement;
