@@ -31,101 +31,164 @@
 </head>
 <body class="bg-gradient-mesh min-h-screen text-slate-800 font-sans overflow-x-hidden">
 
-<header class="fixed top-0 left-0 right-0 z-50 bg-white/10 backdrop-blur-xl border-b border-white/20 shadow-sm">
-    <div class="flex flex-col items-center w-full max-w-7xl mx-auto px-6 py-4">
-        <div class="flex justify-between items-center w-full mb-6">
-            <div class="text-xl font-bold tracking-tight text-slate-900">Launchpad</div>
-            
-            <div class="flex-1 max-w-md mx-8">
-                <div class="relative group">
-                    <input id="searchInput" oninput="filterApps()" class="w-full bg-white/30 backdrop-blur-md border border-white/40 rounded-full py-2 pl-11 pr-4 outline-none focus:ring-2 focus:ring-blue-400/30 transition-all placeholder:text-slate-500" placeholder="Buscar app..." type="text"/>
-                    <span class="material-symbols-outlined absolute left-4 top-2.5 text-slate-500">search</span>
+<!-- PANTALLA DE LOGIN -->
+<div id="loginScreen" class="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-mesh px-4">
+    <div class="glass-surface w-full max-w-sm rounded-3xl p-8 flex flex-col gap-6 backdrop-blur-2xl">
+        <div class="text-center">
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Launchpad</h1>
+            <p class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Control de Acceso</p>
+        </div>
+        
+        <div class="flex flex-col gap-4">
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wide text-slate-600 mb-1.5">Usuario</label>
+                <input id="usernameInput" type="text" class="w-full bg-white/40 border border-white/60 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-400/30 transition-all text-slate-800" placeholder="Introduce tu usuario">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wide text-slate-600 mb-1.5">Contraseña</label>
+                <input id="passwordInput" type="password" class="w-full bg-white/40 border border-white/60 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-400/30 transition-all text-slate-800" placeholder="••••••••">
+            </div>
+            <div id="loginError" class="hidden text-xs text-rose-600 font-medium bg-rose-50/50 border border-rose-200/50 rounded-xl px-3 py-2">
+                Usuario o contraseña incorrectos.
+            </div>
+        </div>
+
+        <button onclick="handleLogin()" class="w-full bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white font-bold py-3 rounded-xl transition-all shadow-md text-sm uppercase tracking-wider">
+            Entrar
+        </button>
+    </div>
+</div>
+
+<!-- CONTENIDO PRINCIPAL DEL LAUNCHPAD -->
+<div id="mainContent" class="hidden">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/10 backdrop-blur-xl border-b border-white/20 shadow-sm">
+        <div class="flex flex-col items-center w-full max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center w-full mb-6">
+                <div class="text-xl font-bold tracking-tight text-slate-900">Launchpad</div>
+                
+                <div class="flex-1 max-w-md mx-8">
+                    <div class="relative group">
+                        <input id="searchInput" oninput="filterApps()" class="w-full bg-white/30 backdrop-blur-md border border-white/40 rounded-full py-2 pl-11 pr-4 outline-none focus:ring-2 focus:ring-blue-400/30 transition-all placeholder:text-slate-500" placeholder="Buscar app..." type="text"/>
+                        <span class="material-symbols-outlined absolute left-4 top-2.5 text-slate-500">search</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div id="userAvatar" class="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white text-xs font-bold uppercase">--</div>
+                    <button onclick="handleLogout()" class="material-symbols-outlined text-slate-500 hover:text-slate-800 transition-colors cursor-pointer" title="Cerrar sesión">logout</button>
                 </div>
             </div>
 
-            <div class="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white text-xs font-bold">LB</div>
+            <!-- SELECTOR DE PESTAÑAS (Se renderiza dinámicamente) -->
+            <div id="tabContainer" class="flex gap-1 p-1 bg-black/5 rounded-2xl backdrop-blur-md w-fit">
+                <!-- Se inyectan por JS -->
+            </div>
         </div>
+    </header>
 
-        <!-- SELECTOR DE PESTAÑAS (Con la pestaña TODAS integrada) -->
-        <div class="flex gap-1 p-1 bg-black/5 rounded-2xl backdrop-blur-md w-fit">
-            <button onclick="setCurrentTab('ALL')" id="btn-ALL" class="px-6 py-2 rounded-xl text-sm font-bold transition-all duration-300 tab-active">
-                TODAS
-            </button>
-            <button onclick="setCurrentTab('INJUSA')" id="btn-INJUSA" class="px-6 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300">
-                INJUSA
-            </button>
-            <button onclick="setCurrentTab('KOVA')" id="btn-KOVA" class="px-6 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300">
-                KOVA
-            </button>
+    <main class="pt-48 pb-20 px-6 md:px-16 min-h-screen">
+        <div id="appGrid" class="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-12 gap-y-16 items-start justify-items-center transition-opacity duration-300">
         </div>
-    </div>
-</header>
-
-<main class="pt-48 pb-20 px-6 md:px-16 min-h-screen">
-    <div id="appGrid" class="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-12 gap-y-16 items-start justify-items-center transition-opacity duration-300">
-    </div>
-    
-    <div id="emptyState" class="hidden flex flex-col items-center justify-center pt-20 text-slate-400">
-        <span class="material-symbols-outlined text-6xl mb-4">Inbox</span>
-        <p>No hay aplicaciones en esta categoría todavía.</p>
-    </div>
-</main>
+        
+        <div id="emptyState" class="hidden flex flex-col items-center justify-center pt-20 text-slate-400">
+            <span class="material-symbols-outlined text-6xl mb-4">Inbox</span>
+            <p>No hay aplicaciones disponibles.</p>
+        </div>
+    </main>
+</div>
 
 <script>
+    // Base de datos de usuarios y reglas de acceso
+    const credentials = {
+        "4": { password: "", role: "admin", allowedApps: ["all"] },
+        "luis": { password: "1967", role: "injusa_full", allowedApps: ["INJUSA 12W", "INJUSA CRM", "INJUSA VENTA PEQUEÑOS"] },
+        "ventas": { password: "injven", role: "injusa_sales", allowedApps: ["INJUSA 12W", "INJUSA VENTA PEQUEÑOS"] }
+    };
+
     const apps = [
-        { 
-            name: "INJUSA 12W", 
-            url: "https://app-12-w.vercel.app/", 
-            icon: "bolt", 
-            color: "text-blue-600" 
-        },
-        { 
-            name: "INJUSA CRM", 
-            url: "https://app-crm-injusa.vercel.app/", 
-            icon: "hub", 
-            color: "text-indigo-600" 
-        },
-        { 
-            name: "INJUSA VENTA PEQUEÑOS", 
-            url: "https://app-inventario-bice-tau.vercel.app/", 
-            icon: "inventory_2", 
-            color: "text-rose-600" 
-        },
-        { 
-            name: "KOVA SONG ARCHIVE", 
-            url: "https://kova-song-archive.vercel.app/", 
-            icon: "album", 
-            color: "text-slate-900" 
-        },
-        { 
-            name: "KOVA CONTENT OS", 
-            url: "https://kova-app-contenido.vercel.app/", 
-            icon: "video_library", 
-            color: "text-slate-900" 
-        },
-        { 
-            name: "KOVA LEAD MANAGER", 
-            url: "https://kova-crm.vercel.app/", 
-            icon: "trending_up", 
-            color: "text-slate-900" 
-        }
+        { name: "INJUSA 12W", url: "https://app-12-w.vercel.app/", icon: "bolt", color: "text-blue-600" },
+        { name: "INJUSA CRM", url: "https://app-crm-injusa.vercel.app/", icon: "hub", color: "text-indigo-600" },
+        { name: "INJUSA VENTA PEQUEÑOS", url: "https://app-inventario-bice-tau.vercel.app/", icon: "inventory_2", color: "text-rose-600" },
+        { name: "KOVA SONG ARCHIVE", url: "https://kova-song-archive.vercel.app/", icon: "album", color: "text-slate-900" },
+        { name: "KOVA CONTENT OS", url: "https://kova-app-contenido.vercel.app/", icon: "video_library", color: "text-slate-900" },
+        { name: "KOVA LEAD MANAGER", url: "https://kova-crm.vercel.app/", icon: "trending_up", color: "text-slate-900" }
     ];
 
-    // Iniciamos en 'ALL' por defecto para ver todo al cargar
+    let currentUser = null;
     let currentTab = 'ALL';
+
+    // Manejo de la autenticación
+    function handleLogin() {
+        const username = document.getElementById('usernameInput').value.trim().toLowerCase();
+        const password = document.getElementById('passwordInput').value.trim();
+        const errorDiv = document.getElementById('loginError');
+
+        if (credentials[username] && credentials[username].password === password) {
+            errorDiv.classList.add('hidden');
+            currentUser = credentials[username];
+            currentUser.name = username;
+            
+            setupLaunchpad();
+        } else {
+            errorDiv.classList.remove('hidden');
+        }
+    }
+
+    function handleLogout() {
+        currentUser = null;
+        document.getElementById('usernameInput').value = '';
+        document.getElementById('passwordInput').value = '';
+        document.getElementById('mainContent').classList.add('hidden');
+        document.getElementById('loginScreen').classList.remove('hidden');
+    }
+
+    // Configuración inicial tras iniciar sesión
+    function setupLaunchpad() {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('mainContent').classList.remove('hidden');
+        
+        // Poner iniciales en el avatar
+        document.getElementById('userAvatar').innerText = currentUser.name.substring(0, 2);
+
+        // Renderizar pestañas según los permisos del rol
+        const tabContainer = document.getElementById('tabContainer');
+        if (currentUser.role === 'admin') {
+            currentTab = 'ALL';
+            tabContainer.innerHTML = `
+                <button onclick="setCurrentTab('ALL')" id="btn-ALL" class="px-6 py-2 rounded-xl text-sm font-bold transition-all duration-300 tab-active">TODAS</button>
+                <button onclick="setCurrentTab('INJUSA')" id="btn-INJUSA" class="px-6 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300">INJUSA</button>
+                <button onclick="setCurrentTab('KOVA')" id="btn-KOVA" class="px-6 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300">KOVA</button>
+            `;
+        } else {
+            // Usuarios de INJUSA no necesitan ver la pestaña KOVA ni la global "TODAS"
+            currentTab = 'INJUSA';
+            tabContainer.innerHTML = `
+                <button onclick="setCurrentTab('INJUSA')" id="btn-INJUSA" class="px-8 py-2 rounded-xl text-sm font-bold transition-all duration-300 tab-active">INJUSA</button>
+            `;
+        }
+
+        filterApps();
+    }
 
     function setCurrentTab(tab) {
         currentTab = tab;
         
-        // Actualizar estados visuales de los tres botones
-        document.getElementById('btn-ALL').classList.toggle('tab-active', tab === 'ALL');
-        document.getElementById('btn-ALL').classList.toggle('text-slate-500', tab !== 'ALL');
-        
-        document.getElementById('btn-INJUSA').classList.toggle('tab-active', tab === 'INJUSA');
-        document.getElementById('btn-INJUSA').classList.toggle('text-slate-500', tab !== 'INJUSA');
-        
-        document.getElementById('btn-KOVA').classList.toggle('tab-active', tab === 'KOVA');
-        document.getElementById('btn-KOVA').classList.toggle('text-slate-500', tab !== 'KOVA');
+        const btnAll = document.getElementById('btn-ALL');
+        const btnInjusa = document.getElementById('btn-INJUSA');
+        const btnKova = document.getElementById('btn-KOVA');
+
+        if (btnAll) {
+            btnAll.classList.toggle('tab-active', tab === 'ALL');
+            btnAll.classList.toggle('text-slate-500', tab !== 'ALL');
+        }
+        if (btnInjusa) {
+            btnInjusa.classList.toggle('tab-active', tab === 'INJUSA');
+            btnInjusa.classList.toggle('text-slate-500', tab !== 'INJUSA');
+        }
+        if (btnKova) {
+            btnKova.classList.toggle('tab-active', tab === 'KOVA');
+            btnKova.classList.toggle('text-slate-500', tab !== 'KOVA');
+        }
         
         filterApps();
     }
@@ -136,10 +199,16 @@
         const emptyState = document.getElementById('emptyState');
         
         const filtered = apps.filter(app => {
-            // Si la pestaña es 'ALL', entran todas las apps. Si no, filtramos por el prefijo (INJUSA o KOVA).
+            // 1. Filtrado por Permisos de Usuario
+            const isAllowed = currentUser.role === 'admin' || currentUser.allowedApps.includes(app.name);
+            
+            // 2. Filtrado por Pestaña Activa
             const matchesTab = (currentTab === 'ALL') || app.name.toUpperCase().startsWith(currentTab);
+            
+            // 3. Filtrado por Barra de Búsqueda
             const matchesSearch = app.name.toLowerCase().includes(searchTerm);
-            return matchesTab && matchesSearch;
+            
+            return isAllowed && matchesTab && matchesSearch;
         });
 
         grid.innerHTML = '';
@@ -149,7 +218,6 @@
         } else {
             emptyState.classList.add('hidden');
             filtered.forEach(app => {
-                // Si estamos en 'ALL', determinamos el prefijo dinámicamente para limpiarlo del texto de la tarjeta
                 let prefixToRemove = '';
                 if (app.name.toUpperCase().startsWith('INJUSA')) prefixToRemove = 'INJUSA ';
                 if (app.name.toUpperCase().startsWith('KOVA')) prefixToRemove = 'KOVA ';
@@ -169,7 +237,9 @@
         }
     }
 
-    window.onload = filterApps;
+    // Escuchar la tecla Enter en el formulario de Login
+    document.getElementById('usernameInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
+    document.getElementById('passwordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
 </script>
 
 </body>
