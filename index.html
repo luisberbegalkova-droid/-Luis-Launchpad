@@ -3,102 +3,211 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "primary": "#4f378a",
+                "surface": "rgba(255, 255, 255, 0.1)",
+                "on-surface": "#ffffff",
+                "background": "#0a0514"
+              },
+              "fontFamily": {
+                "display": ["Inter", "sans-serif"],
+                "body": ["Inter", "sans-serif"]
+              }
+            },
+          },
+        }
+    </script>
     <style>
-        .glass-surface {
+        body {
+            background: #0a0514;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            font-weight: 100;
+        }
+
+        /* Animated Mesh Gradient Background */
+        .mesh-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(at 0% 0%, #4f378a 0px, transparent 50%),
+                        radial-gradient(at 100% 0%, #765b00 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, #93000a 0px, transparent 50%),
+                        radial-gradient(at 0% 100%, #1f1635 0px, transparent 50%);
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: mesh-move 20s ease infinite alternate;
+        }
+
+        @keyframes mesh-move {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.2) translate(2%, 2%); }
+        }
+
+        /* Liquid Glass Buttons */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
+                        inset 0 0 15px rgba(255, 255, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 40px rgba(130, 80, 255, 0.4),
+                        0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: translateY(-10px) scale(1.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Orbit Layout Logic */
+        .orbit-container {
+            position: relative;
+            width: 850px;
+            height: 850px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .orbit-item {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+            transition: transform 0.2s ease-out;
+        }
+
+        @keyframes float {
+            0%, 100% { margin-top: 0px; }
+            50% { margin-top: -15px; }
+        }
+
+        /* Icon Z-Levels para emular profundidad espacial */
+        .z-low { animation-delay: 0s; z-index: 10; }
+        .z-mid { animation-delay: -2s; z-index: 20; }
+        .z-high { animation-delay: -4s; z-index: 30; }
+
+        /* Elegant Thin Typography */
+        .text-ultra-thin {
+            font-weight: 100;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        /* Material Symbols Styling */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 100, 'GRAD' 0, 'opsz' 48;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.4) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glowing Search Bar */
+        .glass-search {
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(40px);
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
         }
-        .squircle { border-radius: 22%; }
-        .bg-gradient-mesh {
-            background-color: #faf9fe;
-            background-image: 
-                radial-gradient(at 0% 0%, #d8e2ff 0px, transparent 50%),
-                radial-gradient(at 100% 0%, #e2dfff 0px, transparent 50%),
-                radial-gradient(at 100% 100%, #ffdad6 0px, transparent 50%),
-                radial-gradient(at 0% 100%, #fefcff 0px, transparent 50%);
-        }
-        .tab-active {
-            background: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            color: #1e293b;
+
+        .tab-btn-active {
+            opacity: 1 !important;
+            font-weight: 400;
+            text-shadow: 0 0 10px rgba(255,255,255,0.6);
         }
     </style>
 </head>
-<body class="bg-gradient-mesh min-h-screen text-slate-800 font-sans overflow-x-hidden">
+<body class="flex flex-col items-center justify-center min-h-screen text-white">
+<div class="mesh-bg"></div>
 
-<!-- PANTALLA DE LOGIN -->
-<div id="loginScreen" class="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-mesh px-4">
-    <div class="glass-surface w-full max-w-sm rounded-3xl p-8 flex flex-col gap-6 backdrop-blur-2xl">
+<!-- PANTALLA DE LOGIN NEURAL -->
+<div id="loginScreen" class="fixed inset-0 z-[100] flex items-center justify-center px-4 backdrop-blur-md">
+    <div class="glass-card w-full max-w-sm p-10 flex flex-col gap-8">
         <div class="text-center">
-            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Launchpad</h1>
-            <p class="text-xs text-slate-500 mt-1 uppercase tracking-wider">Control de Acceso</p>
+            <h1 class="text-ultra-thin text-3xl tracking-[0.3em] text-white">LAUNCHPAD</h1>
+            <p class="text-[9px] text-white/40 mt-2 tracking-[0.4em] uppercase">Security Gate // System Access</p>
         </div>
         
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-5">
             <div>
-                <label class="block text-xs font-semibold uppercase tracking-wide text-slate-600 mb-1.5">Usuario</label>
-                <input id="usernameInput" type="text" class="w-full bg-white/40 border border-white/60 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-400/30 transition-all text-slate-800" placeholder="Introduce tu usuario">
+                <label class="block text-[10px] uppercase tracking-[0.2em] text-white/60 mb-2">identity_user</label>
+                <input id="usernameInput" type="text" class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 outline-none focus:border-white/30 transition-all text-white font-light placeholder:text-white/10 text-sm tracking-widest" placeholder="USER ID">
             </div>
             <div>
-                <label class="block text-xs font-semibold uppercase tracking-wide text-slate-600 mb-1.5">Contraseña</label>
-                <input id="passwordInput" type="password" class="w-full bg-white/40 border border-white/60 rounded-xl px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-400/30 transition-all text-slate-800" placeholder="••••••••">
+                <label class="block text-[10px] uppercase tracking-[0.2em] text-white/60 mb-2">access_key</label>
+                <input id="passwordInput" type="password" class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 outline-none focus:border-white/30 transition-all text-white font-light placeholder:text-white/10 text-sm tracking-widest" placeholder="••••••••">
             </div>
-            <div id="loginError" class="hidden text-xs text-rose-600 font-medium bg-rose-50/50 border border-rose-200/50 rounded-xl px-3 py-2">
-                Usuario o contraseña incorrectos.
+            <div id="loginError" class="hidden text-[10px] text-red-400 tracking-wider uppercase bg-red-950/20 border border-red-900/30 rounded-xl px-4 py-2.5 text-center">
+                Autenticación Fallida. Reintente.
             </div>
         </div>
 
-        <button onclick="handleLogin()" class="w-full bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white font-bold py-3 rounded-xl transition-all shadow-md text-sm uppercase tracking-wider">
-            Entrar
+        <button onclick="handleLogin()" class="w-full glass-card hover:bg-white/10 text-white text-xs font-semibold py-4 rounded-2xl uppercase tracking-[0.2em] transition-all">
+            Initialize_
         </button>
     </div>
 </div>
 
-<!-- CONTENIDO PRINCIPAL DEL LAUNCHPAD -->
-<div id="mainContent" class="hidden">
-    <header class="fixed top-0 left-0 right-0 z-50 bg-white/10 backdrop-blur-xl border-b border-white/20 shadow-sm">
-        <div class="flex flex-col items-center w-full max-w-7xl mx-auto px-6 py-4">
-            <div class="flex justify-between items-center w-full mb-6">
-                <div class="text-xl font-bold tracking-tight text-slate-900">Launchpad</div>
-                
-                <div class="flex-1 max-w-md mx-8">
-                    <div class="relative group">
-                        <input id="searchInput" oninput="filterApps()" class="w-full bg-white/30 backdrop-blur-md border border-white/40 rounded-full py-2 pl-11 pr-4 outline-none focus:ring-2 focus:ring-blue-400/30 transition-all placeholder:text-slate-500" placeholder="Buscar app..." type="text"/>
-                        <span class="material-symbols-outlined absolute left-4 top-2.5 text-slate-500">search</span>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-4">
-                    <div id="userAvatar" class="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white text-xs font-bold uppercase">--</div>
-                    <button onclick="handleLogout()" class="material-symbols-outlined text-slate-500 hover:text-slate-800 transition-colors cursor-pointer" title="Cerrar sesión">logout</button>
-                </div>
-            </div>
-
-            <!-- SELECTOR DE PESTAÑAS (Se renderiza dinámicamente) -->
-            <div id="tabContainer" class="flex gap-1 p-1 bg-black/5 rounded-2xl backdrop-blur-md w-fit">
-                <!-- Se inyectan por JS -->
-            </div>
+<!-- CAPA INTERNA DEL LAUNCHPAD -->
+<div id="mainContent" class="hidden w-full h-full flex flex-col items-center justify-center">
+    
+    <!-- Top Bar -->
+    <header class="fixed top-0 w-full px-12 py-8 flex justify-between items-center z-50">
+        <div class="text-ultra-thin text-2xl tracking-[0.4em] opacity-80">LaunchPad</div>
+        <div class="flex items-center gap-6 text-xs tracking-[0.3em] text-white/60">
+            <span id="userDisplay" class="uppercase text-white/90">USER: --</span>
+            <span class="w-[1px] h-4 bg-white/10"></span>
+            <span onclick="handleLogout()" class="cursor-pointer hover:text-red-400 transition-colors uppercase flex items-center gap-1">
+                <span class="material-symbols-outlined !text-xs opacity-80">logout</span> Exit
+            </span>
         </div>
     </header>
 
-    <main class="pt-48 pb-20 px-6 md:px-16 min-h-screen">
-        <div id="appGrid" class="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-12 gap-y-16 items-start justify-items-center transition-opacity duration-300">
+    <main class="relative flex items-center justify-center w-full min-h-screen">
+        <!-- Search Bar (Central Sun) -->
+        <div class="z-50 w-96 relative">
+            <div class="glass-search p-1 rounded-full flex items-center pr-2 group transition-all duration-500 focus-within:w-[460px] focus-within:-ml-[32px]">
+                <input id="searchInput" oninput="filterApps()" class="bg-transparent border-none focus:ring-0 text-ultra-thin text-center w-full placeholder:text-white/20 placeholder:tracking-[0.5em] text-sm" placeholder="DISCOVER..." type="text"/>
+                <button class="w-10 h-10 rounded-full flex items-center justify-center glass-card hover:bg-white/20">
+                    <span class="material-symbols-outlined !text-xl opacity-80">search</span>
+                </button>
+            </div>
         </div>
-        
-        <div id="emptyState" class="hidden flex flex-col items-center justify-center pt-20 text-slate-400">
-            <span class="material-symbols-outlined text-6xl mb-4">Inbox</span>
-            <p>No hay aplicaciones disponibles.</p>
+
+        <!-- Orbiting Icons Workspace -->
+        <div id="appOrbitContainer" class="absolute orbit-container">
+            <!-- Las apps se inyectan flotando matemáticamente en órbitas concéntricas -->
         </div>
     </main>
+
+    <!-- Bottom Navigation (Liquid Bar + Tab Selector) -->
+    <nav class="fixed bottom-12 z-50">
+        <div id="navigationDock" class="glass-card px-8 py-4 flex gap-10 items-center justify-center text-[11px] tracking-[0.3em] uppercase text-white/40">
+            <!-- Pestañas dinámicas inyectadas por JS -->
+        </div>
+    </nav>
+
+    <footer class="fixed bottom-4 w-full text-center opacity-20 text-[10px] text-ultra-thin uppercase tracking-[0.5em] pointer-events-none">
+        Liquid Glass OS v3.0 // Neural Link Active
+    </footer>
 </div>
 
 <script>
-    // Base de datos de usuarios y reglas de acceso actualizadas
+    // Base de datos de credenciales integrada
     const credentials = {
         "4": { password: "", role: "admin", allowedApps: ["all"] },
         "luis": { password: "1967", role: "injusa_full", allowedApps: ["INJUSA 12W", "INJUSA CRM", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK"] },
@@ -106,19 +215,19 @@
     };
 
     const apps = [
-        { name: "INJUSA 12W", url: "https://app-12-w.vercel.app/", icon: "bolt", color: "text-blue-600" },
-        { name: "INJUSA CRM", url: "https://app-crm-injusa.vercel.app/", icon: "hub", color: "text-indigo-600" },
-        { name: "INJUSA VENTA PEQUEÑOS", url: "https://app-inventario-bice-tau.vercel.app/", icon: "inventory_2", color: "text-rose-600" },
-        { name: "INJUSA EVO STOCK", url: "https://script.google.com/macros/s/AKfycbyKe1hqdEdDZ7Gd2TZLV6rM-wKB7lhJ0VmAfhZzi2_4X0KUVPIBIQSakOVpdNBX7F_b/exec", icon: "package_2", color: "text-red-600" },
-        { name: "KOVA SONG ARCHIVE", url: "https://kova-song-archive.vercel.app/", icon: "album", color: "text-slate-900" },
-        { name: "KOVA CONTENT OS", url: "https://kova-app-contenido.vercel.app/", icon: "video_library", color: "text-slate-900" },
-        { name: "KOVA LEAD MANAGER", url: "https://kova-crm.vercel.app/", icon: "trending_up", color: "text-slate-900" }
+        { name: "INJUSA 12W", url: "https://app-12-w.vercel.app/", icon: "bolt" },
+        { name: "INJUSA CRM", url: "https://app-crm-injusa.vercel.app/", icon: "hub" },
+        { name: "INJUSA VENTA PEQUEÑOS", url: "https://app-inventario-bice-tau.vercel.app/", icon: "inventory_2" },
+        { name: "INJUSA EVO STOCK", url: "https://app-plan-stock.vercel.app/", icon: "package_2" },
+        { name: "KOVA SONG ARCHIVE", url: "https://kova-song-archive.vercel.app/", icon: "album" },
+        { name: "KOVA CONTENT OS", url: "https://kova-app-contenido.vercel.app/", icon: "video_library" },
+        { name: "KOVA LEAD MANAGER", url: "https://kova-crm.vercel.app/", icon: "trending_up" }
     ];
 
     let currentUser = null;
     let currentTab = 'ALL';
+    let mouseX = 0, mouseY = 0;
 
-    // Manejo de la autenticación
     function handleLogin() {
         const username = document.getElementById('usernameInput').value.trim().toLowerCase();
         const password = document.getElementById('passwordInput').value.trim();
@@ -128,8 +237,7 @@
             errorDiv.classList.add('hidden');
             currentUser = credentials[username];
             currentUser.name = username;
-            
-            setupLaunchpad();
+            setupWorkspace();
         } else {
             errorDiv.classList.remove('hidden');
         }
@@ -143,104 +251,106 @@
         document.getElementById('loginScreen').classList.remove('hidden');
     }
 
-    // Configuración inicial tras iniciar sesión
-    function setupLaunchpad() {
+    function setupWorkspace() {
         document.getElementById('loginScreen').classList.add('hidden');
         document.getElementById('mainContent').classList.remove('hidden');
-        
-        // Poner iniciales en el avatar
-        document.getElementById('userAvatar').innerText = currentUser.name.substring(0, 2);
+        document.getElementById('userDisplay').innerText = `CORE // ${currentUser.name}`;
 
-        // Renderizar pestañas según los permisos del rol
-        const tabContainer = document.getElementById('tabContainer');
+        const dock = document.getElementById('navigationDock');
         if (currentUser.role === 'admin') {
             currentTab = 'ALL';
-            tabContainer.innerHTML = `
-                <button onclick="setCurrentTab('ALL')" id="btn-ALL" class="px-6 py-2 rounded-xl text-sm font-bold transition-all duration-300 tab-active">TODAS</button>
-                <button onclick="setCurrentTab('INJUSA')" id="btn-INJUSA" class="px-6 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300">INJUSA</button>
-                <button onclick="setCurrentTab('KOVA')" id="btn-KOVA" class="px-6 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300">KOVA</button>
+            dock.innerHTML = `
+                <span onclick="switchTab('ALL')" id="tab-ALL" class="cursor-pointer hover:text-white transition-opacity tab-btn-active">TODAS</span>
+                <span onclick="switchTab('INJUSA')" id="tab-INJUSA" class="cursor-pointer hover:text-white transition-opacity">INJUSA</span>
+                <span onclick="switchTab('KOVA')" id="tab-KOVA" class="cursor-pointer hover:text-white transition-opacity">KOVA</span>
             `;
         } else {
             currentTab = 'INJUSA';
-            tabContainer.innerHTML = `
-                <button onclick="setCurrentTab('INJUSA')" id="btn-INJUSA" class="px-8 py-2 rounded-xl text-sm font-bold transition-all duration-300 tab-active">INJUSA</button>
+            dock.innerHTML = `
+                <span id="tab-INJUSA" class="tab-btn-active opacity-100 tracking-[0.4em]">INJUSA METRICS</span>
             `;
         }
-
         filterApps();
     }
 
-    function setCurrentTab(tab) {
+    function switchTab(tab) {
         currentTab = tab;
-        
-        const btnAll = document.getElementById('btn-ALL');
-        const btnInjusa = document.getElementById('btn-INJUSA');
-        const btnKova = document.getElementById('btn-KOVA');
-
-        if (btnAll) {
-            btnAll.classList.toggle('tab-active', tab === 'ALL');
-            btnAll.classList.toggle('text-slate-500', tab !== 'ALL');
-        }
-        if (btnInjusa) {
-            btnInjusa.classList.toggle('tab-active', tab === 'INJUSA');
-            btnInjusa.classList.toggle('text-slate-500', tab !== 'INJUSA');
-        }
-        if (btnKova) {
-            btnKova.classList.toggle('tab-active', tab === 'KOVA');
-            btnKova.classList.toggle('text-slate-500', tab !== 'KOVA');
-        }
-        
+        document.getElementById('tab-ALL')?.classList.toggle('tab-btn-active', tab === 'ALL');
+        document.getElementById('tab-INJUSA')?.classList.toggle('tab-btn-active', tab === 'INJUSA');
+        document.getElementById('tab-KOVA')?.classList.toggle('tab-btn-active', tab === 'KOVA');
         filterApps();
     }
 
     function filterApps() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const grid = document.getElementById('appGrid');
-        const emptyState = document.getElementById('emptyState');
+        const orbitContainer = document.getElementById('appOrbitContainer');
         
         const filtered = apps.filter(app => {
-            // 1. Filtrado por Permisos de Usuario
             const isAllowed = currentUser.role === 'admin' || currentUser.allowedApps.includes(app.name);
-            
-            // 2. Filtrado por Pestaña Activa
             const matchesTab = (currentTab === 'ALL') || app.name.toUpperCase().startsWith(currentTab);
-            
-            // 3. Filtrado por Barra de Búsqueda
             const matchesSearch = app.name.toLowerCase().includes(searchTerm);
-            
             return isAllowed && matchesTab && matchesSearch;
         });
 
-        grid.innerHTML = '';
+        orbitContainer.innerHTML = '';
 
-        if (filtered.length === 0) {
-            emptyState.classList.remove('hidden');
-        } else {
-            emptyState.classList.add('hidden');
-            filtered.forEach(app => {
-                let prefixToRemove = '';
-                if (app.name.toUpperCase().startsWith('INJUSA')) prefixToRemove = 'INJUSA ';
-                if (app.name.toUpperCase().startsWith('KOVA')) prefixToRemove = 'KOVA ';
+        // Constantes geométricas para distribuir los elementos en la elipse orbital
+        const totalItems = filtered.length;
+        // Si hay pocas aplicaciones, ampliamos el radio para que luzca estético
+        const radiusX = totalItems <= 3 ? 280 : 340; 
+        const radiusY = totalItems <= 3 ? 240 : 280; 
 
-                const displayName = app.name.replace(prefixToRemove, '');
+        filtered.forEach((app, index) => {
+            // Cálculo del ángulo distribuido equitativamente alrededor de la zona central (Sun)
+            const angle = (index * (2 * Math.PI / totalItems)) - (Math.PI / 2);
+            const posX = Math.cos(angle) * radiusX;
+            const posY = Math.sin(angle) * radiusY;
 
-                const appElement = `
-                    <a class="flex flex-col items-center gap-3 group transition-transform duration-300 hover:scale-110 active:scale-95 w-32" href="${app.url}" target="_blank">
-                        <div class="squircle w-20 h-20 md:w-24 md:h-24 glass-surface flex items-center justify-center p-4">
-                            <span class="material-symbols-outlined text-5xl ${app.color}" style="font-variation-settings: 'FILL' 1;">${app.icon}</span>
+            // Asignación de niveles de profundidad espacial e interpolación de retardos
+            const depthClasses = ['z-low', 'z-mid', 'z-high'];
+            const depth = depthClasses[index % depthClasses.length];
+
+            // Limpieza del prefijo corporativo de los nombres para la tarjeta visual
+            let cleanName = app.name.replace(/^INJUSA\s+/i, '').replace(/^KOVA\s+/i, '');
+
+            const appMarkup = `
+                <div class="orbit-item ${depth} pointer-events-auto" 
+                     data-depth-speed="${depth === 'z-high' ? 1.6 : (depth === 'z-mid' ? 1.0 : 0.5)}"
+                     style="transform: translate(${posX}px, ${posY}px); left: calc(50% - 3.5rem); top: calc(50% - 3.5rem);">
+                    <a class="group flex flex-col items-center gap-3" href="${app.url}" target="_blank">
+                        <div class="glass-card w-24 h-24 flex items-center justify-center">
+                            <span class="material-symbols-outlined" style="font-size: 2.8rem;">${app.icon}</span>
                         </div>
-                        <span class="font-semibold text-xs md:text-sm text-slate-700 text-center leading-tight uppercase tracking-wide">${displayName}</span>
+                        <span class="text-ultra-thin text-[10px] opacity-40 group-hover:opacity-100 tracking-widest text-center transition-opacity max-w-[120px] truncate">${cleanName}</span>
                     </a>
-                `;
-                grid.innerHTML += appElement;
-            });
-        }
+                </div>
+            `;
+            orbitContainer.innerHTML += appMarkup;
+        });
+        
+        // Forzar actualización inmediata del cálculo de parallax si el ratón ya se está moviendo
+        applyParallax();
     }
 
-    // Escuchar la tecla Enter en el formulario de Login
+    function applyParallax() {
+        document.querySelectorAll('.orbit-item').forEach(item => {
+            const speed = parseFloat(item.getAttribute('data-depth-speed')) || 1;
+            // Combinar la posición base de la órbita estática calculada con el desplazamiento sutil del ratón
+            const currentTransform = item.style.transform.split(' translate')[0]; 
+            item.style.transform = `${currentTransform} translate(${mouseX * speed}px, ${mouseY * speed}px)`;
+        });
+    }
+
+    // Manejo global del efecto Parallax interactivo del ratón
+    document.addEventListener('mousemove', (e) => {
+        mouseX = (window.innerWidth / 2 - e.pageX) / 45;
+        mouseY = (window.innerHeight / 2 - e.pageY) / 45;
+        applyParallax();
+    });
+
+    // Gestión de inputs mediante eventos de teclado
     document.getElementById('usernameInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
     document.getElementById('passwordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
 </script>
-
 </body>
 </html>
