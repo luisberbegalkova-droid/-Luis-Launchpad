@@ -59,41 +59,27 @@
             border: 1px solid var(--card-border);
             border-radius: 2rem;
             box-shadow: var(--card-shadow), inset 0 0 20px var(--card-inset);
-            transition: background 0.5s ease, border 0.5s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease;
+            transition: background 0.5s ease, border 0.5s ease, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s ease;
         }
 
-        .glass-card:hover {
-            background: var(--card-bg-hover);
-            box-shadow: var(--card-hover-shadow);
-            transform: translateY(-12px) scale(1.08);
-            border: 1px solid var(--card-border-hover);
-        }
-
-        /* Orbit Layout Logic */
-        .orbit-container {
-            position: relative;
-            width: 850px;
-            height: 850px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .orbit-item {
-            position: absolute;
+        /* Efecto flotación individual adaptado al Grid lineal */
+        .app-item-wrapper {
             animation: float 8s ease-in-out infinite;
-            transition: transform 0.2s ease-out;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .app-item-wrapper:hover {
+            transform: translateY(-12px) scale(1.05) !important;
         }
 
         @keyframes float {
             0%, 100% { margin-top: 0px; }
-            50% { margin-top: -20px; }
+            50% { margin-top: -15px; }
         }
 
-        /* Depth Layers */
-        .z-low { animation-delay: 0.5s; z-index: 10; }
-        .z-mid { animation-delay: -1.5s; z-index: 20; }
-        .z-high { animation-delay: -3.5s; z-index: 30; }
+        /* Depth Layers alternados para el efecto de paralaje reactivo */
+        .z-low { animation-delay: 0s; }
+        .z-mid { animation-delay: -2.5s; }
+        .z-high { animation-delay: -5s; }
 
         .text-ultra-thin {
             font-weight: 200;
@@ -118,7 +104,7 @@
             backdrop-filter: blur(50px);
             border: 1px solid var(--search-border);
             box-shadow: var(--search-shadow);
-            transition: background 0.8s ease, border 0.8s ease, w 0.5s ease, margin 0.5s ease;
+            transition: background 0.8s ease, border 0.8s ease, width 0.4s ease;
         }
 
         .tab-btn-active {
@@ -127,7 +113,7 @@
             text-shadow: var(--tab-glow);
         }
 
-        /* Custom Transition for Dropdown Menus */
+        /* Control de despliegue de menús */
         .dropdown-menu {
             transform: translateY(-10px);
             opacity: 0;
@@ -141,10 +127,9 @@
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen">
+<body class="flex flex-col items-center justify-start min-h-screen select-none">
 <div class="mesh-bg"></div>
 
-<!-- PORTAL DE ACCESO CRISTALINO -->
 <div id="loginScreen" class="fixed inset-0 z-[100] flex items-center justify-center px-4 backdrop-blur-md">
     <div class="glass-card w-full max-w-sm p-10 flex flex-col gap-8">
         <div class="text-center">
@@ -155,11 +140,11 @@
         <div class="flex flex-col gap-5">
             <div>
                 <label class="block text-[10px] uppercase tracking-[0.2em] font-semibold mb-2 opacity-80">user_identity</label>
-                <input id="usernameInput" type="text" class="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 outline-none focus:border-white/40 transition-all text-current font-normal placeholder:opacity-20 text-sm tracking-widest" style="background: rgba(255,255,255,0.15);" placeholder="USER ID">
+                <input id="usernameInput" type="text" class="w-full border border-white/20 rounded-2xl px-4 py-3 outline-none focus:border-white/40 transition-all text-current font-normal placeholder:opacity-20 text-sm tracking-widest" style="background: rgba(255,255,255,0.15);" placeholder="USER ID">
             </div>
             <div>
                 <label class="block text-[10px] uppercase tracking-[0.2em] font-semibold mb-2 opacity-80">access_pass</label>
-                <input id="passwordInput" type="password" class="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 outline-none focus:border-white/40 transition-all text-current font-normal placeholder:opacity-20 text-sm tracking-widest" style="background: rgba(255,255,255,0.15);" placeholder="••••••••">
+                <input id="passwordInput" type="password" class="w-full border border-white/20 rounded-2xl px-4 py-3 outline-none focus:border-white/40 transition-all text-current font-normal placeholder:opacity-20 text-sm tracking-widest" style="background: rgba(255,255,255,0.15);" placeholder="••••••••">
             </div>
             <div id="loginError" class="hidden text-[10px] text-red-700 tracking-wider font-semibold uppercase bg-red-100/40 border border-red-200/50 rounded-xl px-4 py-2.5 text-center">
                 Acceso denegado. Revise las credenciales.
@@ -172,21 +157,17 @@
     </div>
 </div>
 
-<!-- CAPA PRINCIPAL DEL LAUNCHPAD -->
-<div id="mainContent" class="hidden w-full h-full flex flex-col items-center justify-center">
+<div id="mainContent" class="hidden w-full flex-grow flex flex-col items-center">
     
-    <!-- Top Bar -->
-    <header class="fixed top-0 w-full px-12 py-8 flex justify-between items-center z-50">
+    <header class="w-full px-12 py-6 flex justify-between items-center z-50">
         <div class="flex items-center gap-6 relative">
-            <div id="logoTitle" class="text-ultra-thin text-xl tracking-[0.5em] opacity-90">LaunchPad Aurora</div>
+            <div id="logoTitle" class="text-ultra-thin text-xl tracking-[0.5em] opacity-90">LaunchPad</div>
             
-            <!-- CONTENIDO DEL SELECTOR DE SKINS DESPLEGABLE -->
             <div class="relative">
                 <button onclick="toggleSkinMenu(event)" class="glass-card w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/20" title="Seleccionar Apariencia (Skin)">
                     <span class="material-symbols-outlined !text-sm opacity-70" style="background:none;-webkit-text-fill-color:initial;color:inherit;">palette</span>
                 </button>
                 
-                <!-- Listado Flotante de Malla de Skins -->
                 <div id="skinDropdown" class="dropdown-menu absolute left-0 mt-3 w-56 glass-card !rounded-2xl p-2 z-[60] flex flex-col gap-1 text-[10px] font-medium tracking-widest uppercase">
                     <button onclick="selectSkin('emerald')" id="opt-emerald" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Emerald Aurora</span><span class="dot hidden">•</span></button>
                     <button onclick="selectSkin('sunset')" id="opt-sunset" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Sunset Quartz</span><span class="dot hidden">•</span></button>
@@ -194,6 +175,15 @@
                     <button onclick="selectSkin('nordic')" id="opt-nordic" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Nordic Frost</span><span class="dot hidden">•</span></button>
                     <button onclick="selectSkin('velvet')" id="opt-velvet" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Midnight Velvet</span><span class="dot hidden">•</span></button>
                     <button onclick="selectSkin('tokyo')" id="opt-tokyo" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Tokyo Tech</span><span class="dot hidden">•</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="hidden md:block w-96 max-w-lg relative">
+            <div class="glass-search p-1 rounded-full flex items-center pr-2 group transition-all duration-500 focus-within:w-[440px] focus-within:-ml-[22px]">
+                <input id="searchInput" oninput="filterApps()" class="bg-transparent border-none focus:ring-0 text-ultra-thin text-center w-full placeholder:opacity-30 text-xs tracking-wider" placeholder="EXPLORE SYSTEMS..." type="text" style="color: inherit;"/>
+                <div class="w-8 h-8 rounded-full flex items-center justify-center glass-card">
+                    <span class="material-symbols-outlined !text-base opacity-60">search</span>
                 </div>
             </div>
         </div>
@@ -207,35 +197,40 @@
         </div>
     </header>
 
-    <main class="relative flex items-center justify-center w-full min-h-screen">
-        <!-- Search Bar (Central Sun) -->
-        <div class="z-50 w-96 relative">
-            <div class="glass-search p-1.5 rounded-full flex items-center pr-2 group transition-all duration-700 focus-within:w-[460px] focus-within:-ml-[32px]">
-                <input id="searchInput" oninput="filterApps()" class="bg-transparent border-none focus:ring-0 text-ultra-thin text-center w-full placeholder:opacity-30 text-sm" placeholder="DISCOVER..." type="text" style="color: inherit;"/>
-                <button class="w-10 h-10 rounded-full flex items-center justify-center glass-card hover:bg-white/20">
+    <main class="w-full flex-grow flex items-center justify-center px-12 md:px-24">
+        <div class="w-full max-w-6xl mx-auto py-12">
+            
+            <div class="block md:hidden w-full mb-12 relative px-4">
+                <div class="glass-search p-1.5 rounded-full flex items-center pr-3">
+                    <input id="searchInputMobile" oninput="syncAndFilter(this)" class="bg-transparent border-none focus:ring-0 text-ultra-thin text-center w-full placeholder:opacity-30 text-xs tracking-wider" placeholder="EXPLORE SYSTEMS..." type="text" style="color: inherit;"/>
                     <span class="material-symbols-outlined !text-lg opacity-60">search</span>
-                </button>
+                </div>
+            </div>
+
+            <div id="appContainerGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-x-12 gap-y-16 items-start justify-items-center transition-all duration-300">
+                </div>
+
+            <div id="emptyState" class="hidden flex flex-col items-center justify-center py-20 text-center opacity-40">
+                <span class="material-symbols-outlined text-5xl mb-3">grid_off</span>
+                <p class="text-ultra-thin text-xs tracking-[0.3em]">No hay módulos asignados</p>
             </div>
         </div>
-
-        <!-- Orbiting Icons Area -->
-        <div id="appOrbitContainer" class="absolute orbit-container"></div>
     </main>
 
-    <!-- Bottom Navigation Dock -->
     <nav class="fixed bottom-12 z-50">
-        <div id="navigationDock" class="glass-card px-10 py-4 flex gap-12 items-center justify-center !rounded-full text-[10px] tracking-[0.3em] font-medium uppercase opacity-80"></div>
+        <div id="navigationDock" class="glass-card px-10 py-4 flex gap-12 items-center justify-center !rounded-full text-[10px] tracking-[0.3em] font-medium uppercase opacity-80">
+            </div>
     </nav>
 
     <footer id="footerText" class="fixed bottom-4 w-full text-center opacity-30 text-[9px] text-ultra-thin uppercase tracking-[0.6em] pointer-events-none"></footer>
 </div>
 
 <script>
-    // Repositorio completo de Skins
+    // Variables complejas de diseño para el motor multi-skin
     const skins = {
         emerald: {
             title: "LaunchPad Aurora",
-            footer: "Launchpad Emerald Aurora // Frosted Glass OS v3.1",
+            footer: "Launchpad Emerald Aurora // Frosted Glass OS v3.5",
             variables: {
                 "--bg-color": "#f0fdf4",
                 "--text-color": "#064e3b",
@@ -257,7 +252,7 @@
         },
         sunset: {
             title: "LaunchPad Crystal",
-            footer: "Launchpad Sunset Quartz Edition // Frosted Glass OS v3.1",
+            footer: "Launchpad Sunset Quartz Edition // Frosted Glass OS v3.5",
             variables: {
                 "--bg-color": "#fff5f2",
                 "--text-color": "#6b4e71",
@@ -279,7 +274,7 @@
         },
         cyberpunk: {
             title: "LaunchPad Obsidian",
-            footer: "Launchpad Cyberpunk Obsidian // Dark Synth Terminal v3.2",
+            footer: "Launchpad Cyberpunk Obsidian // Dark Synth Terminal v3.5",
             variables: {
                 "--bg-color": "#05050a",
                 "--text-color": "#00f2fe",
@@ -301,7 +296,7 @@
         },
         nordic: {
             title: "LaunchPad Frost",
-            footer: "Launchpad Nordic Frost // Minimal Architectural Matrix",
+            footer: "Launchpad Nordic Frost // Minimal Architectural Matrix v3.5",
             variables: {
                 "--bg-color": "#f8fafc",
                 "--text-color": "#334155",
@@ -323,7 +318,7 @@
         },
         velvet: {
             title: "LaunchPad Velvet",
-            footer: "Launchpad Midnight Velvet // Deep Indigo Lounge v3.2",
+            footer: "Launchpad Midnight Velvet // Deep Indigo Lounge v3.5",
             variables: {
                 "--bg-color": "#070412",
                 "--text-color": "#e0aaff",
@@ -345,7 +340,7 @@
         },
         tokyo: {
             title: "LaunchPad Tokyo",
-            footer: "Launchpad Tokyo Tech // Acid Lime Matrix",
+            footer: "Launchpad Tokyo Tech // Acid Lime Matrix v3.5",
             variables: {
                 "--bg-color": "#0c0d12",
                 "--text-color": "#ccff00",
@@ -381,17 +376,12 @@
         document.getElementById('footerText').innerText = skin.footer;
         localStorage.setItem('launchpad-skin', skinKey);
 
-        // Actualizar el indicador del check en el menú flotante
         Object.keys(skins).forEach(key => {
             const opt = document.getElementById(`opt-${key}`);
-            if(opt) {
-                const dot = opt.querySelector('.dot');
-                dot.classList.toggle('hidden', key !== skinKey);
-            }
+            if(opt) opt.querySelector('.dot').classList.toggle('hidden', key !== skinKey);
         });
     }
 
-    // Lógica del menú desplegable de skins
     function toggleSkinMenu(event) {
         event.stopPropagation();
         document.getElementById('skinDropdown').classList.toggle('show');
@@ -400,19 +390,17 @@
     function selectSkin(skinKey) {
         activeSkin = skinKey;
         applySkin(skinKey);
-        filterApps(); // Actualizar degradados de iconos
+        filterApps();
         document.getElementById('skinDropdown').classList.remove('show');
     }
 
-    // Cerrar menú si haces clic fuera de él
     document.addEventListener('click', () => {
         document.getElementById('skinDropdown')?.classList.remove('show');
     });
 
-    // Inicializar Skin al arrancar
     applySkin(activeSkin);
 
-    // Usuarios y permisos
+    // Sistema de usuarios, permisos y reglas de filtrado
     const credentials = {
         "4": { password: "", role: "admin", allowedApps: ["all"] },
         "luis": { password: "1967", role: "injusa_full", allowedApps: ["INJUSA 12W", "INJUSA CRM", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK"] },
@@ -486,62 +474,64 @@
         filterApps();
     }
 
+    function syncAndFilter(mobileInput) {
+        document.getElementById('searchInput').value = mobileInput.value;
+        filterApps();
+    }
+
     function filterApps() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const orbitContainer = document.getElementById('appOrbitContainer');
+        const gridContainer = document.getElementById('appContainerGrid');
+        const emptyState = document.getElementById('emptyState');
         
         const filtered = apps.filter(app => {
             const isAllowed = currentUser.role === 'admin' || currentUser.allowedApps.includes(app.name);
             const matchesTab = (currentTab === 'ALL') || app.name.toUpperCase().startsWith(currentTab);
             const matchesSearch = app.name.toLowerCase().includes(searchTerm);
-            return matchesTab && matchesSearch;
+            return isAllowed && matchesTab && matchesSearch;
         });
 
-        orbitContainer.innerHTML = '';
+        gridContainer.innerHTML = '';
 
-        const totalItems = filtered.length;
-        const radiusX = totalItems <= 3 ? 280 : 340; 
-        const radiusY = totalItems <= 3 ? 230 : 270; 
+        if (filtered.length === 0) {
+            emptyState.classList.remove('hidden');
+        } else {
+            emptyState.classList.add('hidden');
+            filtered.forEach((app, index) => {
+                // Alternar velocidades de retraso del paralaje entre capas espaciales discretas
+                const layers = ['z-low', 'z-mid', 'z-high'];
+                const currentLayer = layers[index % layers.length];
+                const speedFactor = currentLayer === 'z-high' ? 1.4 : (currentLayer === 'z-mid' ? 0.9 : 0.4);
 
-        filtered.forEach((app, index) => {
-            const angle = (index * (2 * Math.PI / totalItems)) - (Math.PI / 2);
-            const posX = Math.cos(angle) * radiusX;
-            const posY = Math.sin(angle) * radiusY;
+                let cleanName = app.name.replace(/^INJUSA\s+/i, '').replace(/^KOVA\s+/i, '');
 
-            const depthClasses = ['z-low', 'z-mid', 'z-high'];
-            const depth = depthClasses[index % depthClasses.length];
-
-            let cleanName = app.name.replace(/^INJUSA\s+/i, '').replace(/^KOVA\s+/i, '');
-
-            const appMarkup = `
-                <div class="orbit-item ${depth} pointer-events-auto" 
-                     data-depth-speed="${depth === 'z-high' ? 1.8 : (depth === 'z-mid' ? 1.2 : 0.6)}"
-                     style="transform: translate(${posX}px, ${posY}px); left: calc(50% - 3.5rem); top: calc(50% - 3.5rem);">
-                    <a class="group flex flex-col items-center gap-4" href="${app.url}" target="_blank">
-                        <div class="glass-card w-24 h-24 flex items-center justify-center">
-                            <span class="material-symbols-outlined" style="font-size: 2.8rem;">${app.icon}</span>
-                        </div>
-                        <span class="text-ultra-thin text-[9px] opacity-40 group-hover:opacity-100 tracking-widest text-center transition-opacity max-w-[120px] truncate" style="color: inherit;">${cleanName}</span>
-                    </a>
-                </div>
-            `;
-            orbitContainer.innerHTML += appMarkup;
-        });
-        
+                const appMarkup = `
+                    <div class="app-item-wrapper ${currentLayer} w-28 flex flex-col items-center" data-parallax-speed="${speedFactor}">
+                        <a class="group flex flex-col items-center gap-4 w-full" href="${app.url}" target="_blank">
+                            <div class="glass-card w-24 h-24 flex items-center justify-center">
+                                <span class="material-symbols-outlined" style="font-size: 2.8rem;">${app.icon}</span>
+                            </div>
+                            <span class="text-ultra-thin text-[11px] md:text-[12px] opacity-50 group-hover:opacity-100 tracking-[0.18em] font-normal text-center transition-opacity w-full truncate" style="color: inherit;">${cleanName}</span>
+                        </a>
+                    </div>
+                `;
+                gridContainer.innerHTML += appMarkup;
+            });
+        }
         applyParallax();
     }
 
     function applyParallax() {
-        document.querySelectorAll('.orbit-item').forEach(item => {
-            const speed = parseFloat(item.getAttribute('data-depth-speed')) || 1;
-            const currentTransform = item.style.transform.split(' translate')[0]; 
-            item.style.transform = `${currentTransform} translate(${mouseX * speed}px, ${mouseY * speed}px)`;
+        document.querySelectorAll('.app-item-wrapper').forEach(item => {
+            const speed = parseFloat(item.getAttribute('data-parallax-speed')) || 1;
+            item.style.transform = `translate(${mouseX * speed}px, ${mouseY * speed}px)`;
         });
     }
 
+    // Efecto sutil de arrastre espacial coordinado con el cursor
     document.addEventListener('mousemove', (e) => {
-        mouseX = (window.innerWidth / 2 - e.pageX) / 50;
-        mouseY = (window.innerHeight / 2 - e.pageY) / 50;
+        mouseX = (window.innerWidth / 2 - e.pageX) / 55;
+        mouseY = (window.innerHeight / 2 - e.pageY) / 55;
         applyParallax();
     });
 
