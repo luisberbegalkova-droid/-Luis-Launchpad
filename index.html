@@ -3,73 +3,131 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <link href="https://fonts.googleapis.com/css2?family=Anybody:wght@400;600;800;900&family=JetBrains+Mono:wght@400;500;700&family=Work+Sans:wght@400;600&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         tailwind.config = {
           darkMode: "class",
           theme: {
             extend: {
-              colors: {
-                "on-surface-variant": "var(--on-surface-variant)",
-                "primary-container": "var(--primary-container)",
-                "on-primary-container": "var(--on-primary-container)",
-                "background": "var(--bg-color)",
-                "surface-container-low": "var(--surface-container-low)",
-                "secondary": "var(--secondary)",
-                "on-surface": "var(--text-color)",
-                "surface": "var(--surface-color)",
-                "primary": "var(--primary-color)",
-                "surface-container-lowest": "var(--surface-container-lowest)"
-              },
-              spacing: {
-                "unit": "8px",
-                "container-max": "1280px",
-                "gutter": "24px",
-                "margin-desktop": "48px",
-                "margin-mobile": "16px"
-              },
               fontFamily: {
-                "headline-lg": ["Anybody"],
-                "label-sm": ["JetBrains Mono"],
-                "body-md": ["Work Sans"],
-                "headline-lg-mobile": ["Anybody"],
-                "title-md": ["Work Sans"],
-                "display-lg": ["Anybody"]
+                display: ["Inter", "sans-serif"],
+                body: ["Inter", "sans-serif"]
               }
             },
           },
         }
     </script>
     <style id="skinStyles">
-        /* Control dinámico de paletas vía inyección CSS */
+        /* Las variables dinámicas CSS se inyectan a través de JavaScript al cambiar de Skin */
     </style>
     <style>
-        .electric-shadow { box-shadow: var(--electric-shadow-val); }
-        .electric-shadow-hover { box-shadow: var(--electric-shadow-hover-val); }
-        
-        .bg-pattern {
-            background-color: var(--bg-color);
-            background-image: var(--radial-pattern);
-            background-size: 32px 32px;
-            transition: background-color 0.6s ease;
-        }
-        
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 48;
-        }
-        
-        .font-bubbly { font-family: 'Anybody', sans-serif; }
-        
-        /* Animación interactiva para las tarjetas estilo iOS */
-        .app-card {
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
-        }
-        .app-card:hover {
-            transform: translateY(-8px) scale(1.04);
+        body {
+            background: var(--bg-color);
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            font-weight: 100;
+            color: var(--text-color);
+            transition: background 0.8s ease, color 0.8s ease;
         }
 
+        /* Animated Mesh Gradient Background */
+        .mesh-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--mesh-gradient);
+            filter: blur(80px);
+            opacity: var(--mesh-opacity);
+            animation: mesh-move 25s ease infinite alternate;
+            transition: background 0.8s ease, opacity 0.8s ease;
+        }
+
+        @keyframes mesh-move {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1) translate(1%, 1%); }
+        }
+
+        /* Frosted Glass Buttons */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px) saturate(170%);
+            -webkit-backdrop-filter: blur(20px) saturate(170%);
+            border: 1px solid var(--card-border);
+            border-radius: 2rem;
+            box-shadow: var(--card-shadow), inset 0 0 20px var(--card-inset);
+            transition: background 0.5s ease, border 0.5s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease;
+        }
+
+        .glass-card:hover {
+            background: var(--card-bg-hover);
+            box-shadow: var(--card-hover-shadow);
+            transform: translateY(-12px) scale(1.08);
+            border: 1px solid var(--card-border-hover);
+        }
+
+        /* Orbit Layout Logic */
+        .orbit-container {
+            position: relative;
+            width: 850px;
+            height: 850px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .orbit-item {
+            position: absolute;
+            animation: float 8s ease-in-out infinite;
+            transition: transform 0.2s ease-out;
+        }
+
+        @keyframes float {
+            0%, 100% { margin-top: 0px; }
+            50% { margin-top: -20px; }
+        }
+
+        /* Depth Layers */
+        .z-low { animation-delay: 0.5s; z-index: 10; }
+        .z-mid { animation-delay: -1.5s; z-index: 20; }
+        .z-high { animation-delay: -3.5s; z-index: 30; }
+
+        .text-ultra-thin {
+            font-weight: 200;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-color);
+            transition: color 0.8s ease;
+        }
+
+        /* Material Symbols Gradient Text */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 48;
+            font-size: 3rem;
+            background: var(--icon-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glowing Central Search Bar */
+        .glass-search {
+            background: var(--search-bg);
+            backdrop-filter: blur(50px);
+            border: 1px solid var(--search-border);
+            box-shadow: var(--search-shadow);
+            transition: background 0.8s ease, border 0.8s ease, w 0.5s ease, margin 0.5s ease;
+        }
+
+        .tab-btn-active {
+            opacity: 1 !important;
+            font-weight: 400;
+            text-shadow: var(--tab-glow);
+        }
+
+        /* Custom Transition for Dropdown Menus */
         .dropdown-menu {
             transform: translateY(-10px);
             opacity: 0;
@@ -83,220 +141,227 @@
         }
     </style>
 </head>
-<body class="bg-pattern min-h-screen flex flex-col font-bubbly text-on-background select-none">
+<body class="flex flex-col items-center justify-center min-h-screen">
+<div class="mesh-bg"></div>
 
-<div id="loginScreen" class="fixed inset-0 z-[100] flex items-center justify-center px-4 bg-pattern backdrop-blur-md">
-    <div class="w-full max-w-md bg-surface border-4 border-primary rounded-[2rem] p-10 flex flex-col gap-6 electric-shadow">
+<!-- PORTAL DE ACCESO CRISTALINO -->
+<div id="loginScreen" class="fixed inset-0 z-[100] flex items-center justify-center px-4 backdrop-blur-md">
+    <div class="glass-card w-full max-w-sm p-10 flex flex-col gap-8">
         <div class="text-center">
-            <h1 class="text-3xl font-black tracking-tight text-primary uppercase">LAUNCHPAD</h1>
-            <p class="font-label-sm text-[10px] opacity-60 mt-1 uppercase tracking-widest">GATEWAY // SECURITY VERIFICATION</p>
+            <h1 class="text-ultra-thin text-2xl tracking-[0.4em]">LAUNCHPAD</h1>
+            <p class="text-[9px] opacity-60 mt-2 tracking-[0.3em] uppercase font-medium">Security Gate // System Authentication</p>
         </div>
         
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-5">
             <div>
-                <label class="block font-label-sm text-xs uppercase tracking-wide text-primary font-bold mb-2">user_identity</label>
-                <input id="usernameInput" type="text" class="w-full h-12 bg-surface-container-low border-2 border-primary/20 rounded-2xl px-6 font-label-sm focus:ring-4 focus:ring-primary/20 transition-all text-on-surface" placeholder="USER ID">
+                <label class="block text-[10px] uppercase tracking-[0.2em] font-semibold mb-2 opacity-80">user_identity</label>
+                <input id="usernameInput" type="text" class="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 outline-none focus:border-white/40 transition-all text-current font-normal placeholder:opacity-20 text-sm tracking-widest" style="background: rgba(255,255,255,0.15);" placeholder="USER ID">
             </div>
             <div>
-                <label class="block font-label-sm text-xs uppercase tracking-wide text-primary font-bold mb-2">access_key</label>
-                <input id="passwordInput" type="password" class="w-full h-12 bg-surface-container-low border-2 border-primary/20 rounded-2xl px-6 font-label-sm focus:ring-4 focus:ring-primary/20 transition-all text-on-surface" placeholder="••••••••">
+                <label class="block text-[10px] uppercase tracking-[0.2em] font-semibold mb-2 opacity-80">access_pass</label>
+                <input id="passwordInput" type="password" class="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 outline-none focus:border-white/40 transition-all text-current font-normal placeholder:opacity-20 text-sm tracking-widest" style="background: rgba(255,255,255,0.15);" placeholder="••••••••">
             </div>
-            <div id="loginError" class="hidden font-label-sm text-[11px] text-red-600 font-bold uppercase bg-red-100 border-2 border-red-200 rounded-2xl px-4 py-3 text-center">
-                Autenticación Errónea. Verifique terminal.
+            <div id="loginError" class="hidden text-[10px] text-red-700 tracking-wider font-semibold uppercase bg-red-100/40 border border-red-200/50 rounded-xl px-4 py-2.5 text-center">
+                Acceso denegado. Revise las credenciales.
             </div>
         </div>
 
-        <button onclick="handleLogin()" class="w-full h-14 bg-gradient-to-r from-primary to-primary-container text-on-primary font-label-sm uppercase rounded-2xl font-bold transition-all shadow-lg active:scale-95 hover:opacity-90">
-            Initialize_
+        <button onclick="handleLogin()" class="w-full glass-card hover:bg-white/20 text-xs font-semibold py-4 rounded-2xl uppercase tracking-[0.2em] transition-all">
+            Verify_
         </button>
     </div>
 </div>
 
-<div id="mainContent" class="hidden flex-grow flex flex-col">
-    <nav class="w-full top-4 sticky bg-surface/80 backdrop-blur-md rounded-2xl mx-auto max-w-[calc(100%-2*theme(spacing.gutter))] border-none electric-shadow z-50">
-        <div class="flex justify-between items-center px-gutter py-unit h-20">
-            <div id="logoTitle" class="text-xl md:text-2xl font-black tracking-tight text-primary uppercase">
-                LaunchPad
-            </div>
+<!-- CAPA PRINCIPAL DEL LAUNCHPAD -->
+<div id="mainContent" class="hidden w-full h-full flex flex-col items-center justify-center">
+    
+    <!-- Top Bar -->
+    <header class="fixed top-0 w-full px-12 py-8 flex justify-between items-center z-50">
+        <div class="flex items-center gap-6 relative">
+            <div id="logoTitle" class="text-ultra-thin text-xl tracking-[0.5em] opacity-90">LaunchPad Aurora</div>
             
-            <div class="flex flex-1 max-w-md mx-8 relative items-center">
-                <input id="searchInput" oninput="filterApps()" class="w-full h-12 rounded-2xl border-none bg-surface-container-low px-6 font-label-sm text-xs electric-shadow focus:ring-4 focus:ring-primary/20 transition-all text-on-surface placeholder:opacity-40" placeholder="EXPLORE SYSTEMS... ( PRESIONA '/' )" type="text"/>
-                <span class="material-symbols-outlined absolute right-4 text-primary opacity-60">search</span>
-            </div>
-            
-            <div class="flex items-center gap-4 relative">
-                <div class="relative">
-                    <button onclick="toggleSkinMenu(event)" class="cursor-pointer transition-all duration-200 hover:bg-primary-container/20 rounded-2xl p-2 flex items-center">
-                        <span class="material-symbols-outlined block text-primary">palette</span>
-                    </button>
-                    <div id="skinDropdown" class="dropdown-menu absolute right-0 mt-4 w-60 bg-surface border-2 border-primary/20 rounded-2xl p-2 z-[60] flex flex-col gap-1 font-label-sm text-xs text-on-surface shadow-xl">
-                        <button onclick="selectSkin('emerald')" id="opt-emerald" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-primary/10 font-bold transition-colors flex items-center justify-between"><span>Emerald Aurora</span><span class="dot hidden">•</span></button>
-                        <button onclick="selectSkin('sunset')" id="opt-sunset" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-primary/10 font-bold transition-colors flex items-center justify-between"><span>Sunset Quartz</span><span class="dot hidden">•</span></button>
-                        <button onclick="selectSkin('cyberpunk')" id="opt-cyberpunk" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-primary/10 font-bold transition-colors flex items-center justify-between"><span>Obsidian Neon</span><span class="dot hidden">•</span></button>
-                        <button onclick="selectSkin('nordic')" id="opt-nordic" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-primary/10 font-bold transition-colors flex items-center justify-between"><span>Nordic Frost</span><span class="dot hidden">•</span></button>
-                        <button onclick="selectSkin('velvet')" id="opt-velvet" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-primary/10 font-bold transition-colors flex items-center justify-between"><span>Midnight Velvet</span><span class="dot hidden">•</span></button>
-                        <button onclick="selectSkin('tokyo')" id="opt-tokyo" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-primary/10 font-bold transition-colors flex items-center justify-between"><span>Tokyo Tech</span><span class="dot hidden">•</span></button>
-                    </div>
-                </div>
-
-                <div id="userDisplay" class="hidden sm:block font-label-sm text-xs font-bold text-primary bg-primary-container/20 px-3 py-2 rounded-xl uppercase tracking-wider">SYS: --</div>
+            <!-- CONTENIDO DEL SELECTOR DE SKINS DESPLEGABLE -->
+            <div class="relative">
+                <button onclick="toggleSkinMenu(event)" class="glass-card w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/20" title="Seleccionar Apariencia (Skin)">
+                    <span class="material-symbols-outlined !text-sm opacity-70" style="background:none;-webkit-text-fill-color:initial;color:inherit;">palette</span>
+                </button>
                 
-                <button onclick="handleLogout()" class="cursor-pointer transition-all duration-200 hover:bg-red-100 rounded-2xl p-2" title="Cerrar Sesión">
-                    <span class="material-symbols-outlined block text-red-600">logout</span>
+                <!-- Listado Flotante de Malla de Skins -->
+                <div id="skinDropdown" class="dropdown-menu absolute left-0 mt-3 w-56 glass-card !rounded-2xl p-2 z-[60] flex flex-col gap-1 text-[10px] font-medium tracking-widest uppercase">
+                    <button onclick="selectSkin('emerald')" id="opt-emerald" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Emerald Aurora</span><span class="dot hidden">•</span></button>
+                    <button onclick="selectSkin('sunset')" id="opt-sunset" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Sunset Quartz</span><span class="dot hidden">•</span></button>
+                    <button onclick="selectSkin('cyberpunk')" id="opt-cyberpunk" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Obsidian Neon</span><span class="dot hidden">•</span></button>
+                    <button onclick="selectSkin('nordic')" id="opt-nordic" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Nordic Frost</span><span class="dot hidden">•</span></button>
+                    <button onclick="selectSkin('velvet')" id="opt-velvet" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Midnight Velvet</span><span class="dot hidden">•</span></button>
+                    <button onclick="selectSkin('tokyo')" id="opt-tokyo" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Tokyo Tech</span><span class="dot hidden">•</span></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-6 text-[10px] tracking-widest font-medium opacity-80">
+            <span id="userDisplay" class="text-current">IDENTITY: --</span>
+            <span class="w-[1px] h-3 bg-current opacity-20"></span>
+            <span onclick="handleLogout()" class="cursor-pointer hover:opacity-100 text-red-600 transition-colors uppercase flex items-center gap-1 font-semibold">
+                <span class="material-symbols-outlined !text-xs opacity-80" style="background:none;-webkit-text-fill-color:initial;color:inherit;">logout</span> Cerrar Sesión
+            </span>
+        </div>
+    </header>
+
+    <main class="relative flex items-center justify-center w-full min-h-screen">
+        <!-- Search Bar (Central Sun) -->
+        <div class="z-50 w-96 relative">
+            <div class="glass-search p-1.5 rounded-full flex items-center pr-2 group transition-all duration-700 focus-within:w-[460px] focus-within:-ml-[32px]">
+                <input id="searchInput" oninput="filterApps()" class="bg-transparent border-none focus:ring-0 text-ultra-thin text-center w-full placeholder:opacity-30 text-sm" placeholder="DISCOVER..." type="text" style="color: inherit;"/>
+                <button class="w-10 h-10 rounded-full flex items-center justify-center glass-card hover:bg-white/20">
+                    <span class="material-symbols-outlined !text-lg opacity-60">search</span>
                 </button>
             </div>
         </div>
-    </nav>
 
-    <main class="flex-grow container mx-auto px-margin-mobile md:px-margin-desktop py-16">
-        <div id="appGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-10 gap-y-14 max-w-7xl mx-auto">
-            </div>
-
-        <div id="emptyState" class="hidden flex flex-col items-center justify-center py-32 text-primary/40 font-bold">
-            <span class="material-symbols-outlined text-6xl mb-4">grid_off</span>
-            <p class="uppercase tracking-widest text-sm">No applications matching requirements</p>
-        </div>
+        <!-- Orbiting Icons Area -->
+        <div id="appOrbitContainer" class="absolute orbit-container"></div>
     </main>
 
-    <nav class="fixed bottom-8 left-1/2 -translate-x-1/2 rounded-[2.5rem] bg-surface/90 backdrop-blur-xl border-none electric-shadow flex items-center gap-4 px-6 py-3 w-max z-50 transition-all">
-        <div id="navigationDock" class="flex gap-3 items-center">
-            </div>
+    <!-- Bottom Navigation Dock -->
+    <nav class="fixed bottom-12 z-50">
+        <div id="navigationDock" class="glass-card px-10 py-4 flex gap-12 items-center justify-center !rounded-full text-[10px] tracking-[0.3em] font-medium uppercase opacity-80"></div>
     </nav>
 
-    <footer class="w-full mt-auto bg-surface-container-lowest/30 backdrop-blur-sm border-t border-primary/5">
-        <div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-8 w-full gap-4 text-xs">
-            <div id="footerTitle" class="font-black text-primary/40 uppercase tracking-tight"></div>
-            <div id="footerCopyright" class="font-label-sm text-[11px] text-on-surface-variant/40 font-bold uppercase tracking-tight"></div>
-        </div>
-    </footer>
+    <footer id="footerText" class="fixed bottom-4 w-full text-center opacity-30 text-[9px] text-ultra-thin uppercase tracking-[0.6em] pointer-events-none"></footer>
 </div>
 
 <script>
-    // Variables complejas de diseño para el motor multi-skin en Grid
+    // Repositorio completo de Skins
     const skins = {
         emerald: {
             title: "LaunchPad Aurora",
-            copyright: "© 2026 Emerald Aurora System // Frosted Glass OS",
+            footer: "Launchpad Emerald Aurora // Frosted Glass OS v3.1",
             variables: {
                 "--bg-color": "#f0fdf4",
                 "--text-color": "#064e3b",
-                "--primary-color": "#065f46",
-                "--primary-container": "#a7f3d0",
-                "--on-primary-container": "#042f22",
-                "--surface-color": "#ffffff",
-                "--surface-container-low": "#ecfdf5",
-                "--surface-container-lowest": "#ffffff",
-                "--on-surface-variant": "#3f4943",
-                "--secondary": "#4b6355",
-                "--radial-pattern": "radial-gradient(rgba(6, 95, 70, 0.12) 1.5px, transparent 1.5px)",
-                "--electric-shadow-val": "0 15px 35px -5px rgba(6, 95, 70, 0.12)",
-                "--electric-shadow-hover-val": "0 25px 45px -10px rgba(6, 95, 70, 0.25)",
-                "--card-gradient": "linear-gradient(135deg, #a7f3d0 0%, #34d399 100%)",
-                "--tab-glow": "0 0 12px rgba(6, 95, 70, 0.2)"
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #065f46 0px, transparent 50%), radial-gradient(at 100% 0%, #a7f3d0 0px, transparent 50%), radial-gradient(at 100% 100%, #34d399 0px, transparent 50%), radial-gradient(at 0% 100%, #ecfdf5 0px, transparent 50%)",
+                "--mesh-opacity": "0.6",
+                "--card-bg": "rgba(255, 255, 255, 0.3)",
+                "--card-bg-hover": "rgba(255, 255, 255, 0.45)",
+                "--card-border": "rgba(167, 243, 208, 0.5)",
+                "--card-border-hover": "rgba(52, 211, 153, 0.8)",
+                "--card-shadow": "0 8px 32px 0 rgba(6, 95, 70, 0.1)",
+                "--card-hover-shadow": "0 20px 40px rgba(6, 95, 70, 0.15), 0 0 30px rgba(16, 185, 129, 0.3)",
+                "--card-inset": "rgba(255, 255, 255, 0.5)",
+                "--icon-gradient": "linear-gradient(135deg, #065f46 0%, #10b981 100%)",
+                "--search-bg": "rgba(255, 255, 255, 0.15)",
+                "--search-border": "rgba(167, 243, 208, 0.4)",
+                "--search-shadow": "0 10px 40px rgba(6, 95, 70, 0.05)",
+                "--tab-glow": "0 0 12px rgba(6, 95, 70, 0.4)"
             }
         },
         sunset: {
             title: "LaunchPad Crystal",
-            copyright: "© 2026 Sunset Quartz Framework // Pop Suite",
+            footer: "Launchpad Sunset Quartz Edition // Frosted Glass OS v3.1",
             variables: {
                 "--bg-color": "#fff5f2",
                 "--text-color": "#6b4e71",
-                "--primary-color": "#ff7e67",
-                "--primary-container": "rgba(255, 240, 230, 0.9)",
-                "--on-primary-container": "#4a2834",
-                "--surface-color": "#ffffff",
-                "--surface-container-low": "#fff0ea",
-                "--surface-container-lowest": "#ffffff",
-                "--on-surface-variant": "#6b4e71",
-                "--secondary": "#8b5d6b",
-                "--radial-pattern": "radial-gradient(rgba(255, 126, 103, 0.15) 1.5px, transparent 1.5px)",
-                "--electric-shadow-val": "0 15px 35px -5px rgba(255, 126, 103, 0.15)",
-                "--electric-shadow-hover-val": "0 25px 45px -10px rgba(255, 126, 103, 0.35)",
-                "--card-gradient": "linear-gradient(135deg, #ffb3a7 0%, #ff7e67 100%)",
-                "--tab-glow": "0 0 12px rgba(255, 126, 103, 0.3)"
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #ffc0cb 0px, transparent 50%), radial-gradient(at 100% 0%, #ffd06f 0px, transparent 50%), radial-gradient(at 100% 100%, #ff8e72 0px, transparent 50%), radial-gradient(at 0% 100%, #9b7ba3 0px, transparent 50%)",
+                "--mesh-opacity": "0.8",
+                "--card-bg": "rgba(255, 255, 255, 0.3)",
+                "--card-bg-hover": "rgba(255, 255, 255, 0.45)",
+                "--card-border": "rgba(255, 255, 255, 0.5)",
+                "--card-border-hover": "rgba(255, 255, 255, 0.8)",
+                "--card-shadow": "0 8px 32px 0 rgba(139, 93, 107, 0.15)",
+                "--card-hover-shadow": "0 20px 40px rgba(255, 126, 103, 0.2), 0 0 30px rgba(255, 255, 255, 0.6)",
+                "--card-inset": "rgba(255, 230, 220, 0.4)",
+                "--icon-gradient": "linear-gradient(135deg, #6b4e71 0%, #ff7e67 100%)",
+                "--search-bg": "rgba(255, 255, 255, 0.15)",
+                "--search-border": "rgba(255, 255, 255, 0.4)",
+                "--search-shadow": "0 10px 40px rgba(255, 126, 103, 0.1)",
+                "--tab-glow": "0 0 12px rgba(255, 126, 103, 0.4)"
             }
         },
         cyberpunk: {
             title: "LaunchPad Obsidian",
-            copyright: "© 2026 Cyberpunk Synth Terminal Engine",
+            footer: "Launchpad Cyberpunk Obsidian // Dark Synth Terminal v3.2",
             variables: {
-                "--bg-color": "#06060b",
+                "--bg-color": "#05050a",
                 "--text-color": "#00f2fe",
-                "--primary-color": "#00f2fe",
-                "--primary-container": "rgba(0, 242, 254, 0.15)",
-                "--on-primary-container": "#ffffff",
-                "--surface-color": "#11111f",
-                "--surface-container-low": "#0b0b14",
-                "--surface-container-lowest": "#000000",
-                "--on-surface-variant": "#9b51e0",
-                "--secondary": "#7b2cbf",
-                "--radial-pattern": "radial-gradient(rgba(0, 242, 254, 0.2) 1.2px, transparent 1.2px)",
-                "--electric-shadow-val": "0 15px 35px -5px rgba(0, 242, 254, 0.25)",
-                "--electric-shadow-hover-val": "0 25px 45px -10px rgba(0, 242, 254, 0.5)",
-                "--card-gradient": "linear-gradient(135deg, rgba(155,81,224,0.3) 0%, rgba(0,242,254,0.3) 100%)",
-                "--tab-glow": "0 0 15px rgba(0, 242, 254, 0.5)"
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #0d001a 0px, transparent 50%), radial-gradient(at 100% 0%, #002b3d 0px, transparent 50%), radial-gradient(at 100% 100%, #2b003d 0px, transparent 50%), radial-gradient(at 0% 100%, #00f2fe 0px, transparent 40%)",
+                "--mesh-opacity": "0.45",
+                "--card-bg": "rgba(10, 10, 20, 0.5)",
+                "--card-bg-hover": "rgba(15, 15, 35, 0.7)",
+                "--card-border": "rgba(0, 242, 254, 0.2)",
+                "--card-border-hover": "rgba(0, 242, 254, 0.8)",
+                "--card-shadow": "0 8px 32px 0 rgba(0, 0, 0, 0.7)",
+                "--card-hover-shadow": "0 0 30px rgba(0, 242, 254, 0.4), 0 15px 40px rgba(0,0,0,0.8)",
+                "--card-inset": "rgba(0, 242, 254, 0.05)",
+                "--icon-gradient": "linear-gradient(135deg, #00f2fe 0%, #9b51e0 100%)",
+                "--search-bg": "rgba(5, 5, 10, 0.6)",
+                "--search-border": "rgba(0, 242, 254, 0.3)",
+                "--search-shadow": "0 0 25px rgba(0, 242, 254, 0.1)",
+                "--tab-glow": "0 0 15px rgba(0, 242, 254, 0.6)"
             }
         },
         nordic: {
             title: "LaunchPad Frost",
-            copyright: "© 2026 Nordic Matrix Spaces // Core",
+            footer: "Launchpad Nordic Frost // Minimal Architectural Matrix",
             variables: {
                 "--bg-color": "#f8fafc",
                 "--text-color": "#334155",
-                "--primary-color": "#475569",
-                "--primary-container": "#e2e8f0",
-                "--on-primary-container": "#0f172a",
-                "--surface-color": "#ffffff",
-                "--surface-container-low": "#f1f5f9",
-                "--surface-container-lowest": "#ffffff",
-                "--on-surface-variant": "#64748b",
-                "--secondary": "#475569",
-                "--radial-pattern": "radial-gradient(rgba(71, 85, 105, 0.1) 1.5px, transparent 1.5px)",
-                "--electric-shadow-val": "0 15px 35px -5px rgba(71, 85, 105, 0.06)",
-                "--electric-shadow-hover-val": "0 25px 45px -10px rgba(71, 85, 105, 0.18)",
-                "--card-gradient": "linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%)",
-                "--tab-glow": "0 0 10px rgba(71, 85, 105, 0.15)"
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #e2e8f0 0px, transparent 60%), radial-gradient(at 100% 0%, #f1f5f9 0px, transparent 50%), radial-gradient(at 100% 100%, #cbd5e1 0px, transparent 50%), radial-gradient(at 0% 100%, #e0f2fe 0px, transparent 50%)",
+                "--mesh-opacity": "0.7",
+                "--card-bg": "rgba(255, 255, 255, 0.4)",
+                "--card-bg-hover": "rgba(255, 255, 255, 0.7)",
+                "--card-border": "rgba(203, 213, 225, 0.6)",
+                "--card-border-hover": "rgba(148, 163, 184, 0.9)",
+                "--card-shadow": "0 10px 30px rgba(15, 23, 42, 0.03)",
+                "--card-hover-shadow": "0 20px 40px rgba(15, 23, 42, 0.08), 0 0 25px rgba(255,255,255,0.9)",
+                "--card-inset": "rgba(255, 255, 255, 0.8)",
+                "--icon-gradient": "linear-gradient(135deg, #1e293b 0%, #64748b 100%)",
+                "--search-bg": "rgba(255, 255, 255, 0.3)",
+                "--search-border": "rgba(203, 213, 225, 0.5)",
+                "--search-shadow": "0 4px 20px rgba(0,0,0,0.02)",
+                "--tab-glow": "0 0 8px rgba(51, 65, 85, 0.2)"
             }
         },
         velvet: {
             title: "LaunchPad Velvet",
-            copyright: "© 2026 Midnight Lounge Suite Architecture",
+            footer: "Launchpad Midnight Velvet // Deep Indigo Lounge v3.2",
             variables: {
-                "--bg-color": "#060310",
+                "--bg-color": "#070412",
                 "--text-color": "#e0aaff",
-                "--primary-color": "#7b2cbf",
-                "--primary-container": "rgba(123, 44, 191, 0.2)",
-                "--on-primary-container": "#ffffff",
-                "--surface-color": "#110b21",
-                "--surface-container-low": "#080414",
-                "--surface-container-lowest": "#020106",
-                "--on-surface-variant": "#ff9e00",
-                "--secondary": "#9d4edd",
-                "--radial-pattern": "radial-gradient(rgba(123, 44, 191, 0.25) 1.5px, transparent 1.5px)",
-                "--electric-shadow-val": "0 15px 35px -5px rgba(123, 44, 191, 0.35)",
-                "--electric-shadow-hover-val": "0 25px 45px -10px rgba(123, 44, 191, 0.6)",
-                "--card-gradient": "linear-gradient(135deg, rgba(255,158,0,0.2) 0%, rgba(123,44,191,0.2) 100%)",
-                "--tab-glow": "0 0 12px rgba(123, 44, 191, 0.5)"
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #1c103a 0px, transparent 55%), radial-gradient(at 100% 0%, #3c096c 0px, transparent 50%), radial-gradient(at 100% 100%, #7b2cbf 0px, transparent 50%), radial-gradient(at 0% 100%, #240046 0px, transparent 50%)",
+                "--mesh-opacity": "0.65",
+                "--card-bg": "rgba(255, 255, 255, 0.04)",
+                "--card-bg-hover": "rgba(255, 255, 255, 0.09)",
+                "--card-border": "rgba(224, 170, 255, 0.15)",
+                "--card-border-hover": "rgba(224, 170, 255, 0.5)",
+                "--card-shadow": "0 12px 40px rgba(0, 0, 0, 0.6)",
+                "--card-hover-shadow": "0 0 35px rgba(123, 44, 191, 0.4), 0 20px 40px rgba(0,0,0,0.7)",
+                "--card-inset": "rgba(255, 255, 255, 0.02)",
+                "--icon-gradient": "linear-gradient(135deg, #ff9e00 0%, #e0aaff 100%)",
+                "--search-bg": "rgba(10, 5, 25, 0.5)",
+                "--search-border": "rgba(224, 170, 255, 0.2)",
+                "--search-shadow": "0 10px 30px rgba(0,0,0,0.5)",
+                "--tab-glow": "0 0 12px rgba(224, 170, 255, 0.5)"
             }
         },
         tokyo: {
             title: "LaunchPad Tokyo",
-            copyright: "© 2026 Tokyo Tech Lab // Acid Grid",
+            footer: "Launchpad Tokyo Tech // Acid Lime Matrix",
             variables: {
-                "--bg-color": "#0a0b10",
+                "--bg-color": "#0c0d12",
                 "--text-color": "#ccff00",
-                "--primary-color": "#ccff00",
-                "--primary-container": "rgba(204, 255, 0, 0.12)",
-                "--on-primary-container": "#ffffff",
-                "--surface-color": "#141620",
-                "--surface-container-low": "#0b0c13",
-                "--surface-container-lowest": "#030406",
-                "--on-surface-variant": "#00e5ff",
-                "--secondary": "#99cc00",
-                "--radial-pattern": "radial-gradient(rgba(204, 255, 0, 0.15) 1.2px, transparent 1.2px)",
-                "--electric-shadow-val": "0 15px 35px -5px rgba(204, 255, 0, 0.25)",
-                "--electric-shadow-hover-val": "0 25px 45px -10px rgba(204, 255, 0, 0.55)",
-                "--card-gradient": "linear-gradient(135deg, rgba(0,229,255,0.2) 0%, rgba(204,255,0,0.2) 100%)",
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #1a1c24 0px, transparent 60%), radial-gradient(at 100% 0%, #222530 0px, transparent 50%), radial-gradient(at 100% 100%, #ccff00 0px, transparent 35%), radial-gradient(at 0% 100%, #111217 0px, transparent 50%)",
+                "--mesh-opacity": "0.45",
+                "--card-bg": "rgba(20, 22, 30, 0.6)",
+                "--card-bg-hover": "rgba(28, 30, 42, 0.8)",
+                "--card-border": "rgba(204, 255, 0, 0.15)",
+                "--card-border-hover": "rgba(204, 255, 0, 0.7)",
+                "--card-shadow": "0 8px 32px rgba(0,0,0,0.6)",
+                "--card-hover-shadow": "0 0 30px rgba(204, 255, 0, 0.35), 0 15px 40px rgba(0,0,0,0.8)",
+                "--card-inset": "rgba(204, 255, 0, 0.02)",
+                "--icon-gradient": "linear-gradient(135deg, #ccff00 0%, #00e5ff 100%)",
+                "--search-bg": "rgba(12, 13, 18, 0.7)",
+                "--search-border": "rgba(204, 255, 0, 0.25)",
+                "--search-shadow": "0 0 20px rgba(0,0,0,0.5)",
                 "--tab-glow": "0 0 14px rgba(204, 255, 0, 0.5)"
             }
         }
@@ -313,16 +378,20 @@
         styleContent += "}";
         document.getElementById('skinStyles').innerHTML = styleContent;
         document.getElementById('logoTitle').innerText = skin.title;
-        document.getElementById('footerTitle').innerHTML = `${skin.title} <span class="text-[12px] align-top opacity-30">v3.5</span>`;
-        document.getElementById('footerCopyright').innerText = skin.copyright;
+        document.getElementById('footerText').innerText = skin.footer;
         localStorage.setItem('launchpad-skin', skinKey);
 
+        // Actualizar el indicador del check en el menú flotante
         Object.keys(skins).forEach(key => {
             const opt = document.getElementById(`opt-${key}`);
-            if(opt) opt.querySelector('.dot').classList.toggle('hidden', key !== skinKey);
+            if(opt) {
+                const dot = opt.querySelector('.dot');
+                dot.classList.toggle('hidden', key !== skinKey);
+            }
         });
     }
 
+    // Lógica del menú desplegable de skins
     function toggleSkinMenu(event) {
         event.stopPropagation();
         document.getElementById('skinDropdown').classList.toggle('show');
@@ -331,17 +400,19 @@
     function selectSkin(skinKey) {
         activeSkin = skinKey;
         applySkin(skinKey);
-        filterApps();
+        filterApps(); // Actualizar degradados de iconos
         document.getElementById('skinDropdown').classList.remove('show');
     }
 
+    // Cerrar menú si haces clic fuera de él
     document.addEventListener('click', () => {
         document.getElementById('skinDropdown')?.classList.remove('show');
     });
 
+    // Inicializar Skin al arrancar
     applySkin(activeSkin);
 
-    // Repositorio de Credenciales y Control Operativo de Permisos
+    // Usuarios y permisos
     const credentials = {
         "4": { password: "", role: "admin", allowedApps: ["all"] },
         "luis": { password: "1967", role: "injusa_full", allowedApps: ["INJUSA 12W", "INJUSA CRM", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK"] },
@@ -360,6 +431,7 @@
 
     let currentUser = null;
     let currentTab = 'ALL';
+    let mouseX = 0, mouseY = 0;
 
     function handleLogin() {
         const username = document.getElementById('usernameInput').value.trim().toLowerCase();
@@ -393,22 +465,14 @@
         if (currentUser.role === 'admin') {
             currentTab = 'ALL';
             dock.innerHTML = `
-                <div onclick="switchTab('ALL')" id="tab-ALL" class="group flex flex-col items-center justify-center bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-2xl px-5 py-2.5 scale-105 cursor-pointer shadow-lg transition-all duration-200 active:scale-95">
-                    <span class="font-label-sm text-[11px] font-bold uppercase tracking-wider">Todas</span>
-                </div>
-                <div onclick="switchTab('INJUSA')" id="tab-INJUSA" class="group flex flex-col items-center justify-center text-primary/60 px-5 py-2.5 hover:bg-primary/10 rounded-2xl hover:text-primary transition-all cursor-pointer duration-200 active:scale-95">
-                    <span class="font-label-sm text-[11px] font-bold uppercase tracking-wider">Injusa</span>
-                </div>
-                <div onclick="switchTab('KOVA')" id="tab-KOVA" class="group flex flex-col items-center justify-center text-primary/60 px-5 py-2.5 hover:bg-primary/10 rounded-2xl hover:text-primary transition-all cursor-pointer duration-200 active:scale-95">
-                    <span class="font-label-sm text-[11px] font-bold uppercase tracking-wider">Kova</span>
-                </div>
+                <span onclick="switchTab('ALL')" id="tab-ALL" class="cursor-pointer hover:opacity-100 opacity-40 transition-opacity tab-btn-active">TODAS</span>
+                <span onclick="switchTab('INJUSA')" id="tab-INJUSA" class="cursor-pointer hover:opacity-100 opacity-40 transition-opacity">INJUSA</span>
+                <span onclick="switchTab('KOVA')" id="tab-KOVA" class="cursor-pointer hover:opacity-100 opacity-40 transition-opacity">KOVA</span>
             `;
         } else {
             currentTab = 'INJUSA';
             dock.innerHTML = `
-                <div class="group flex flex-col items-center justify-center bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-2xl px-6 py-3 shadow-lg pointer-events-none">
-                    <span class="font-label-sm text-[11px] font-bold uppercase tracking-wider">INJUSA SYSTEM WORKSPACE</span>
-                </div>
+                <span id="tab-INJUSA" class="tab-btn-active opacity-100 tracking-[0.4em]">INJUSA PANEL</span>
             `;
         }
         filterApps();
@@ -416,60 +480,69 @@
 
     function switchTab(tab) {
         currentTab = tab;
-        const tabs = ['ALL', 'INJUSA', 'KOVA'];
-        tabs.forEach(t => {
-            const btn = document.getElementById(`tab-${t}`);
-            if (!btn) return;
-            if (t === tab) {
-                btn.className = "group flex flex-col items-center justify-center bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-2xl px-5 py-2.5 scale-105 cursor-pointer shadow-lg transition-all duration-200 active:scale-95";
-            } else {
-                btn.className = "group flex flex-col items-center justify-center text-primary/60 px-5 py-2.5 hover:bg-primary/10 rounded-2xl hover:text-primary transition-all cursor-pointer duration-200 active:scale-95";
-            }
-        });
+        document.getElementById('tab-ALL')?.classList.toggle('tab-btn-active', tab === 'ALL');
+        document.getElementById('tab-INJUSA')?.classList.toggle('tab-btn-active', tab === 'INJUSA');
+        document.getElementById('tab-KOVA')?.classList.toggle('tab-btn-active', tab === 'KOVA');
         filterApps();
     }
 
     function filterApps() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const grid = document.getElementById('appGrid');
-        const emptyState = document.getElementById('emptyState');
+        const orbitContainer = document.getElementById('appOrbitContainer');
         
         const filtered = apps.filter(app => {
             const isAllowed = currentUser.role === 'admin' || currentUser.allowedApps.includes(app.name);
             const matchesTab = (currentTab === 'ALL') || app.name.toUpperCase().startsWith(currentTab);
             const matchesSearch = app.name.toLowerCase().includes(searchTerm);
-            return isAllowed && matchesTab && matchesSearch;
+            return matchesTab && matchesSearch;
         });
 
-        grid.innerHTML = '';
+        orbitContainer.innerHTML = '';
 
-        if (filtered.length === 0) {
-            emptyState.classList.remove('hidden');
-        } else {
-            emptyState.classList.add('hidden');
-            filtered.forEach(app => {
-                let cleanName = app.name.replace(/^INJUSA\s+/i, '').replace(/^KOVA\s+/i, '');
+        const totalItems = filtered.length;
+        const radiusX = totalItems <= 3 ? 280 : 340; 
+        const radiusY = totalItems <= 3 ? 230 : 270; 
 
-                const appMarkup = `
-                    <div onclick="window.open('${app.url}', '_blank')" class="group flex flex-col items-center gap-5 cursor-pointer text-center">
-                        <div class="app-card w-full aspect-square bg-gradient-to-br from-[var(--surface-container-low)] to-[var(--surface-color)] border border-primary/10 rounded-[2.2rem] electric-shadow group-hover:electric-shadow-hover flex items-center justify-center overflow-hidden relative">
-                            <div class="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500" style="background: var(--card-gradient);"></div>
-                            <span class="material-symbols-outlined text-5xl text-primary drop-shadow-sm group-hover:scale-110 transition-transform duration-300">${app.icon}</span>
+        filtered.forEach((app, index) => {
+            const angle = (index * (2 * Math.PI / totalItems)) - (Math.PI / 2);
+            const posX = Math.cos(angle) * radiusX;
+            const posY = Math.sin(angle) * radiusY;
+
+            const depthClasses = ['z-low', 'z-mid', 'z-high'];
+            const depth = depthClasses[index % depthClasses.length];
+
+            let cleanName = app.name.replace(/^INJUSA\s+/i, '').replace(/^KOVA\s+/i, '');
+
+            const appMarkup = `
+                <div class="orbit-item ${depth} pointer-events-auto" 
+                     data-depth-speed="${depth === 'z-high' ? 1.8 : (depth === 'z-mid' ? 1.2 : 0.6)}"
+                     style="transform: translate(${posX}px, ${posY}px); left: calc(50% - 3.5rem); top: calc(50% - 3.5rem);">
+                    <a class="group flex flex-col items-center gap-4" href="${app.url}" target="_blank">
+                        <div class="glass-card w-24 h-24 flex items-center justify-center">
+                            <span class="material-symbols-outlined" style="font-size: 2.8rem;">${app.icon}</span>
                         </div>
-                        <span class="font-headline-lg-mobile text-sm md:text-base uppercase tracking-tight font-extrabold text-on-surface/80 group-hover:text-primary transition-colors max-w-full truncate px-2">${cleanName}</span>
-                    </div>
-                `;
-                grid.innerHTML += appMarkup;
-            });
-        }
+                        <span class="text-ultra-thin text-[9px] opacity-40 group-hover:opacity-100 tracking-widest text-center transition-opacity max-w-[120px] truncate" style="color: inherit;">${cleanName}</span>
+                    </a>
+                </div>
+            `;
+            orbitContainer.innerHTML += appMarkup;
+        });
+        
+        applyParallax();
     }
 
-    // Atajo rápido: Foco en buscador con la tecla "/"
-    document.addEventListener('keydown', (e) => {
-        if (e.key === '/') {
-            e.preventDefault();
-            document.getElementById('searchInput').focus();
-        }
+    function applyParallax() {
+        document.querySelectorAll('.orbit-item').forEach(item => {
+            const speed = parseFloat(item.getAttribute('data-depth-speed')) || 1;
+            const currentTransform = item.style.transform.split(' translate')[0]; 
+            item.style.transform = `${currentTransform} translate(${mouseX * speed}px, ${mouseY * speed}px)`;
+        });
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = (window.innerWidth / 2 - e.pageX) / 50;
+        mouseY = (window.innerHeight / 2 - e.pageY) / 50;
+        applyParallax();
     });
 
     document.getElementById('usernameInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
