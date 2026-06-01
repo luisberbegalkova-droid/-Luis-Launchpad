@@ -98,17 +98,18 @@
 </div>
 
 <script>
-    // Base de datos de usuarios y reglas de acceso
+    // Base de datos de usuarios y reglas de acceso actualizadas
     const credentials = {
         "4": { password: "", role: "admin", allowedApps: ["all"] },
-        "luis": { password: "1967", role: "injusa_full", allowedApps: ["INJUSA 12W", "INJUSA CRM", "INJUSA VENTA PEQUEÑOS"] },
-        "ventas": { password: "injven", role: "injusa_sales", allowedApps: ["INJUSA 12W", "INJUSA VENTA PEQUEÑOS"] }
+        "luis": { password: "1967", role: "injusa_full", allowedApps: ["INJUSA 12W", "INJUSA CRM", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK"] },
+        "ventas": { password: "injven", role: "injusa_sales", allowedApps: ["INJUSA 12W", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK"] }
     };
 
     const apps = [
         { name: "INJUSA 12W", url: "https://app-12-w.vercel.app/", icon: "bolt", color: "text-blue-600" },
         { name: "INJUSA CRM", url: "https://app-crm-injusa.vercel.app/", icon: "hub", color: "text-indigo-600" },
         { name: "INJUSA VENTA PEQUEÑOS", url: "https://app-inventario-bice-tau.vercel.app/", icon: "inventory_2", color: "text-rose-600" },
+        { name: "INJUSA EVO STOCK", url: "https://app-plan-stock.vercel.app/", icon: "package_2", color: "text-red-600" },
         { name: "KOVA SONG ARCHIVE", url: "https://kova-song-archive.vercel.app/", icon: "album", color: "text-slate-900" },
         { name: "KOVA CONTENT OS", url: "https://kova-app-contenido.vercel.app/", icon: "video_library", color: "text-slate-900" },
         { name: "KOVA LEAD MANAGER", url: "https://kova-crm.vercel.app/", icon: "trending_up", color: "text-slate-900" }
@@ -160,7 +161,6 @@
                 <button onclick="setCurrentTab('KOVA')" id="btn-KOVA" class="px-6 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 transition-all duration-300">KOVA</button>
             `;
         } else {
-            // Usuarios de INJUSA no necesitan ver la pestaña KOVA ni la global "TODAS"
             currentTab = 'INJUSA';
             tabContainer.innerHTML = `
                 <button onclick="setCurrentTab('INJUSA')" id="btn-INJUSA" class="px-8 py-2 rounded-xl text-sm font-bold transition-all duration-300 tab-active">INJUSA</button>
