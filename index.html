@@ -76,7 +76,7 @@
             50% { margin-top: -15px; }
         }
 
-        /* Depth Layers alternados para el efecto de paralaje reactivo */
+        /* Depth Layers */
         .z-low { animation-delay: 0s; }
         .z-mid { animation-delay: -2.5s; }
         .z-high { animation-delay: -5s; }
@@ -130,6 +130,7 @@
 <body class="flex flex-col items-center justify-start min-h-screen select-none">
 <div class="mesh-bg"></div>
 
+<!-- PORTAL DE ACCESO CRISTALINO -->
 <div id="loginScreen" class="fixed inset-0 z-[100] flex items-center justify-center px-4 backdrop-blur-md">
     <div class="glass-card w-full max-w-sm p-10 flex flex-col gap-8">
         <div class="text-center">
@@ -157,8 +158,10 @@
     </div>
 </div>
 
+<!-- CONTENEDOR DE LA INTERFAZ PRINCIPAL -->
 <div id="mainContent" class="hidden w-full flex-grow flex flex-col items-center">
     
+    <!-- Header Fijo Superior -->
     <header class="w-full px-12 py-6 flex justify-between items-center z-50">
         <div class="flex items-center gap-6 relative">
             <div id="logoTitle" class="text-ultra-thin text-xl tracking-[0.5em] opacity-90">LaunchPad</div>
@@ -168,17 +171,17 @@
                     <span class="material-symbols-outlined !text-sm opacity-70" style="background:none;-webkit-text-fill-color:initial;color:inherit;">palette</span>
                 </button>
                 
-                <div id="skinDropdown" class="dropdown-menu absolute left-0 mt-3 w-56 glass-card !rounded-2xl p-2 z-[60] flex flex-col gap-1 text-[10px] font-medium tracking-widest uppercase">
+                <div id="skinDropdown" class="dropdown-menu absolute left-0 mt-3 w-56 glass-card !rounded-2xl p-2 z-[60] flex flex-col gap-1 text-[10px] font-medium tracking-widest uppercase shadow-lg">
                     <button onclick="selectSkin('emerald')" id="opt-emerald" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Emerald Aurora</span><span class="dot hidden">•</span></button>
                     <button onclick="selectSkin('sunset')" id="opt-sunset" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Sunset Quartz</span><span class="dot hidden">•</span></button>
-                    <button onclick="selectSkin('cyberpunk')" id="opt-cyberpunk" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Obsidian Neon</span><span class="dot hidden">•</span></button>
+                    <button onclick="selectSkin('crimson')" id="opt-crimson" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Crimson Pop</span><span class="dot hidden">•</span></button>
+                    <button onclick="selectSkin('amber')" id="opt-amber" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Amber Breeze</span><span class="dot hidden">•</span></button>
                     <button onclick="selectSkin('nordic')" id="opt-nordic" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Nordic Frost</span><span class="dot hidden">•</span></button>
-                    <button onclick="selectSkin('velvet')" id="opt-velvet" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Midnight Velvet</span><span class="dot hidden">•</span></button>
-                    <button onclick="selectSkin('tokyo')" id="opt-tokyo" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Tokyo Tech</span><span class="dot hidden">•</span></button>
                 </div>
             </div>
         </div>
 
+        <!-- Buscador Integrado en la Zona Superior -->
         <div class="hidden md:block w-96 max-w-lg relative">
             <div class="glass-search p-1 rounded-full flex items-center pr-2 group transition-all duration-500 focus-within:w-[440px] focus-within:-ml-[22px]">
                 <input id="searchInput" oninput="filterApps()" class="bg-transparent border-none focus:ring-0 text-ultra-thin text-center w-full placeholder:opacity-30 text-xs tracking-wider" placeholder="EXPLORE SYSTEMS..." type="text" style="color: inherit;"/>
@@ -197,19 +200,24 @@
         </div>
     </header>
 
-    <main class="w-full flex-grow flex items-center justify-center px-12 md:px-24">
-        <div class="w-full max-w-6xl mx-auto py-12">
+    <!-- Espacio de Escritorio en Rejilla Lineal - AJUSTADO PARA COMPACTAR MARGEN CON EL BUSCADOR -->
+    <main class="w-full flex-grow flex items-start justify-center px-12 md:px-24 pt-16 pb-44 overflow-y-auto">
+        <div class="w-full max-w-6xl mx-auto">
             
-            <div class="block md:hidden w-full mb-12 relative px-4">
+            <!-- Buscador Versión Móvil/Tablet Pequeña -->
+            <div class="block md:hidden w-full mb-8 relative px-4">
                 <div class="glass-search p-1.5 rounded-full flex items-center pr-3">
                     <input id="searchInputMobile" oninput="syncAndFilter(this)" class="bg-transparent border-none focus:ring-0 text-ultra-thin text-center w-full placeholder:opacity-30 text-xs tracking-wider" placeholder="EXPLORE SYSTEMS..." type="text" style="color: inherit;"/>
                     <span class="material-symbols-outlined !text-lg opacity-60">search</span>
                 </div>
             </div>
 
-            <div id="appContainerGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-x-12 gap-y-16 items-start justify-items-center transition-all duration-300">
-                </div>
+            <!-- Rejilla de Aplicaciones -->
+            <div id="appContainerGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-x-12 gap-y-12 items-start justify-items-center transition-all duration-300">
+                <!-- Se inyectan de manera lineal -->
+            </div>
 
+            <!-- Estado Vacío -->
             <div id="emptyState" class="hidden flex flex-col items-center justify-center py-20 text-center opacity-40">
                 <span class="material-symbols-outlined text-5xl mb-3">grid_off</span>
                 <p class="text-ultra-thin text-xs tracking-[0.3em]">No hay módulos asignados</p>
@@ -217,16 +225,19 @@
         </div>
     </main>
 
+    <!-- Dock de Pestañas Flotante Inferior -->
     <nav class="fixed bottom-12 z-50">
         <div id="navigationDock" class="glass-card px-10 py-4 flex gap-12 items-center justify-center !rounded-full text-[10px] tracking-[0.3em] font-medium uppercase opacity-80">
-            </div>
+            <!-- Pestañas dinámicas -->
+        </div>
     </nav>
 
+    <!-- Pie de página -->
     <footer id="footerText" class="fixed bottom-4 w-full text-center opacity-30 text-[9px] text-ultra-thin uppercase tracking-[0.6em] pointer-events-none"></footer>
 </div>
 
 <script>
-    // Variables complejas de diseño para el motor multi-skin
+    // Repositorio purgado y enfocado a skins claras y vivas (Rojos, Amarillos, Verdes y Rosas)
     const skins = {
         emerald: {
             title: "LaunchPad Aurora",
@@ -240,14 +251,14 @@
                 "--card-bg-hover": "rgba(255, 255, 255, 0.45)",
                 "--card-border": "rgba(167, 243, 208, 0.5)",
                 "--card-border-hover": "rgba(52, 211, 153, 0.8)",
-                "--card-shadow": "0 8px 32px 0 rgba(6, 95, 70, 0.1)",
-                "--card-hover-shadow": "0 20px 40px rgba(6, 95, 70, 0.15), 0 0 30px rgba(16, 185, 129, 0.3)",
+                "--card-shadow": "0 8px 32px 0 rgba(6, 95, 70, 0.08)",
+                "--card-hover-shadow": "0 20px 40px rgba(6, 95, 70, 0.12), 0 0 30px rgba(16, 185, 129, 0.25)",
                 "--card-inset": "rgba(255, 255, 255, 0.5)",
                 "--icon-gradient": "linear-gradient(135deg, #065f46 0%, #10b981 100%)",
                 "--search-bg": "rgba(255, 255, 255, 0.15)",
                 "--search-border": "rgba(167, 243, 208, 0.4)",
-                "--search-shadow": "0 10px 40px rgba(6, 95, 70, 0.05)",
-                "--tab-glow": "0 0 12px rgba(6, 95, 70, 0.4)"
+                "--search-shadow": "0 10px 40px rgba(6, 95, 70, 0.04)",
+                "--tab-glow": "0 0 12px rgba(6, 95, 70, 0.3)"
             }
         },
         sunset: {
@@ -262,36 +273,58 @@
                 "--card-bg-hover": "rgba(255, 255, 255, 0.45)",
                 "--card-border": "rgba(255, 255, 255, 0.5)",
                 "--card-border-hover": "rgba(255, 255, 255, 0.8)",
-                "--card-shadow": "0 8px 32px 0 rgba(139, 93, 107, 0.15)",
-                "--card-hover-shadow": "0 20px 40px rgba(255, 126, 103, 0.2), 0 0 30px rgba(255, 255, 255, 0.6)",
+                "--card-shadow": "0 8px 32px 0 rgba(139, 93, 107, 0.12)",
+                "--card-hover-shadow": "0 20px 40px rgba(255, 126, 103, 0.18), 0 0 30px rgba(255, 255, 255, 0.5)",
                 "--card-inset": "rgba(255, 230, 220, 0.4)",
                 "--icon-gradient": "linear-gradient(135deg, #6b4e71 0%, #ff7e67 100%)",
                 "--search-bg": "rgba(255, 255, 255, 0.15)",
                 "--search-border": "rgba(255, 255, 255, 0.4)",
-                "--search-shadow": "0 10px 40px rgba(255, 126, 103, 0.1)",
-                "--tab-glow": "0 0 12px rgba(255, 126, 103, 0.4)"
+                "--search-shadow": "0 10px 40px rgba(123, 44, 191, 0.05)",
+                "--tab-glow": "0 0 12px rgba(255, 126, 103, 0.3)"
             }
         },
-        cyberpunk: {
-            title: "LaunchPad Obsidian",
-            footer: "Launchpad Cyberpunk Obsidian // Dark Synth Terminal v3.5",
+        crimson: {
+            title: "LaunchPad Crimson",
+            footer: "Launchpad Crimson Pop // Vibrant Velvet OS v3.5",
             variables: {
-                "--bg-color": "#05050a",
-                "--text-color": "#00f2fe",
-                "--mesh-gradient": "radial-gradient(at 0% 0%, #0d001a 0px, transparent 50%), radial-gradient(at 100% 0%, #002b3d 0px, transparent 50%), radial-gradient(at 100% 100%, #2b003d 0px, transparent 50%), radial-gradient(at 0% 100%, #00f2fe 0px, transparent 40%)",
-                "--mesh-opacity": "0.45",
-                "--card-bg": "rgba(10, 10, 20, 0.5)",
-                "--card-bg-hover": "rgba(15, 15, 35, 0.7)",
-                "--card-border": "rgba(0, 242, 254, 0.2)",
-                "--card-border-hover": "rgba(0, 242, 254, 0.8)",
-                "--card-shadow": "0 8px 32px 0 rgba(0, 0, 0, 0.7)",
-                "--card-hover-shadow": "0 0 30px rgba(0, 242, 254, 0.4), 0 15px 40px rgba(0,0,0,0.8)",
-                "--card-inset": "rgba(0, 242, 254, 0.05)",
-                "--icon-gradient": "linear-gradient(135deg, #00f2fe 0%, #9b51e0 100%)",
-                "--search-bg": "rgba(5, 5, 10, 0.6)",
-                "--search-border": "rgba(0, 242, 254, 0.3)",
-                "--search-shadow": "0 0 25px rgba(0, 242, 254, 0.1)",
-                "--tab-glow": "0 0 15px rgba(0, 242, 254, 0.6)"
+                "--bg-color": "#fff5f5",
+                "--text-color": "#741b1b",
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #ff8787 0px, transparent 50%), radial-gradient(at 100% 0%, #ffe3e3 0px, transparent 50%), radial-gradient(at 100% 100%, #ff6b6b 0px, transparent 50%), radial-gradient(at 0% 100%, #ffa8a8 0px, transparent 50%)",
+                "--mesh-opacity": "0.65",
+                "--card-bg": "rgba(255, 255, 255, 0.4)",
+                "--card-bg-hover": "rgba(255, 255, 255, 0.6)",
+                "--card-border": "rgba(255, 135, 135, 0.4)",
+                "--card-border-hover": "rgba(255, 107, 107, 0.8)",
+                "--card-shadow": "0 8px 32px 0 rgba(116, 27, 27, 0.06)",
+                "--card-hover-shadow": "0 20px 40px rgba(116, 27, 27, 0.12), 0 0 30px rgba(255, 107, 107, 0.3)",
+                "--card-inset": "rgba(255, 255, 255, 0.6)",
+                "--icon-gradient": "linear-gradient(135deg, #741b1b 0%, #ff6b6b 100%)",
+                "--search-bg": "rgba(255, 255, 255, 0.2)",
+                "--search-border": "rgba(255, 135, 135, 0.3)",
+                "--search-shadow": "0 10px 40px rgba(116, 27, 27, 0.03)",
+                "--tab-glow": "0 0 12px rgba(255, 107, 107, 0.4)"
+            }
+        },
+        amber: {
+            title: "LaunchPad Amber",
+            footer: "Launchpad Amber Breeze // Golden Quartz Studio v3.5",
+            variables: {
+                "--bg-color": "#fdfaf2",
+                "--text-color": "#604000",
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #fcd34d 0px, transparent 55%), radial-gradient(at 100% 0%, #fef3c7 0px, transparent 50%), radial-gradient(at 100% 100%, #fbbf24 0px, transparent 50%), radial-gradient(at 0% 100%, #fffbeb 0px, transparent 50%)",
+                "--mesh-opacity": "0.7",
+                "--card-bg": "rgba(255, 255, 255, 0.4)",
+                "--card-bg-hover": "rgba(255, 255, 255, 0.65)",
+                "--card-border": "rgba(252, 211, 77, 0.4)",
+                "--card-border-hover": "rgba(251, 191, 36, 0.8)",
+                "--card-shadow": "0 8px 32px 0 rgba(96, 64, 0, 0.05)",
+                "--card-hover-shadow": "0 20px 40px rgba(96, 64, 0, 0.1), 0 0 30px rgba(251, 191, 36, 0.35)",
+                "--card-inset": "rgba(255, 255, 255, 0.7)",
+                "--icon-gradient": "linear-gradient(135deg, #604000 0%, #fbbf24 100%)",
+                "--search-bg": "rgba(255, 255, 255, 0.25)",
+                "--search-border": "rgba(252, 211, 77, 0.3)",
+                "--search-shadow": "0 10px 40px rgba(96, 64, 0, 0.02)",
+                "--tab-glow": "0 0 12px rgba(251, 191, 36, 0.4)"
             }
         },
         nordic: {
@@ -314,50 +347,6 @@
                 "--search-border": "rgba(203, 213, 225, 0.5)",
                 "--search-shadow": "0 4px 20px rgba(0,0,0,0.02)",
                 "--tab-glow": "0 0 8px rgba(51, 65, 85, 0.2)"
-            }
-        },
-        velvet: {
-            title: "LaunchPad Velvet",
-            footer: "Launchpad Midnight Velvet // Deep Indigo Lounge v3.5",
-            variables: {
-                "--bg-color": "#070412",
-                "--text-color": "#e0aaff",
-                "--mesh-gradient": "radial-gradient(at 0% 0%, #1c103a 0px, transparent 55%), radial-gradient(at 100% 0%, #3c096c 0px, transparent 50%), radial-gradient(at 100% 100%, #7b2cbf 0px, transparent 50%), radial-gradient(at 0% 100%, #240046 0px, transparent 50%)",
-                "--mesh-opacity": "0.65",
-                "--card-bg": "rgba(255, 255, 255, 0.04)",
-                "--card-bg-hover": "rgba(255, 255, 255, 0.09)",
-                "--card-border": "rgba(224, 170, 255, 0.15)",
-                "--card-border-hover": "rgba(224, 170, 255, 0.5)",
-                "--card-shadow": "0 12px 40px rgba(0, 0, 0, 0.6)",
-                "--card-hover-shadow": "0 0 35px rgba(123, 44, 191, 0.4), 0 20px 40px rgba(0,0,0,0.7)",
-                "--card-inset": "rgba(255, 255, 255, 0.02)",
-                "--icon-gradient": "linear-gradient(135deg, #ff9e00 0%, #e0aaff 100%)",
-                "--search-bg": "rgba(10, 5, 25, 0.5)",
-                "--search-border": "rgba(224, 170, 255, 0.2)",
-                "--search-shadow": "0 10px 30px rgba(0,0,0,0.5)",
-                "--tab-glow": "0 0 12px rgba(224, 170, 255, 0.5)"
-            }
-        },
-        tokyo: {
-            title: "LaunchPad Tokyo",
-            footer: "Launchpad Tokyo Tech // Acid Lime Matrix v3.5",
-            variables: {
-                "--bg-color": "#0c0d12",
-                "--text-color": "#ccff00",
-                "--mesh-gradient": "radial-gradient(at 0% 0%, #1a1c24 0px, transparent 60%), radial-gradient(at 100% 0%, #222530 0px, transparent 50%), radial-gradient(at 100% 100%, #ccff00 0px, transparent 35%), radial-gradient(at 0% 100%, #111217 0px, transparent 50%)",
-                "--mesh-opacity": "0.45",
-                "--card-bg": "rgba(20, 22, 30, 0.6)",
-                "--card-bg-hover": "rgba(28, 30, 42, 0.8)",
-                "--card-border": "rgba(204, 255, 0, 0.15)",
-                "--card-border-hover": "rgba(204, 255, 0, 0.7)",
-                "--card-shadow": "0 8px 32px rgba(0,0,0,0.6)",
-                "--card-hover-shadow": "0 0 30px rgba(204, 255, 0, 0.35), 0 15px 40px rgba(0,0,0,0.8)",
-                "--card-inset": "rgba(204, 255, 0, 0.02)",
-                "--icon-gradient": "linear-gradient(135deg, #ccff00 0%, #00e5ff 100%)",
-                "--search-bg": "rgba(12, 13, 18, 0.7)",
-                "--search-border": "rgba(204, 255, 0, 0.25)",
-                "--search-shadow": "0 0 20px rgba(0,0,0,0.5)",
-                "--tab-glow": "0 0 14px rgba(204, 255, 0, 0.5)"
             }
         }
     };
@@ -498,7 +487,6 @@
         } else {
             emptyState.classList.add('hidden');
             filtered.forEach((app, index) => {
-                // Alternar velocidades de retraso del paralaje entre capas espaciales discretas
                 const layers = ['z-low', 'z-mid', 'z-high'];
                 const currentLayer = layers[index % layers.length];
                 const speedFactor = currentLayer === 'z-high' ? 1.4 : (currentLayer === 'z-mid' ? 0.9 : 0.4);
@@ -528,7 +516,6 @@
         });
     }
 
-    // Efecto sutil de arrastre espacial coordinado con el cursor
     document.addEventListener('mousemove', (e) => {
         mouseX = (window.innerWidth / 2 - e.pageX) / 55;
         mouseY = (window.innerHeight / 2 - e.pageY) / 55;
