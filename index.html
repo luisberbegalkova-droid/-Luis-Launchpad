@@ -126,6 +126,19 @@
             font-weight: 400;
             text-shadow: var(--tab-glow);
         }
+
+        /* Custom Transition for Dropdown Menus */
+        .dropdown-menu {
+            transform: translateY(-10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.3s ease;
+        }
+        .dropdown-menu.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen">
@@ -164,12 +177,25 @@
     
     <!-- Top Bar -->
     <header class="fixed top-0 w-full px-12 py-8 flex justify-between items-center z-50">
-        <div class="flex items-center gap-6">
+        <div class="flex items-center gap-6 relative">
             <div id="logoTitle" class="text-ultra-thin text-xl tracking-[0.5em] opacity-90">LaunchPad Aurora</div>
-            <!-- CONMUTADOR DE SKIN -->
-            <button onclick="toggleSkin()" class="glass-card w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/20" title="Cambiar Apariencia (Skin)">
-                <span class="material-symbols-outlined !text-sm opacity-70" style="background:none;-webkit-text-fill-color:initial;color:inherit;">palette</span>
-            </button>
+            
+            <!-- CONTENIDO DEL SELECTOR DE SKINS DESPLEGABLE -->
+            <div class="relative">
+                <button onclick="toggleSkinMenu(event)" class="glass-card w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/20" title="Seleccionar Apariencia (Skin)">
+                    <span class="material-symbols-outlined !text-sm opacity-70" style="background:none;-webkit-text-fill-color:initial;color:inherit;">palette</span>
+                </button>
+                
+                <!-- Listado Flotante de Malla de Skins -->
+                <div id="skinDropdown" class="dropdown-menu absolute left-0 mt-3 w-56 glass-card !rounded-2xl p-2 z-[60] flex flex-col gap-1 text-[10px] font-medium tracking-widest uppercase">
+                    <button onclick="selectSkin('emerald')" id="opt-emerald" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Emerald Aurora</span><span class="dot hidden">•</span></button>
+                    <button onclick="selectSkin('sunset')" id="opt-sunset" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Sunset Quartz</span><span class="dot hidden">•</span></button>
+                    <button onclick="selectSkin('cyberpunk')" id="opt-cyberpunk" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Obsidian Neon</span><span class="dot hidden">•</span></button>
+                    <button onclick="selectSkin('nordic')" id="opt-nordic" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Nordic Frost</span><span class="dot hidden">•</span></button>
+                    <button onclick="selectSkin('velvet')" id="opt-velvet" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Midnight Velvet</span><span class="dot hidden">•</span></button>
+                    <button onclick="selectSkin('tokyo')" id="opt-tokyo" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Tokyo Tech</span><span class="dot hidden">•</span></button>
+                </div>
+            </div>
         </div>
         
         <div class="flex items-center gap-6 text-[10px] tracking-widest font-medium opacity-80">
@@ -205,7 +231,7 @@
 </div>
 
 <script>
-    // Repositorio ampliado de Skins (6 variantes)
+    // Repositorio completo de Skins
     const skins = {
         emerald: {
             title: "LaunchPad Aurora",
@@ -341,7 +367,6 @@
         }
     };
 
-    const skinOrder = ['emerald', 'sunset', 'cyberpunk', 'nordic', 'velvet', 'tokyo'];
     let activeSkin = localStorage.getItem('launchpad-skin') || 'emerald';
 
     function applySkin(skinKey) {
@@ -355,19 +380,39 @@
         document.getElementById('logoTitle').innerText = skin.title;
         document.getElementById('footerText').innerText = skin.footer;
         localStorage.setItem('launchpad-skin', skinKey);
+
+        // Actualizar el indicador del check en el menú flotante
+        Object.keys(skins).forEach(key => {
+            const opt = document.getElementById(`opt-${key}`);
+            if(opt) {
+                const dot = opt.querySelector('.dot');
+                dot.classList.toggle('hidden', key !== skinKey);
+            }
+        });
     }
 
-    function toggleSkin() {
-        let currentIndex = skinOrder.indexOf(activeSkin);
-        let nextIndex = (currentIndex + 1) % skinOrder.length;
-        activeSkin = skinOrder[nextIndex];
-        applySkin(activeSkin);
-        filterApps(); 
+    // Lógica del menú desplegable de skins
+    function toggleSkinMenu(event) {
+        event.stopPropagation();
+        document.getElementById('skinDropdown').classList.toggle('show');
     }
 
+    function selectSkin(skinKey) {
+        activeSkin = skinKey;
+        applySkin(skinKey);
+        filterApps(); // Actualizar degradados de iconos
+        document.getElementById('skinDropdown').classList.remove('show');
+    }
+
+    // Cerrar menú si haces clic fuera de él
+    document.addEventListener('click', () => {
+        document.getElementById('skinDropdown')?.classList.remove('show');
+    });
+
+    // Inicializar Skin al arrancar
     applySkin(activeSkin);
 
-    // Sistema de usuarios y permisos
+    // Usuarios y permisos
     const credentials = {
         "4": { password: "", role: "admin", allowedApps: ["all"] },
         "luis": { password: "1967", role: "injusa_full", allowedApps: ["INJUSA 12W", "INJUSA CRM", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK"] },
