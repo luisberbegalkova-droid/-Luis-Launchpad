@@ -11,10 +11,10 @@
           theme: {
             extend: {
               "colors": {
-                "primary": "#4f378a",
-                "surface": "rgba(255, 255, 255, 0.1)",
-                "on-surface": "#ffffff",
-                "background": "#0a0514"
+                "primary": "#065f46", // Forest Green
+                "surface": "rgba(236, 253, 245, 0.4)", // Mint Tint
+                "on-surface": "#064e3b",
+                "background": "#f0fdf4"
               },
               "fontFamily": {
                 "display": ["Inter", "sans-serif"],
@@ -26,13 +26,14 @@
     </script>
     <style>
         body {
-            background: #0a0514;
+            background: #f0fdf4;
             overflow: hidden;
             font-family: 'Inter', sans-serif;
             font-weight: 100;
+            color: #064e3b;
         }
 
-        /* Animated Mesh Gradient Background */
+        /* Animated Mesh Gradient Background - Emerald Aurora Theme */
         .mesh-bg {
             position: fixed;
             top: 0;
@@ -40,38 +41,38 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: radial-gradient(at 0% 0%, #4f378a 0px, transparent 50%),
-                        radial-gradient(at 100% 0%, #765b00 0px, transparent 50%),
-                        radial-gradient(at 100% 100%, #93000a 0px, transparent 50%),
-                        radial-gradient(at 0% 100%, #1f1635 0px, transparent 50%);
+            background: radial-gradient(at 0% 0%, #065f46 0px, transparent 50%),
+                        radial-gradient(at 100% 0%, #a7f3d0 0px, transparent 50%),
+                        radial-gradient(at 100% 100%, #34d399 0px, transparent 50%),
+                        radial-gradient(at 0% 100%, #ecfdf5 0px, transparent 50%);
             filter: blur(80px);
             opacity: 0.6;
-            animation: mesh-move 20s ease infinite alternate;
+            animation: mesh-move 25s ease infinite alternate;
         }
 
         @keyframes mesh-move {
             0% { transform: scale(1); }
-            100% { transform: scale(1.2) translate(2%, 2%); }
+            100% { transform: scale(1.1) translate(1%, 1%); }
         }
 
-        /* Liquid Glass Buttons */
+        /* Frosted Glass Buttons - Emerald Variant */
         .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid rgba(167, 243, 208, 0.5);
             border-radius: 2rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
-                        inset 0 0 15px rgba(255, 255, 255, 0.05);
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 8px 32px 0 rgba(6, 95, 70, 0.1),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .glass-card:hover {
-            background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 0 40px rgba(130, 80, 255, 0.4),
-                        0 20px 50px rgba(0, 0, 0, 0.5);
-            transform: translateY(-10px) scale(1.05);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.45);
+            box-shadow: 0 20px 40px rgba(6, 95, 70, 0.15),
+                        0 0 30px rgba(16, 185, 129, 0.3);
+            transform: translateY(-12px) scale(1.08);
+            border: 1px solid rgba(52, 211, 153, 0.8);
         }
 
         /* Orbit Layout Logic */
@@ -86,93 +87,94 @@
 
         .orbit-item {
             position: absolute;
-            animation: float 6s ease-in-out infinite;
+            animation: float 8s ease-in-out infinite;
             transition: transform 0.2s ease-out;
         }
 
         @keyframes float {
             0%, 100% { margin-top: 0px; }
-            50% { margin-top: -15px; }
+            50% { margin-top: -20px; }
         }
 
-        /* Icon Z-Levels para emular profundidad espacial */
-        .z-low { animation-delay: 0s; z-index: 10; }
-        .z-mid { animation-delay: -2s; z-index: 20; }
-        .z-high { animation-delay: -4s; z-index: 30; }
+        /* Icon Z-Levels */
+        .z-low { animation-delay: 0.5s; z-index: 10; }
+        .z-mid { animation-delay: -1.5s; z-index: 20; }
+        .z-high { animation-delay: -3.5s; z-index: 30; }
 
         /* Elegant Thin Typography */
         .text-ultra-thin {
-            font-weight: 100;
-            letter-spacing: 0.15em;
+            font-weight: 200;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
+            color: #064e3b;
         }
 
-        /* Material Symbols Styling */
+        /* Material Symbols Styling - Emerald Gradient */
         .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 100, 'GRAD' 0, 'opsz' 48;
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 48;
             font-size: 3rem;
-            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.4) 100%);
+            background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Glowing Search Bar */
+        /* Glowing Crystal Search Bar - Lime/Emerald Aura */
         .glass-search {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(50px);
+            border: 1px solid rgba(167, 243, 208, 0.4);
+            box-shadow: 0 10px 40px rgba(6, 95, 70, 0.05);
         }
 
         .tab-btn-active {
             opacity: 1 !important;
             font-weight: 400;
-            text-shadow: 0 0 10px rgba(255,255,255,0.6);
+            text-shadow: 0 0 12px rgba(6, 95, 70, 0.4);
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen text-white">
+<body class="flex flex-col items-center justify-center min-h-screen">
 <div class="mesh-bg"></div>
 
-<!-- PANTALLA DE LOGIN NEURAL -->
+<!-- PORTAL DE ACCESO CRISTALINO -->
 <div id="loginScreen" class="fixed inset-0 z-[100] flex items-center justify-center px-4 backdrop-blur-md">
     <div class="glass-card w-full max-w-sm p-10 flex flex-col gap-8">
         <div class="text-center">
-            <h1 class="text-ultra-thin text-3xl tracking-[0.3em] text-white">LAUNCHPAD</h1>
-            <p class="text-[9px] text-white/40 mt-2 tracking-[0.4em] uppercase">Security Gate // System Access</p>
+            <h1 class="text-ultra-thin text-2xl tracking-[0.4em] text-emerald-900">LAUNCHPAD</h1>
+            <p class="text-[9px] text-emerald-800/50 mt-2 tracking-[0.3em] uppercase font-medium">Security Gate // Authorized Personnel</p>
         </div>
         
         <div class="flex flex-col gap-5">
             <div>
-                <label class="block text-[10px] uppercase tracking-[0.2em] text-white/60 mb-2">identity_user</label>
-                <input id="usernameInput" type="text" class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 outline-none focus:border-white/30 transition-all text-white font-light placeholder:text-white/10 text-sm tracking-widest" placeholder="USER ID">
+                <label class="block text-[10px] uppercase tracking-[0.2em] text-emerald-800 font-semibold mb-2">user_identity</label>
+                <input id="usernameInput" type="text" class="w-full bg-white/20 border border-emerald-200/40 rounded-2xl px-4 py-3 outline-none focus:border-emerald-500/50 transition-all text-emerald-900 font-normal placeholder:text-emerald-900/20 text-sm tracking-widest" placeholder="USER ID">
             </div>
             <div>
-                <label class="block text-[10px] uppercase tracking-[0.2em] text-white/60 mb-2">access_key</label>
-                <input id="passwordInput" type="password" class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 outline-none focus:border-white/30 transition-all text-white font-light placeholder:text-white/10 text-sm tracking-widest" placeholder="••••••••">
+                <label class="block text-[10px] uppercase tracking-[0.2em] text-emerald-800 font-semibold mb-2">access_pass</label>
+                <input id="passwordInput" type="password" class="w-full bg-white/20 border border-emerald-200/40 rounded-2xl px-4 py-3 outline-none focus:border-emerald-500/50 transition-all text-emerald-900 font-normal placeholder:text-emerald-900/20 text-sm tracking-widest" placeholder="••••••••">
             </div>
-            <div id="loginError" class="hidden text-[10px] text-red-400 tracking-wider uppercase bg-red-950/20 border border-red-900/30 rounded-xl px-4 py-2.5 text-center">
-                Autenticación Fallida. Reintente.
+            <div id="loginError" class="hidden text-[10px] text-red-700 tracking-wider font-semibold uppercase bg-red-100/40 border border-red-200/50 rounded-xl px-4 py-2.5 text-center">
+                Acceso denegado. Revise las credenciales.
             </div>
         </div>
 
-        <button onclick="handleLogin()" class="w-full glass-card hover:bg-white/10 text-white text-xs font-semibold py-4 rounded-2xl uppercase tracking-[0.2em] transition-all">
-            Initialize_
+        <button onclick="handleLogin()" class="w-full glass-card hover:bg-white/40 text-emerald-900 text-xs font-semibold py-4 rounded-2xl uppercase tracking-[0.2em] transition-all">
+            Verify_
         </button>
     </div>
 </div>
 
-<!-- CAPA INTERNA DEL LAUNCHPAD -->
+<!-- CAPA PRINCIPAL DEL LAUNCHPAD -->
 <div id="mainContent" class="hidden w-full h-full flex flex-col items-center justify-center">
     
     <!-- Top Bar -->
     <header class="fixed top-0 w-full px-12 py-8 flex justify-between items-center z-50">
-        <div class="text-ultra-thin text-2xl tracking-[0.4em] opacity-80">LaunchPad</div>
-        <div class="flex items-center gap-6 text-xs tracking-[0.3em] text-white/60">
-            <span id="userDisplay" class="uppercase text-white/90">USER: --</span>
-            <span class="w-[1px] h-4 bg-white/10"></span>
-            <span onclick="handleLogout()" class="cursor-pointer hover:text-red-400 transition-colors uppercase flex items-center gap-1">
-                <span class="material-symbols-outlined !text-xs opacity-80">logout</span> Exit
+        <div class="text-ultra-thin text-xl tracking-[0.5em] opacity-90">LaunchPad Aurora</div>
+        <div class="flex items-center gap-6 text-[10px] tracking-widest font-medium text-emerald-800/60">
+            <span id="userDisplay" class="uppercase text-emerald-900">IDENTITY: --</span>
+            <span class="w-[1px] h-3 bg-emerald-800/20"></span>
+            <span onclick="handleLogout()" class="cursor-pointer hover:text-red-700 transition-colors uppercase flex items-center gap-1 font-semibold">
+                <span class="material-symbols-outlined !text-xs opacity-80" style="background:none;-webkit-text-fill-color:initial;color:inherit;">logout</span> Cerrar Sesión
             </span>
         </div>
     </header>
@@ -180,34 +182,34 @@
     <main class="relative flex items-center justify-center w-full min-h-screen">
         <!-- Search Bar (Central Sun) -->
         <div class="z-50 w-96 relative">
-            <div class="glass-search p-1 rounded-full flex items-center pr-2 group transition-all duration-500 focus-within:w-[460px] focus-within:-ml-[32px]">
-                <input id="searchInput" oninput="filterApps()" class="bg-transparent border-none focus:ring-0 text-ultra-thin text-center w-full placeholder:text-white/20 placeholder:tracking-[0.5em] text-sm" placeholder="DISCOVER..." type="text"/>
-                <button class="w-10 h-10 rounded-full flex items-center justify-center glass-card hover:bg-white/20">
-                    <span class="material-symbols-outlined !text-xl opacity-80">search</span>
+            <div class="glass-search p-1.5 rounded-full flex items-center pr-2 group transition-all duration-700 focus-within:w-[460px] focus-within:-ml-[32px]">
+                <input id="searchInput" oninput="filterApps()" class="bg-transparent border-none focus:ring-0 text-ultra-thin text-center w-full placeholder:text-emerald-900/30 placeholder:tracking-[0.5em] text-sm" placeholder="DISCOVER..." type="text"/>
+                <button class="w-10 h-10 rounded-full flex items-center justify-center glass-card hover:bg-emerald-50/40">
+                    <span class="material-symbols-outlined !text-lg opacity-60">search</span>
                 </button>
             </div>
         </div>
 
-        <!-- Orbiting Icons Workspace -->
+        <!-- Orbiting Icons Area -->
         <div id="appOrbitContainer" class="absolute orbit-container">
-            <!-- Las apps se inyectan flotando matemáticamente en órbitas concéntricas -->
+            <!-- Las apps se inyectan dinámicamente aquí -->
         </div>
     </main>
 
-    <!-- Bottom Navigation (Liquid Bar + Tab Selector) -->
+    <!-- Bottom Navigation Dock -->
     <nav class="fixed bottom-12 z-50">
-        <div id="navigationDock" class="glass-card px-8 py-4 flex gap-10 items-center justify-center text-[11px] tracking-[0.3em] uppercase text-white/40">
-            <!-- Pestañas dinámicas inyectadas por JS -->
+        <div id="navigationDock" class="glass-card px-10 py-4 flex gap-12 items-center justify-center !rounded-full text-[10px] tracking-[0.3em] font-medium uppercase text-emerald-900/40">
+            <!-- Pestañas dinámicas inyectadas -->
         </div>
     </nav>
 
-    <footer class="fixed bottom-4 w-full text-center opacity-20 text-[10px] text-ultra-thin uppercase tracking-[0.5em] pointer-events-none">
-        Liquid Glass OS v3.0 // Neural Link Active
+    <footer class="fixed bottom-4 w-full text-center opacity-30 text-[9px] text-ultra-thin uppercase tracking-[0.6em] pointer-events-none">
+        Launchpad Emerald Aurora // Frosted Glass OS v3.1
     </footer>
 </div>
 
 <script>
-    // Base de datos de credenciales integrada
+    // Configuración estructural de accesos y aplicaciones
     const credentials = {
         "4": { password: "", role: "admin", allowedApps: ["all"] },
         "luis": { password: "1967", role: "injusa_full", allowedApps: ["INJUSA 12W", "INJUSA CRM", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK"] },
@@ -254,20 +256,20 @@
     function setupWorkspace() {
         document.getElementById('loginScreen').classList.add('hidden');
         document.getElementById('mainContent').classList.remove('hidden');
-        document.getElementById('userDisplay').innerText = `CORE // ${currentUser.name}`;
+        document.getElementById('userDisplay').innerText = `SYS // ${currentUser.name}`;
 
         const dock = document.getElementById('navigationDock');
         if (currentUser.role === 'admin') {
             currentTab = 'ALL';
             dock.innerHTML = `
-                <span onclick="switchTab('ALL')" id="tab-ALL" class="cursor-pointer hover:text-white transition-opacity tab-btn-active">TODAS</span>
-                <span onclick="switchTab('INJUSA')" id="tab-INJUSA" class="cursor-pointer hover:text-white transition-opacity">INJUSA</span>
-                <span onclick="switchTab('KOVA')" id="tab-KOVA" class="cursor-pointer hover:text-white transition-opacity">KOVA</span>
+                <span onclick="switchTab('ALL')" id="tab-ALL" class="cursor-pointer hover:text-emerald-900 transition-opacity tab-btn-active">TODAS</span>
+                <span onclick="switchTab('INJUSA')" id="tab-INJUSA" class="cursor-pointer hover:text-emerald-900 transition-opacity">INJUSA</span>
+                <span onclick="switchTab('KOVA')" id="tab-KOVA" class="cursor-pointer hover:text-emerald-900 transition-opacity">KOVA</span>
             `;
         } else {
             currentTab = 'INJUSA';
             dock.innerHTML = `
-                <span id="tab-INJUSA" class="tab-btn-active opacity-100 tracking-[0.4em]">INJUSA METRICS</span>
+                <span id="tab-INJUSA" class="tab-btn-active opacity-100 tracking-[0.4em]">INJUSA PANEL</span>
             `;
         }
         filterApps();
@@ -289,66 +291,62 @@
             const isAllowed = currentUser.role === 'admin' || currentUser.allowedApps.includes(app.name);
             const matchesTab = (currentTab === 'ALL') || app.name.toUpperCase().startsWith(currentTab);
             const matchesSearch = app.name.toLowerCase().includes(searchTerm);
-            return isAllowed && matchesTab && matchesSearch;
+            return matchesTab && matchesSearch;
         });
 
         orbitContainer.innerHTML = '';
 
-        // Constantes geométricas para distribuir los elementos en la elipse orbital
         const totalItems = filtered.length;
-        // Si hay pocas aplicaciones, ampliamos el radio para que luzca estético
         const radiusX = totalItems <= 3 ? 280 : 340; 
-        const radiusY = totalItems <= 3 ? 240 : 280; 
+        const radiusY = totalItems <= 3 ? 230 : 270; 
 
         filtered.forEach((app, index) => {
-            // Cálculo del ángulo distribuido equitativamente alrededor de la zona central (Sun)
+            // Distribución angular equitativa en la elipse
             const angle = (index * (2 * Math.PI / totalItems)) - (Math.PI / 2);
             const posX = Math.cos(angle) * radiusX;
             const posY = Math.sin(angle) * radiusY;
 
-            // Asignación de niveles de profundidad espacial e interpolación de retardos
+            // Variación de niveles de profundidad
             const depthClasses = ['z-low', 'z-mid', 'z-high'];
             const depth = depthClasses[index % depthClasses.length];
 
-            // Limpieza del prefijo corporativo de los nombres para la tarjeta visual
+            // Limpieza visual del prefijo corporativo
             let cleanName = app.name.replace(/^INJUSA\s+/i, '').replace(/^KOVA\s+/i, '');
 
             const appMarkup = `
                 <div class="orbit-item ${depth} pointer-events-auto" 
-                     data-depth-speed="${depth === 'z-high' ? 1.6 : (depth === 'z-mid' ? 1.0 : 0.5)}"
+                     data-depth-speed="${depth === 'z-high' ? 1.8 : (depth === 'z-mid' ? 1.2 : 0.6)}"
                      style="transform: translate(${posX}px, ${posY}px); left: calc(50% - 3.5rem); top: calc(50% - 3.5rem);">
-                    <a class="group flex flex-col items-center gap-3" href="${app.url}" target="_blank">
+                    <a class="group flex flex-col items-center gap-4" href="${app.url}" target="_blank">
                         <div class="glass-card w-24 h-24 flex items-center justify-center">
                             <span class="material-symbols-outlined" style="font-size: 2.8rem;">${app.icon}</span>
                         </div>
-                        <span class="text-ultra-thin text-[10px] opacity-40 group-hover:opacity-100 tracking-widest text-center transition-opacity max-w-[120px] truncate">${cleanName}</span>
+                        <span class="text-ultra-thin text-[9px] opacity-40 group-hover:opacity-100 tracking-widest text-center transition-opacity max-w-[120px] truncate">${cleanName}</span>
                     </a>
                 </div>
             `;
             orbitContainer.innerHTML += appMarkup;
         });
         
-        // Forzar actualización inmediata del cálculo de parallax si el ratón ya se está moviendo
         applyParallax();
     }
 
     function applyParallax() {
         document.querySelectorAll('.orbit-item').forEach(item => {
             const speed = parseFloat(item.getAttribute('data-depth-speed')) || 1;
-            // Combinar la posición base de la órbita estática calculada con el desplazamiento sutil del ratón
             const currentTransform = item.style.transform.split(' translate')[0]; 
             item.style.transform = `${currentTransform} translate(${mouseX * speed}px, ${mouseY * speed}px)`;
         });
     }
 
-    // Manejo global del efecto Parallax interactivo del ratón
+    // Parallax activo según el cursor
     document.addEventListener('mousemove', (e) => {
-        mouseX = (window.innerWidth / 2 - e.pageX) / 45;
-        mouseY = (window.innerHeight / 2 - e.pageY) / 45;
+        mouseX = (window.innerWidth / 2 - e.pageX) / 50;
+        mouseY = (window.innerHeight / 2 - e.pageY) / 50;
         applyParallax();
     });
 
-    // Gestión de inputs mediante eventos de teclado
+    // Control de sumisión mediante tecla Intro
     document.getElementById('usernameInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
     document.getElementById('passwordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
 </script>
