@@ -201,13 +201,11 @@
         <div id="navigationDock" class="glass-card px-10 py-4 flex gap-12 items-center justify-center !rounded-full text-[10px] tracking-[0.3em] font-medium uppercase opacity-80"></div>
     </nav>
 
-    <footer id="footerText" class="fixed bottom-4 w-full text-center opacity-30 text-[9px] text-ultra-thin uppercase tracking-[0.6em] pointer-events-none">
-        Launchpad Emerald Aurora // Frosted Glass OS v3.1
-    </footer>
+    <footer id="footerText" class="fixed bottom-4 w-full text-center opacity-30 text-[9px] text-ultra-thin uppercase tracking-[0.6em] pointer-events-none"></footer>
 </div>
 
 <script>
-    // Paletas de Estilos de las Skins
+    // Repositorio ampliado de Skins (6 variantes)
     const skins = {
         emerald: {
             title: "LaunchPad Aurora",
@@ -252,9 +250,98 @@
                 "--search-shadow": "0 10px 40px rgba(255, 126, 103, 0.1)",
                 "--tab-glow": "0 0 12px rgba(255, 126, 103, 0.4)"
             }
+        },
+        cyberpunk: {
+            title: "LaunchPad Obsidian",
+            footer: "Launchpad Cyberpunk Obsidian // Dark Synth Terminal v3.2",
+            variables: {
+                "--bg-color": "#05050a",
+                "--text-color": "#00f2fe",
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #0d001a 0px, transparent 50%), radial-gradient(at 100% 0%, #002b3d 0px, transparent 50%), radial-gradient(at 100% 100%, #2b003d 0px, transparent 50%), radial-gradient(at 0% 100%, #00f2fe 0px, transparent 40%)",
+                "--mesh-opacity": "0.45",
+                "--card-bg": "rgba(10, 10, 20, 0.5)",
+                "--card-bg-hover": "rgba(15, 15, 35, 0.7)",
+                "--card-border": "rgba(0, 242, 254, 0.2)",
+                "--card-border-hover": "rgba(0, 242, 254, 0.8)",
+                "--card-shadow": "0 8px 32px 0 rgba(0, 0, 0, 0.7)",
+                "--card-hover-shadow": "0 0 30px rgba(0, 242, 254, 0.4), 0 15px 40px rgba(0,0,0,0.8)",
+                "--card-inset": "rgba(0, 242, 254, 0.05)",
+                "--icon-gradient": "linear-gradient(135deg, #00f2fe 0%, #9b51e0 100%)",
+                "--search-bg": "rgba(5, 5, 10, 0.6)",
+                "--search-border": "rgba(0, 242, 254, 0.3)",
+                "--search-shadow": "0 0 25px rgba(0, 242, 254, 0.1)",
+                "--tab-glow": "0 0 15px rgba(0, 242, 254, 0.6)"
+            }
+        },
+        nordic: {
+            title: "LaunchPad Frost",
+            footer: "Launchpad Nordic Frost // Minimal Architectural Matrix",
+            variables: {
+                "--bg-color": "#f8fafc",
+                "--text-color": "#334155",
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #e2e8f0 0px, transparent 60%), radial-gradient(at 100% 0%, #f1f5f9 0px, transparent 50%), radial-gradient(at 100% 100%, #cbd5e1 0px, transparent 50%), radial-gradient(at 0% 100%, #e0f2fe 0px, transparent 50%)",
+                "--mesh-opacity": "0.7",
+                "--card-bg": "rgba(255, 255, 255, 0.4)",
+                "--card-bg-hover": "rgba(255, 255, 255, 0.7)",
+                "--card-border": "rgba(203, 213, 225, 0.6)",
+                "--card-border-hover": "rgba(148, 163, 184, 0.9)",
+                "--card-shadow": "0 10px 30px rgba(15, 23, 42, 0.03)",
+                "--card-hover-shadow": "0 20px 40px rgba(15, 23, 42, 0.08), 0 0 25px rgba(255,255,255,0.9)",
+                "--card-inset": "rgba(255, 255, 255, 0.8)",
+                "--icon-gradient": "linear-gradient(135deg, #1e293b 0%, #64748b 100%)",
+                "--search-bg": "rgba(255, 255, 255, 0.3)",
+                "--search-border": "rgba(203, 213, 225, 0.5)",
+                "--search-shadow": "0 4px 20px rgba(0,0,0,0.02)",
+                "--tab-glow": "0 0 8px rgba(51, 65, 85, 0.2)"
+            }
+        },
+        velvet: {
+            title: "LaunchPad Velvet",
+            footer: "Launchpad Midnight Velvet // Deep Indigo Lounge v3.2",
+            variables: {
+                "--bg-color": "#070412",
+                "--text-color": "#e0aaff",
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #1c103a 0px, transparent 55%), radial-gradient(at 100% 0%, #3c096c 0px, transparent 50%), radial-gradient(at 100% 100%, #7b2cbf 0px, transparent 50%), radial-gradient(at 0% 100%, #240046 0px, transparent 50%)",
+                "--mesh-opacity": "0.65",
+                "--card-bg": "rgba(255, 255, 255, 0.04)",
+                "--card-bg-hover": "rgba(255, 255, 255, 0.09)",
+                "--card-border": "rgba(224, 170, 255, 0.15)",
+                "--card-border-hover": "rgba(224, 170, 255, 0.5)",
+                "--card-shadow": "0 12px 40px rgba(0, 0, 0, 0.6)",
+                "--card-hover-shadow": "0 0 35px rgba(123, 44, 191, 0.4), 0 20px 40px rgba(0,0,0,0.7)",
+                "--card-inset": "rgba(255, 255, 255, 0.02)",
+                "--icon-gradient": "linear-gradient(135deg, #ff9e00 0%, #e0aaff 100%)",
+                "--search-bg": "rgba(10, 5, 25, 0.5)",
+                "--search-border": "rgba(224, 170, 255, 0.2)",
+                "--search-shadow": "0 10px 30px rgba(0,0,0,0.5)",
+                "--tab-glow": "0 0 12px rgba(224, 170, 255, 0.5)"
+            }
+        },
+        tokyo: {
+            title: "LaunchPad Tokyo",
+            footer: "Launchpad Tokyo Tech // Acid Lime Matrix",
+            variables: {
+                "--bg-color": "#0c0d12",
+                "--text-color": "#ccff00",
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #1a1c24 0px, transparent 60%), radial-gradient(at 100% 0%, #222530 0px, transparent 50%), radial-gradient(at 100% 100%, #ccff00 0px, transparent 35%), radial-gradient(at 0% 100%, #111217 0px, transparent 50%)",
+                "--mesh-opacity": "0.45",
+                "--card-bg": "rgba(20, 22, 30, 0.6)",
+                "--card-bg-hover": "rgba(28, 30, 42, 0.8)",
+                "--card-border": "rgba(204, 255, 0, 0.15)",
+                "--card-border-hover": "rgba(204, 255, 0, 0.7)",
+                "--card-shadow": "0 8px 32px rgba(0,0,0,0.6)",
+                "--card-hover-shadow": "0 0 30px rgba(204, 255, 0, 0.35), 0 15px 40px rgba(0,0,0,0.8)",
+                "--card-inset": "rgba(204, 255, 0, 0.02)",
+                "--icon-gradient": "linear-gradient(135deg, #ccff00 0%, #00e5ff 100%)",
+                "--search-bg": "rgba(12, 13, 18, 0.7)",
+                "--search-border": "rgba(204, 255, 0, 0.25)",
+                "--search-shadow": "0 0 20px rgba(0,0,0,0.5)",
+                "--tab-glow": "0 0 14px rgba(204, 255, 0, 0.5)"
+            }
         }
     };
 
+    const skinOrder = ['emerald', 'sunset', 'cyberpunk', 'nordic', 'velvet', 'tokyo'];
     let activeSkin = localStorage.getItem('launchpad-skin') || 'emerald';
 
     function applySkin(skinKey) {
@@ -271,15 +358,16 @@
     }
 
     function toggleSkin() {
-        activeSkin = activeSkin === 'emerald' ? 'sunset' : 'emerald';
+        let currentIndex = skinOrder.indexOf(activeSkin);
+        let nextIndex = (currentIndex + 1) % skinOrder.length;
+        activeSkin = skinOrder[nextIndex];
         applySkin(activeSkin);
-        filterApps(); // Re-renderizar iconos con sus nuevos degradados
+        filterApps(); 
     }
 
-    // Inicialización de la skin por defecto
     applySkin(activeSkin);
 
-    // Estructuración de accesos y aplicaciones corporativas
+    // Sistema de usuarios y permisos
     const credentials = {
         "4": { password: "", role: "admin", allowedApps: ["all"] },
         "luis": { password: "1967", role: "injusa_full", allowedApps: ["INJUSA 12W", "INJUSA CRM", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK"] },
