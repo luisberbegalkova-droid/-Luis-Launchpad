@@ -10,30 +10,28 @@
           darkMode: "class",
           theme: {
             extend: {
-              "colors": {
-                "primary": "#065f46", // Forest Green
-                "surface": "rgba(236, 253, 245, 0.4)", // Mint Tint
-                "on-surface": "#064e3b",
-                "background": "#f0fdf4"
-              },
-              "fontFamily": {
-                "display": ["Inter", "sans-serif"],
-                "body": ["Inter", "sans-serif"]
+              fontFamily: {
+                display: ["Inter", "sans-serif"],
+                body: ["Inter", "sans-serif"]
               }
             },
           },
         }
     </script>
+    <style id="skinStyles">
+        /* Las variables dinámicas CSS se inyectan a través de JavaScript al cambiar de Skin */
+    </style>
     <style>
         body {
-            background: #f0fdf4;
+            background: var(--bg-color);
             overflow: hidden;
             font-family: 'Inter', sans-serif;
             font-weight: 100;
-            color: #064e3b;
+            color: var(--text-color);
+            transition: background 0.8s ease, color 0.8s ease;
         }
 
-        /* Animated Mesh Gradient Background - Emerald Aurora Theme */
+        /* Animated Mesh Gradient Background */
         .mesh-bg {
             position: fixed;
             top: 0;
@@ -41,13 +39,11 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: radial-gradient(at 0% 0%, #065f46 0px, transparent 50%),
-                        radial-gradient(at 100% 0%, #a7f3d0 0px, transparent 50%),
-                        radial-gradient(at 100% 100%, #34d399 0px, transparent 50%),
-                        radial-gradient(at 0% 100%, #ecfdf5 0px, transparent 50%);
+            background: var(--mesh-gradient);
             filter: blur(80px);
-            opacity: 0.6;
+            opacity: var(--mesh-opacity);
             animation: mesh-move 25s ease infinite alternate;
+            transition: background 0.8s ease, opacity 0.8s ease;
         }
 
         @keyframes mesh-move {
@@ -55,24 +51,22 @@
             100% { transform: scale(1.1) translate(1%, 1%); }
         }
 
-        /* Frosted Glass Buttons - Emerald Variant */
+        /* Frosted Glass Buttons */
         .glass-card {
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(20px) saturate(160%);
-            -webkit-backdrop-filter: blur(20px) saturate(160%);
-            border: 1px solid rgba(167, 243, 208, 0.5);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px) saturate(170%);
+            -webkit-backdrop-filter: blur(20px) saturate(170%);
+            border: 1px solid var(--card-border);
             border-radius: 2rem;
-            box-shadow: 0 8px 32px 0 rgba(6, 95, 70, 0.1),
-                        inset 0 0 20px rgba(255, 255, 255, 0.5);
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: var(--card-shadow), inset 0 0 20px var(--card-inset);
+            transition: background 0.5s ease, border 0.5s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s ease;
         }
 
         .glass-card:hover {
-            background: rgba(255, 255, 255, 0.45);
-            box-shadow: 0 20px 40px rgba(6, 95, 70, 0.15),
-                        0 0 30px rgba(16, 185, 129, 0.3);
+            background: var(--card-bg-hover);
+            box-shadow: var(--card-hover-shadow);
             transform: translateY(-12px) scale(1.08);
-            border: 1px solid rgba(52, 211, 153, 0.8);
+            border: 1px solid var(--card-border-hover);
         }
 
         /* Orbit Layout Logic */
@@ -96,40 +90,41 @@
             50% { margin-top: -20px; }
         }
 
-        /* Icon Z-Levels */
+        /* Depth Layers */
         .z-low { animation-delay: 0.5s; z-index: 10; }
         .z-mid { animation-delay: -1.5s; z-index: 20; }
         .z-high { animation-delay: -3.5s; z-index: 30; }
 
-        /* Elegant Thin Typography */
         .text-ultra-thin {
             font-weight: 200;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: #064e3b;
+            color: var(--text-color);
+            transition: color 0.8s ease;
         }
 
-        /* Material Symbols Styling - Emerald Gradient */
+        /* Material Symbols Gradient Text */
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 48;
             font-size: 3rem;
-            background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
+            background: var(--icon-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Glowing Crystal Search Bar - Lime/Emerald Aura */
+        /* Glowing Central Search Bar */
         .glass-search {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--search-bg);
             backdrop-filter: blur(50px);
-            border: 1px solid rgba(167, 243, 208, 0.4);
-            box-shadow: 0 10px 40px rgba(6, 95, 70, 0.05);
+            border: 1px solid var(--search-border);
+            box-shadow: var(--search-shadow);
+            transition: background 0.8s ease, border 0.8s ease, w 0.5s ease, margin 0.5s ease;
         }
 
         .tab-btn-active {
             opacity: 1 !important;
             font-weight: 400;
-            text-shadow: 0 0 12px rgba(6, 95, 70, 0.4);
+            text-shadow: var(--tab-glow);
         }
     </style>
 </head>
@@ -140,25 +135,25 @@
 <div id="loginScreen" class="fixed inset-0 z-[100] flex items-center justify-center px-4 backdrop-blur-md">
     <div class="glass-card w-full max-w-sm p-10 flex flex-col gap-8">
         <div class="text-center">
-            <h1 class="text-ultra-thin text-2xl tracking-[0.4em] text-emerald-900">LAUNCHPAD</h1>
-            <p class="text-[9px] text-emerald-800/50 mt-2 tracking-[0.3em] uppercase font-medium">Security Gate // Authorized Personnel</p>
+            <h1 class="text-ultra-thin text-2xl tracking-[0.4em]">LAUNCHPAD</h1>
+            <p class="text-[9px] opacity-60 mt-2 tracking-[0.3em] uppercase font-medium">Security Gate // System Authentication</p>
         </div>
         
         <div class="flex flex-col gap-5">
             <div>
-                <label class="block text-[10px] uppercase tracking-[0.2em] text-emerald-800 font-semibold mb-2">user_identity</label>
-                <input id="usernameInput" type="text" class="w-full bg-white/20 border border-emerald-200/40 rounded-2xl px-4 py-3 outline-none focus:border-emerald-500/50 transition-all text-emerald-900 font-normal placeholder:text-emerald-900/20 text-sm tracking-widest" placeholder="USER ID">
+                <label class="block text-[10px] uppercase tracking-[0.2em] font-semibold mb-2 opacity-80">user_identity</label>
+                <input id="usernameInput" type="text" class="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 outline-none focus:border-white/40 transition-all text-current font-normal placeholder:opacity-20 text-sm tracking-widest" style="background: rgba(255,255,255,0.15);" placeholder="USER ID">
             </div>
             <div>
-                <label class="block text-[10px] uppercase tracking-[0.2em] text-emerald-800 font-semibold mb-2">access_pass</label>
-                <input id="passwordInput" type="password" class="w-full bg-white/20 border border-emerald-200/40 rounded-2xl px-4 py-3 outline-none focus:border-emerald-500/50 transition-all text-emerald-900 font-normal placeholder:text-emerald-900/20 text-sm tracking-widest" placeholder="••••••••">
+                <label class="block text-[10px] uppercase tracking-[0.2em] font-semibold mb-2 opacity-80">access_pass</label>
+                <input id="passwordInput" type="password" class="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 outline-none focus:border-white/40 transition-all text-current font-normal placeholder:opacity-20 text-sm tracking-widest" style="background: rgba(255,255,255,0.15);" placeholder="••••••••">
             </div>
             <div id="loginError" class="hidden text-[10px] text-red-700 tracking-wider font-semibold uppercase bg-red-100/40 border border-red-200/50 rounded-xl px-4 py-2.5 text-center">
                 Acceso denegado. Revise las credenciales.
             </div>
         </div>
 
-        <button onclick="handleLogin()" class="w-full glass-card hover:bg-white/40 text-emerald-900 text-xs font-semibold py-4 rounded-2xl uppercase tracking-[0.2em] transition-all">
+        <button onclick="handleLogin()" class="w-full glass-card hover:bg-white/20 text-xs font-semibold py-4 rounded-2xl uppercase tracking-[0.2em] transition-all">
             Verify_
         </button>
     </div>
@@ -169,11 +164,18 @@
     
     <!-- Top Bar -->
     <header class="fixed top-0 w-full px-12 py-8 flex justify-between items-center z-50">
-        <div class="text-ultra-thin text-xl tracking-[0.5em] opacity-90">LaunchPad Aurora</div>
-        <div class="flex items-center gap-6 text-[10px] tracking-widest font-medium text-emerald-800/60">
-            <span id="userDisplay" class="uppercase text-emerald-900">IDENTITY: --</span>
-            <span class="w-[1px] h-3 bg-emerald-800/20"></span>
-            <span onclick="handleLogout()" class="cursor-pointer hover:text-red-700 transition-colors uppercase flex items-center gap-1 font-semibold">
+        <div class="flex items-center gap-6">
+            <div id="logoTitle" class="text-ultra-thin text-xl tracking-[0.5em] opacity-90">LaunchPad Aurora</div>
+            <!-- CONMUTADOR DE SKIN -->
+            <button onclick="toggleSkin()" class="glass-card w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/20" title="Cambiar Apariencia (Skin)">
+                <span class="material-symbols-outlined !text-sm opacity-70" style="background:none;-webkit-text-fill-color:initial;color:inherit;">palette</span>
+            </button>
+        </div>
+        
+        <div class="flex items-center gap-6 text-[10px] tracking-widest font-medium opacity-80">
+            <span id="userDisplay" class="text-current">IDENTITY: --</span>
+            <span class="w-[1px] h-3 bg-current opacity-20"></span>
+            <span onclick="handleLogout()" class="cursor-pointer hover:opacity-100 text-red-600 transition-colors uppercase flex items-center gap-1 font-semibold">
                 <span class="material-symbols-outlined !text-xs opacity-80" style="background:none;-webkit-text-fill-color:initial;color:inherit;">logout</span> Cerrar Sesión
             </span>
         </div>
@@ -183,33 +185,101 @@
         <!-- Search Bar (Central Sun) -->
         <div class="z-50 w-96 relative">
             <div class="glass-search p-1.5 rounded-full flex items-center pr-2 group transition-all duration-700 focus-within:w-[460px] focus-within:-ml-[32px]">
-                <input id="searchInput" oninput="filterApps()" class="bg-transparent border-none focus:ring-0 text-ultra-thin text-center w-full placeholder:text-emerald-900/30 placeholder:tracking-[0.5em] text-sm" placeholder="DISCOVER..." type="text"/>
-                <button class="w-10 h-10 rounded-full flex items-center justify-center glass-card hover:bg-emerald-50/40">
+                <input id="searchInput" oninput="filterApps()" class="bg-transparent border-none focus:ring-0 text-ultra-thin text-center w-full placeholder:opacity-30 text-sm" placeholder="DISCOVER..." type="text" style="color: inherit;"/>
+                <button class="w-10 h-10 rounded-full flex items-center justify-center glass-card hover:bg-white/20">
                     <span class="material-symbols-outlined !text-lg opacity-60">search</span>
                 </button>
             </div>
         </div>
 
         <!-- Orbiting Icons Area -->
-        <div id="appOrbitContainer" class="absolute orbit-container">
-            <!-- Las apps se inyectan dinámicamente aquí -->
-        </div>
+        <div id="appOrbitContainer" class="absolute orbit-container"></div>
     </main>
 
     <!-- Bottom Navigation Dock -->
     <nav class="fixed bottom-12 z-50">
-        <div id="navigationDock" class="glass-card px-10 py-4 flex gap-12 items-center justify-center !rounded-full text-[10px] tracking-[0.3em] font-medium uppercase text-emerald-900/40">
-            <!-- Pestañas dinámicas inyectadas -->
-        </div>
+        <div id="navigationDock" class="glass-card px-10 py-4 flex gap-12 items-center justify-center !rounded-full text-[10px] tracking-[0.3em] font-medium uppercase opacity-80"></div>
     </nav>
 
-    <footer class="fixed bottom-4 w-full text-center opacity-30 text-[9px] text-ultra-thin uppercase tracking-[0.6em] pointer-events-none">
+    <footer id="footerText" class="fixed bottom-4 w-full text-center opacity-30 text-[9px] text-ultra-thin uppercase tracking-[0.6em] pointer-events-none">
         Launchpad Emerald Aurora // Frosted Glass OS v3.1
     </footer>
 </div>
 
 <script>
-    // Configuración estructural de accesos y aplicaciones
+    // Paletas de Estilos de las Skins
+    const skins = {
+        emerald: {
+            title: "LaunchPad Aurora",
+            footer: "Launchpad Emerald Aurora // Frosted Glass OS v3.1",
+            variables: {
+                "--bg-color": "#f0fdf4",
+                "--text-color": "#064e3b",
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #065f46 0px, transparent 50%), radial-gradient(at 100% 0%, #a7f3d0 0px, transparent 50%), radial-gradient(at 100% 100%, #34d399 0px, transparent 50%), radial-gradient(at 0% 100%, #ecfdf5 0px, transparent 50%)",
+                "--mesh-opacity": "0.6",
+                "--card-bg": "rgba(255, 255, 255, 0.3)",
+                "--card-bg-hover": "rgba(255, 255, 255, 0.45)",
+                "--card-border": "rgba(167, 243, 208, 0.5)",
+                "--card-border-hover": "rgba(52, 211, 153, 0.8)",
+                "--card-shadow": "0 8px 32px 0 rgba(6, 95, 70, 0.1)",
+                "--card-hover-shadow": "0 20px 40px rgba(6, 95, 70, 0.15), 0 0 30px rgba(16, 185, 129, 0.3)",
+                "--card-inset": "rgba(255, 255, 255, 0.5)",
+                "--icon-gradient": "linear-gradient(135deg, #065f46 0%, #10b981 100%)",
+                "--search-bg": "rgba(255, 255, 255, 0.15)",
+                "--search-border": "rgba(167, 243, 208, 0.4)",
+                "--search-shadow": "0 10px 40px rgba(6, 95, 70, 0.05)",
+                "--tab-glow": "0 0 12px rgba(6, 95, 70, 0.4)"
+            }
+        },
+        sunset: {
+            title: "LaunchPad Crystal",
+            footer: "Launchpad Sunset Quartz Edition // Frosted Glass OS v3.1",
+            variables: {
+                "--bg-color": "#fff5f2",
+                "--text-color": "#6b4e71",
+                "--mesh-gradient": "radial-gradient(at 0% 0%, #ffc0cb 0px, transparent 50%), radial-gradient(at 100% 0%, #ffd06f 0px, transparent 50%), radial-gradient(at 100% 100%, #ff8e72 0px, transparent 50%), radial-gradient(at 0% 100%, #9b7ba3 0px, transparent 50%)",
+                "--mesh-opacity": "0.8",
+                "--card-bg": "rgba(255, 255, 255, 0.3)",
+                "--card-bg-hover": "rgba(255, 255, 255, 0.45)",
+                "--card-border": "rgba(255, 255, 255, 0.5)",
+                "--card-border-hover": "rgba(255, 255, 255, 0.8)",
+                "--card-shadow": "0 8px 32px 0 rgba(139, 93, 107, 0.15)",
+                "--card-hover-shadow": "0 20px 40px rgba(255, 126, 103, 0.2), 0 0 30px rgba(255, 255, 255, 0.6)",
+                "--card-inset": "rgba(255, 230, 220, 0.4)",
+                "--icon-gradient": "linear-gradient(135deg, #6b4e71 0%, #ff7e67 100%)",
+                "--search-bg": "rgba(255, 255, 255, 0.15)",
+                "--search-border": "rgba(255, 255, 255, 0.4)",
+                "--search-shadow": "0 10px 40px rgba(255, 126, 103, 0.1)",
+                "--tab-glow": "0 0 12px rgba(255, 126, 103, 0.4)"
+            }
+        }
+    };
+
+    let activeSkin = localStorage.getItem('launchpad-skin') || 'emerald';
+
+    function applySkin(skinKey) {
+        const skin = skins[skinKey];
+        let styleContent = ":root {\n";
+        for (let [varName, varValue] of Object.entries(skin.variables)) {
+            styleContent += `${varName}: ${varValue};\n`;
+        }
+        styleContent += "}";
+        document.getElementById('skinStyles').innerHTML = styleContent;
+        document.getElementById('logoTitle').innerText = skin.title;
+        document.getElementById('footerText').innerText = skin.footer;
+        localStorage.setItem('launchpad-skin', skinKey);
+    }
+
+    function toggleSkin() {
+        activeSkin = activeSkin === 'emerald' ? 'sunset' : 'emerald';
+        applySkin(activeSkin);
+        filterApps(); // Re-renderizar iconos con sus nuevos degradados
+    }
+
+    // Inicialización de la skin por defecto
+    applySkin(activeSkin);
+
+    // Estructuración de accesos y aplicaciones corporativas
     const credentials = {
         "4": { password: "", role: "admin", allowedApps: ["all"] },
         "luis": { password: "1967", role: "injusa_full", allowedApps: ["INJUSA 12W", "INJUSA CRM", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK"] },
@@ -262,9 +332,9 @@
         if (currentUser.role === 'admin') {
             currentTab = 'ALL';
             dock.innerHTML = `
-                <span onclick="switchTab('ALL')" id="tab-ALL" class="cursor-pointer hover:text-emerald-900 transition-opacity tab-btn-active">TODAS</span>
-                <span onclick="switchTab('INJUSA')" id="tab-INJUSA" class="cursor-pointer hover:text-emerald-900 transition-opacity">INJUSA</span>
-                <span onclick="switchTab('KOVA')" id="tab-KOVA" class="cursor-pointer hover:text-emerald-900 transition-opacity">KOVA</span>
+                <span onclick="switchTab('ALL')" id="tab-ALL" class="cursor-pointer hover:opacity-100 opacity-40 transition-opacity tab-btn-active">TODAS</span>
+                <span onclick="switchTab('INJUSA')" id="tab-INJUSA" class="cursor-pointer hover:opacity-100 opacity-40 transition-opacity">INJUSA</span>
+                <span onclick="switchTab('KOVA')" id="tab-KOVA" class="cursor-pointer hover:opacity-100 opacity-40 transition-opacity">KOVA</span>
             `;
         } else {
             currentTab = 'INJUSA';
@@ -301,16 +371,13 @@
         const radiusY = totalItems <= 3 ? 230 : 270; 
 
         filtered.forEach((app, index) => {
-            // Distribución angular equitativa en la elipse
             const angle = (index * (2 * Math.PI / totalItems)) - (Math.PI / 2);
             const posX = Math.cos(angle) * radiusX;
             const posY = Math.sin(angle) * radiusY;
 
-            // Variación de niveles de profundidad
             const depthClasses = ['z-low', 'z-mid', 'z-high'];
             const depth = depthClasses[index % depthClasses.length];
 
-            // Limpieza visual del prefijo corporativo
             let cleanName = app.name.replace(/^INJUSA\s+/i, '').replace(/^KOVA\s+/i, '');
 
             const appMarkup = `
@@ -321,7 +388,7 @@
                         <div class="glass-card w-24 h-24 flex items-center justify-center">
                             <span class="material-symbols-outlined" style="font-size: 2.8rem;">${app.icon}</span>
                         </div>
-                        <span class="text-ultra-thin text-[9px] opacity-40 group-hover:opacity-100 tracking-widest text-center transition-opacity max-w-[120px] truncate">${cleanName}</span>
+                        <span class="text-ultra-thin text-[9px] opacity-40 group-hover:opacity-100 tracking-widest text-center transition-opacity max-w-[120px] truncate" style="color: inherit;">${cleanName}</span>
                     </a>
                 </div>
             `;
@@ -339,14 +406,12 @@
         });
     }
 
-    // Parallax activo según el cursor
     document.addEventListener('mousemove', (e) => {
         mouseX = (window.innerWidth / 2 - e.pageX) / 50;
         mouseY = (window.innerHeight / 2 - e.pageY) / 50;
         applyParallax();
     });
 
-    // Control de sumisión mediante tecla Intro
     document.getElementById('usernameInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
     document.getElementById('passwordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
 </script>
