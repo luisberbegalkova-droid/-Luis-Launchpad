@@ -1,532 +1,520 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html class="dark" lang="es">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              fontFamily: {
-                display: ["Inter", "sans-serif"],
-                body: ["Inter", "sans-serif"]
-              }
-            },
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>LaunchPad - Immersive OS</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#a7c8ff',
+            'on-surface': '#e5e2e1',
+            'on-surface-variant': '#c1c6d5',
+            surface: '#131313',
+            'surface-container': '#201f1f'
           },
+          spacing: {
+            'margin-desktop': '64px',
+            'card-gap': '20px'
+          }
         }
-    </script>
-    <style id="skinStyles">
-        /* Las variables dinámicas CSS se inyectan a través de JavaScript al cambiar de Skin */
-    </style>
-    <style>
-        body {
-            background: var(--bg-color);
-            overflow: hidden;
-            font-family: 'Inter', sans-serif;
-            font-weight: 100;
-            color: var(--text-color);
-            transition: background 0.8s ease, color 0.8s ease;
-        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --active-accent: #a7c8ff;
+    }
 
-        /* Animated Mesh Gradient Background */
-        .mesh-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: var(--mesh-gradient);
-            filter: blur(80px);
-            opacity: var(--mesh-opacity);
-            animation: mesh-move 25s ease infinite alternate;
-            transition: background 0.8s ease, opacity 0.8s ease;
-        }
+    * { box-sizing: border-box; }
 
-        @keyframes mesh-move {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1) translate(1%, 1%); }
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #050505;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
 
-        /* Frosted Glass Buttons */
-        .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px) saturate(170%);
-            -webkit-backdrop-filter: blur(20px) saturate(170%);
-            border: 1px solid var(--card-border);
-            border-radius: 2rem;
-            box-shadow: var(--card-shadow), inset 0 0 20px var(--card-inset);
-            transition: background 0.5s ease, border 0.5s ease, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s ease;
-        }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+    }
 
-        /* Efecto flotación individual adaptado al Grid lineal */
-        .app-item-wrapper {
-            animation: float 8s ease-in-out infinite;
-            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        .app-item-wrapper:hover {
-            transform: translateY(-12px) scale(1.05) !important;
-        }
+    .full-bleed-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      transition: opacity 0.8s ease-in-out, transform 1.2s ease-out, filter 0.8s ease;
+      background-size: cover;
+      background-position: center;
+      filter: saturate(1.05) contrast(1.02);
+    }
 
-        @keyframes float {
-            0%, 100% { margin-top: 0px; }
-            50% { margin-top: -15px; }
-        }
+    .ambient-orb {
+      position: fixed;
+      inset: -20%;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(167, 200, 255, 0.22), transparent 30%),
+        radial-gradient(circle at 85% 65%, rgba(16, 185, 129, 0.18), transparent 28%),
+        radial-gradient(circle at 55% 15%, rgba(255, 255, 255, 0.08), transparent 22%);
+      filter: blur(70px);
+      animation: drift 18s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
 
-        /* Depth Layers */
-        .z-low { animation-delay: 0s; }
-        .z-mid { animation-delay: -2.5s; }
-        .z-high { animation-delay: -5s; }
+    @keyframes drift {
+      from { transform: translate3d(-1%, -1%, 0) scale(1); }
+      to { transform: translate3d(2%, 2%, 0) scale(1.08); }
+    }
 
-        .text-ultra-thin {
-            font-weight: 200;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--text-color);
-            transition: color 0.8s ease;
-        }
+    .vignette {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at center, transparent 15%, rgba(0,0,0,0.48) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, transparent 22%, transparent 58%, rgba(0,0,0,0.86) 100%),
+        linear-gradient(to right, rgba(0,0,0,0.42) 0%, transparent 28%, transparent 100%);
+    }
 
-        /* Material Symbols Gradient Text */
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 48;
-            font-size: 3rem;
-            background: var(--icon-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    .liquid-glass {
+      background: rgba(255, 255, 255, 0.035);
+      backdrop-filter: blur(25px) saturate(160%);
+      -webkit-backdrop-filter: blur(25px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255,255,255,0.06);
+    }
 
-        /* Glowing Central Search Bar */
-        .glass-search {
-            background: var(--search-bg);
-            backdrop-filter: blur(50px);
-            border: 1px solid var(--search-border);
-            box-shadow: var(--search-shadow);
-            transition: background 0.8s ease, border 0.8s ease, width 0.4s ease;
-        }
+    .liquid-glass-active {
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.34);
+      box-shadow: 0 0 46px color-mix(in srgb, var(--active-accent), transparent 72%), 0 18px 50px rgba(0,0,0,0.42);
+      transform: scale(1.05) translateY(-8px);
+    }
 
-        .tab-btn-active {
-            opacity: 1 !important;
-            font-weight: 400;
-            text-shadow: var(--tab-glow);
-        }
+    .card-transition {
+      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
 
-        /* Control de despliegue de menús */
-        .dropdown-menu {
-            transform: translateY(-10px);
-            opacity: 0;
-            pointer-events: none;
-            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.3s ease;
-        }
-        .dropdown-menu.show {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: auto;
-        }
-    </style>
+    .nav-minimal {
+      background: linear-gradient(to bottom, rgba(0,0,0,0.48) 0%, transparent 100%);
+    }
+
+    .sidebar-glass {
+      background: rgba(0, 0, 0, 0.14);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .login-shell {
+      background:
+        radial-gradient(circle at top left, rgba(167, 200, 255, 0.17), transparent 35%),
+        rgba(255, 255, 255, 0.045);
+      backdrop-filter: blur(34px) saturate(160%);
+      -webkit-backdrop-filter: blur(34px) saturate(160%);
+      border: 1px solid rgba(255,255,255,0.13);
+      box-shadow: 0 30px 90px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .soft-input {
+      background: rgba(255,255,255,0.055) !important;
+      border: 1px solid rgba(255,255,255,0.11) !important;
+      color: white !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    .soft-input:focus {
+      border-color: rgba(167, 200, 255, 0.55) !important;
+      box-shadow: 0 0 0 4px rgba(167, 200, 255, 0.08) !important;
+    }
+
+    .app-card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.76;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .app-card:hover .app-card-image,
+    .liquid-glass-active .app-card-image {
+      opacity: 0.95;
+      transform: scale(1.04);
+    }
+
+    .app-icon-fallback {
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,255,255,0.22), transparent 30%),
+        linear-gradient(135deg, rgba(167,200,255,0.18), rgba(255,255,255,0.035));
+    }
+
+    .scroll-row {
+      scrollbar-width: none;
+    }
+    .scroll-row::-webkit-scrollbar { display: none; }
+
+    .tab-active {
+      color: white !important;
+      border-bottom-color: rgba(255,255,255,0.65) !important;
+    }
+
+    .quick-action-active {
+      color: var(--active-accent) !important;
+      transform: scale(1.08);
+    }
+
+    .fade-slide {
+      animation: fadeSlide 0.45s ease both;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      body { overflow-y: auto; height: auto; min-height: 100vh; }
+      .desktop-left-space { margin-left: 0 !important; }
+      .mobile-hide { display: none !important; }
+      main { padding-left: 24px !important; padding-right: 24px !important; padding-bottom: 40px !important; justify-content: flex-start !important; padding-top: 112px !important; }
+      header { padding-left: 24px !important; padding-right: 24px !important; }
+      .app-reel { flex-wrap: wrap; align-items: stretch; }
+      .featured-card { width: min(100%, 360px) !important; height: 210px !important; }
+      .regular-card { width: 150px !important; height: 150px !important; }
+    }
+  </style>
 </head>
-<body class="flex flex-col items-center justify-start min-h-screen select-none">
-<div class="mesh-bg"></div>
+<body class="text-on-surface select-none">
+  <div class="full-bleed-bg" id="mainBg"></div>
+  <div class="ambient-orb"></div>
+  <div class="vignette"></div>
 
-<!-- PORTAL DE ACCESO CRISTALINO -->
-<div id="loginScreen" class="fixed inset-0 z-[100] flex items-center justify-center px-4 backdrop-blur-md">
-    <div class="glass-card w-full max-w-sm p-10 flex flex-col gap-8">
-        <div class="text-center">
-            <h1 class="text-ultra-thin text-2xl tracking-[0.4em]">LAUNCHPAD</h1>
-            <p class="text-[9px] opacity-60 mt-2 tracking-[0.3em] uppercase font-medium">Security Gate // System Authentication</p>
+  <section id="loginScreen" class="fixed inset-0 z-[100] flex items-center justify-center px-5">
+    <div class="login-shell w-full max-w-md rounded-[2rem] p-9 fade-slide">
+      <div class="mb-9">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-10 h-10 rounded-2xl liquid-glass flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-2xl">dashboard_customize</span>
+          </div>
+          <div>
+            <p class="text-[10px] uppercase tracking-[0.34em] text-white/45 font-bold">Immersive OS</p>
+            <h1 class="text-3xl font-extrabold tracking-tight text-white">LaunchPad</h1>
+          </div>
         </div>
-        
-        <div class="flex flex-col gap-5">
-            <div>
-                <label class="block text-[10px] uppercase tracking-[0.2em] font-semibold mb-2 opacity-80">user_identity</label>
-                <input id="usernameInput" type="text" class="w-full border border-white/20 rounded-2xl px-4 py-3 outline-none focus:border-white/40 transition-all text-current font-normal placeholder:opacity-20 text-sm tracking-widest" style="background: rgba(255,255,255,0.15);" placeholder="USER ID">
-            </div>
-            <div>
-                <label class="block text-[10px] uppercase tracking-[0.2em] font-semibold mb-2 opacity-80">access_pass</label>
-                <input id="passwordInput" type="password" class="w-full border border-white/20 rounded-2xl px-4 py-3 outline-none focus:border-white/40 transition-all text-current font-normal placeholder:opacity-20 text-sm tracking-widest" style="background: rgba(255,255,255,0.15);" placeholder="••••••••">
-            </div>
-            <div id="loginError" class="hidden text-[10px] text-red-700 tracking-wider font-semibold uppercase bg-red-100/40 border border-red-200/50 rounded-xl px-4 py-2.5 text-center">
-                Acceso denegado. Revise las credenciales.
-            </div>
-        </div>
+        <p class="text-sm text-white/45 leading-relaxed">Accede a tus módulos de INJUSA y KOVA con una interfaz tipo consola, fondo dinámico y permisos por usuario.</p>
+      </div>
 
-        <button onclick="handleLogin()" class="w-full glass-card hover:bg-white/20 text-xs font-semibold py-4 rounded-2xl uppercase tracking-[0.2em] transition-all">
-            Verify_
-        </button>
+      <div class="flex flex-col gap-4">
+        <label class="block">
+          <span class="block text-[10px] uppercase tracking-[0.25em] font-bold text-white/45 mb-2">user_identity</span>
+          <input id="usernameInput" type="text" autocomplete="username" class="soft-input w-full rounded-2xl px-4 py-3 text-sm tracking-widest placeholder:text-white/20" placeholder="USER ID"/>
+        </label>
+        <label class="block">
+          <span class="block text-[10px] uppercase tracking-[0.25em] font-bold text-white/45 mb-2">access_pass</span>
+          <input id="passwordInput" type="password" autocomplete="current-password" class="soft-input w-full rounded-2xl px-4 py-3 text-sm tracking-widest placeholder:text-white/20" placeholder="••••••••"/>
+        </label>
+        <div id="loginError" class="hidden rounded-2xl border border-red-300/20 bg-red-500/10 px-4 py-3 text-center text-[10px] font-bold uppercase tracking-[0.22em] text-red-200">Acceso denegado. Revise las credenciales.</div>
+        <button onclick="handleLogin()" class="liquid-glass card-transition mt-2 rounded-2xl py-4 text-xs font-extrabold uppercase tracking-[0.28em] text-white/85 hover:text-white hover:bg-white/10">Verify_</button>
+      </div>
     </div>
-</div>
+  </section>
 
-<!-- CONTENEDOR DE LA INTERFAZ PRINCIPAL -->
-<div id="mainContent" class="hidden w-full flex-grow flex flex-col items-center">
-    
-    <!-- Header Fijo Superior -->
-    <header class="w-full px-12 py-6 flex justify-between items-center z-50">
-        <div class="flex items-center gap-6 relative">
-            <div id="logoTitle" class="text-ultra-thin text-xl tracking-[0.5em] opacity-90">LaunchPad</div>
-            
-            <div class="relative">
-                <button onclick="toggleSkinMenu(event)" class="glass-card w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/20" title="Seleccionar Apariencia (Skin)">
-                    <span class="material-symbols-outlined !text-sm opacity-70" style="background:none;-webkit-text-fill-color:initial;color:inherit;">palette</span>
-                </button>
-                
-                <div id="skinDropdown" class="dropdown-menu absolute left-0 mt-3 w-56 glass-card !rounded-2xl p-2 z-[60] flex flex-col gap-1 text-[10px] font-medium tracking-widest uppercase shadow-lg">
-                    <button onclick="selectSkin('emerald')" id="opt-emerald" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Emerald Aurora</span><span class="dot hidden">•</span></button>
-                    <button onclick="selectSkin('sunset')" id="opt-sunset" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Sunset Quartz</span><span class="dot hidden">•</span></button>
-                    <button onclick="selectSkin('crimson')" id="opt-crimson" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Crimson Pop</span><span class="dot hidden">•</span></button>
-                    <button onclick="selectSkin('amber')" id="opt-amber" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Amber Breeze</span><span class="dot hidden">•</span></button>
-                    <button onclick="selectSkin('nordic')" id="opt-nordic" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-white/10 transition-colors flex items-center justify-between"><span>Nordic Frost</span><span class="dot hidden">•</span></button>
-                </div>
-            </div>
-        </div>
+  <section id="mainContent" class="hidden min-h-screen">
+    <header class="nav-minimal fixed top-0 z-50 flex w-full items-center justify-between px-margin-desktop py-6">
+      <div class="flex items-center gap-12">
+        <button class="flex items-center gap-3 text-left" onclick="switchTab('ALL')" title="Volver a todas">
+          <span class="font-extrabold text-2xl tracking-tighter text-white/85">LP</span>
+          <span class="hidden sm:block text-[10px] uppercase tracking-[0.32em] text-white/40 font-bold">LaunchPad</span>
+        </button>
+        <nav id="topTabs" class="hidden md:flex gap-8"></nav>
+      </div>
 
-        <!-- Buscador Integrado en la Zona Superior -->
-        <div class="hidden md:block w-96 max-w-lg relative">
-            <div class="glass-search p-1 rounded-full flex items-center pr-2 group transition-all duration-500 focus-within:w-[440px] focus-within:-ml-[22px]">
-                <input id="searchInput" oninput="filterApps()" class="bg-transparent border-none focus:ring-0 text-ultra-thin text-center w-full placeholder:opacity-30 text-xs tracking-wider" placeholder="EXPLORE SYSTEMS..." type="text" style="color: inherit;"/>
-                <div class="w-8 h-8 rounded-full flex items-center justify-center glass-card">
-                    <span class="material-symbols-outlined !text-base opacity-60">search</span>
-                </div>
-            </div>
+      <div class="flex items-center gap-5 md:gap-8">
+        <div class="hidden lg:flex liquid-glass rounded-full px-4 py-2 items-center gap-2 min-w-[280px]">
+          <span class="material-symbols-outlined text-[18px] text-white/40">search</span>
+          <input id="searchInput" oninput="filterApps()" class="w-full bg-transparent border-none focus:ring-0 text-xs tracking-[0.16em] text-white placeholder:text-white/30" placeholder="BUSCAR SISTEMAS..." type="text"/>
         </div>
-        
-        <div class="flex items-center gap-6 text-[10px] tracking-widest font-medium opacity-80">
-            <span id="userDisplay" class="text-current">IDENTITY: --</span>
-            <span class="w-[1px] h-3 bg-current opacity-20"></span>
-            <span onclick="handleLogout()" class="cursor-pointer hover:opacity-100 text-red-600 transition-colors uppercase flex items-center gap-1 font-semibold">
-                <span class="material-symbols-outlined !text-xs opacity-80" style="background:none;-webkit-text-fill-color:initial;color:inherit;">logout</span> Cerrar Sesión
-            </span>
+        <div class="flex items-center gap-4 text-white/60 font-medium text-sm">
+          <span id="clock">--:--</span>
+          <span class="material-symbols-outlined text-[18px]">wifi</span>
         </div>
+        <button onclick="handleLogout()" class="liquid-glass card-transition rounded-full p-2 text-white/50 hover:text-red-300 hover:bg-red-400/10" title="Cerrar sesión">
+          <span class="material-symbols-outlined text-[20px]">power_settings_new</span>
+        </button>
+      </div>
     </header>
 
-    <!-- Espacio de Escritorio en Rejilla Lineal - AJUSTADO PARA COMPACTAR MARGEN CON EL BUSCADOR -->
-    <main class="w-full flex-grow flex items-start justify-center px-12 md:px-24 pt-16 pb-44 overflow-y-auto">
-        <div class="w-full max-w-6xl mx-auto">
-            
-            <!-- Buscador Versión Móvil/Tablet Pequeña -->
-            <div class="block md:hidden w-full mb-8 relative px-4">
-                <div class="glass-search p-1.5 rounded-full flex items-center pr-3">
-                    <input id="searchInputMobile" oninput="syncAndFilter(this)" class="bg-transparent border-none focus:ring-0 text-ultra-thin text-center w-full placeholder:opacity-30 text-xs tracking-wider" placeholder="EXPLORE SYSTEMS..." type="text" style="color: inherit;"/>
-                    <span class="material-symbols-outlined !text-lg opacity-60">search</span>
-                </div>
-            </div>
+    <aside class="sidebar-glass mobile-hide fixed left-0 top-0 z-40 flex h-full w-16 flex-col items-center py-24">
+      <div id="sideTabs" class="flex flex-1 flex-col justify-center gap-10"></div>
+      <button onclick="handleLogout()" class="mt-auto p-3 text-white/25 transition-all hover:text-red-300">
+        <span class="material-symbols-outlined">logout</span>
+      </button>
+    </aside>
 
-            <!-- Rejilla de Aplicaciones -->
-            <div id="appContainerGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-x-12 gap-y-12 items-start justify-items-center transition-all duration-300">
-                <!-- Se inyectan de manera lineal -->
-            </div>
-
-            <!-- Estado Vacío -->
-            <div id="emptyState" class="hidden flex flex-col items-center justify-center py-20 text-center opacity-40">
-                <span class="material-symbols-outlined text-5xl mb-3">grid_off</span>
-                <p class="text-ultra-thin text-xs tracking-[0.3em]">No hay módulos asignados</p>
-            </div>
+    <main class="desktop-left-space relative z-10 flex h-screen flex-col justify-end px-margin-desktop pb-20" style="margin-left:64px;">
+      <div class="mb-7 flex flex-col gap-4 lg:hidden">
+        <div class="liquid-glass rounded-full px-4 py-2 flex items-center gap-2">
+          <span class="material-symbols-outlined text-[18px] text-white/40">search</span>
+          <input id="searchInputMobile" oninput="syncAndFilter(this)" class="w-full bg-transparent border-none focus:ring-0 text-xs tracking-[0.16em] text-white placeholder:text-white/30" placeholder="BUSCAR SISTEMAS..." type="text"/>
         </div>
+      </div>
+
+      <div id="contentInfo" class="mb-8 transform transition-all duration-700">
+        <div class="mb-2 flex items-center gap-3">
+          <h2 id="appSubtitle" class="text-xs font-bold uppercase tracking-widest text-white/55">Sistema disponible</h2>
+          <span id="userDisplay" class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-white/45">SYS // --</span>
+        </div>
+        <h1 id="appTitle" class="max-w-4xl text-5xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-2xl">LaunchPad</h1>
+        <p id="appDescription" class="mt-3 max-w-xl text-sm leading-relaxed text-white/48">Selecciona un módulo para abrirlo en una nueva pestaña.</p>
+      </div>
+
+      <div id="appReel" class="app-reel scroll-row mb-12 flex items-end gap-card-gap overflow-x-auto pb-4"></div>
+
+      <div class="border-t border-white/10 pt-7">
+        <div class="mb-4 flex items-center justify-between gap-4">
+          <h3 class="text-xs font-extrabold uppercase tracking-widest text-white/40">Accesos y estado</h3>
+          <span id="moduleCount" class="text-[10px] font-bold uppercase tracking-[0.25em] text-white/30">0 módulos</span>
+        </div>
+        <div id="activityRow" class="flex flex-wrap gap-4"></div>
+      </div>
     </main>
+  </section>
 
-    <!-- Dock de Pestañas Flotante Inferior -->
-    <nav class="fixed bottom-12 z-50">
-        <div id="navigationDock" class="glass-card px-10 py-4 flex gap-12 items-center justify-center !rounded-full text-[10px] tracking-[0.3em] font-medium uppercase opacity-80">
-            <!-- Pestañas dinámicas -->
-        </div>
-    </nav>
-
-    <!-- Pie de página -->
-    <footer id="footerText" class="fixed bottom-4 w-full text-center opacity-30 text-[9px] text-ultra-thin uppercase tracking-[0.6em] pointer-events-none"></footer>
-</div>
-
-<script>
-    // Repositorio purgado y enfocado a skins claras y vivas (Rojos, Amarillos, Verdes y Rosas)
-    const skins = {
-        emerald: {
-            title: "LaunchPad Aurora",
-            footer: "Launchpad Emerald Aurora // Frosted Glass OS v3.5",
-            variables: {
-                "--bg-color": "#f0fdf4",
-                "--text-color": "#064e3b",
-                "--mesh-gradient": "radial-gradient(at 0% 0%, #065f46 0px, transparent 50%), radial-gradient(at 100% 0%, #a7f3d0 0px, transparent 50%), radial-gradient(at 100% 100%, #34d399 0px, transparent 50%), radial-gradient(at 0% 100%, #ecfdf5 0px, transparent 50%)",
-                "--mesh-opacity": "0.6",
-                "--card-bg": "rgba(255, 255, 255, 0.3)",
-                "--card-bg-hover": "rgba(255, 255, 255, 0.45)",
-                "--card-border": "rgba(167, 243, 208, 0.5)",
-                "--card-border-hover": "rgba(52, 211, 153, 0.8)",
-                "--card-shadow": "0 8px 32px 0 rgba(6, 95, 70, 0.08)",
-                "--card-hover-shadow": "0 20px 40px rgba(6, 95, 70, 0.12), 0 0 30px rgba(16, 185, 129, 0.25)",
-                "--card-inset": "rgba(255, 255, 255, 0.5)",
-                "--icon-gradient": "linear-gradient(135deg, #065f46 0%, #10b981 100%)",
-                "--search-bg": "rgba(255, 255, 255, 0.15)",
-                "--search-border": "rgba(167, 243, 208, 0.4)",
-                "--search-shadow": "0 10px 40px rgba(6, 95, 70, 0.04)",
-                "--tab-glow": "0 0 12px rgba(6, 95, 70, 0.3)"
-            }
-        },
-        sunset: {
-            title: "LaunchPad Crystal",
-            footer: "Launchpad Sunset Quartz Edition // Frosted Glass OS v3.5",
-            variables: {
-                "--bg-color": "#fff5f2",
-                "--text-color": "#6b4e71",
-                "--mesh-gradient": "radial-gradient(at 0% 0%, #ffc0cb 0px, transparent 50%), radial-gradient(at 100% 0%, #ffd06f 0px, transparent 50%), radial-gradient(at 100% 100%, #ff8e72 0px, transparent 50%), radial-gradient(at 0% 100%, #9b7ba3 0px, transparent 50%)",
-                "--mesh-opacity": "0.8",
-                "--card-bg": "rgba(255, 255, 255, 0.3)",
-                "--card-bg-hover": "rgba(255, 255, 255, 0.45)",
-                "--card-border": "rgba(255, 255, 255, 0.5)",
-                "--card-border-hover": "rgba(255, 255, 255, 0.8)",
-                "--card-shadow": "0 8px 32px 0 rgba(139, 93, 107, 0.12)",
-                "--card-hover-shadow": "0 20px 40px rgba(255, 126, 103, 0.18), 0 0 30px rgba(255, 255, 255, 0.5)",
-                "--card-inset": "rgba(255, 230, 220, 0.4)",
-                "--icon-gradient": "linear-gradient(135deg, #6b4e71 0%, #ff7e67 100%)",
-                "--search-bg": "rgba(255, 255, 255, 0.15)",
-                "--search-border": "rgba(255, 255, 255, 0.4)",
-                "--search-shadow": "0 10px 40px rgba(123, 44, 191, 0.05)",
-                "--tab-glow": "0 0 12px rgba(255, 126, 103, 0.3)"
-            }
-        },
-        crimson: {
-            title: "LaunchPad Crimson",
-            footer: "Launchpad Crimson Pop // Vibrant Velvet OS v3.5",
-            variables: {
-                "--bg-color": "#fff5f5",
-                "--text-color": "#741b1b",
-                "--mesh-gradient": "radial-gradient(at 0% 0%, #ff8787 0px, transparent 50%), radial-gradient(at 100% 0%, #ffe3e3 0px, transparent 50%), radial-gradient(at 100% 100%, #ff6b6b 0px, transparent 50%), radial-gradient(at 0% 100%, #ffa8a8 0px, transparent 50%)",
-                "--mesh-opacity": "0.65",
-                "--card-bg": "rgba(255, 255, 255, 0.4)",
-                "--card-bg-hover": "rgba(255, 255, 255, 0.6)",
-                "--card-border": "rgba(255, 135, 135, 0.4)",
-                "--card-border-hover": "rgba(255, 107, 107, 0.8)",
-                "--card-shadow": "0 8px 32px 0 rgba(116, 27, 27, 0.06)",
-                "--card-hover-shadow": "0 20px 40px rgba(116, 27, 27, 0.12), 0 0 30px rgba(255, 107, 107, 0.3)",
-                "--card-inset": "rgba(255, 255, 255, 0.6)",
-                "--icon-gradient": "linear-gradient(135deg, #741b1b 0%, #ff6b6b 100%)",
-                "--search-bg": "rgba(255, 255, 255, 0.2)",
-                "--search-border": "rgba(255, 135, 135, 0.3)",
-                "--search-shadow": "0 10px 40px rgba(116, 27, 27, 0.03)",
-                "--tab-glow": "0 0 12px rgba(255, 107, 107, 0.4)"
-            }
-        },
-        amber: {
-            title: "LaunchPad Amber",
-            footer: "Launchpad Amber Breeze // Golden Quartz Studio v3.5",
-            variables: {
-                "--bg-color": "#fdfaf2",
-                "--text-color": "#604000",
-                "--mesh-gradient": "radial-gradient(at 0% 0%, #fcd34d 0px, transparent 55%), radial-gradient(at 100% 0%, #fef3c7 0px, transparent 50%), radial-gradient(at 100% 100%, #fbbf24 0px, transparent 50%), radial-gradient(at 0% 100%, #fffbeb 0px, transparent 50%)",
-                "--mesh-opacity": "0.7",
-                "--card-bg": "rgba(255, 255, 255, 0.4)",
-                "--card-bg-hover": "rgba(255, 255, 255, 0.65)",
-                "--card-border": "rgba(252, 211, 77, 0.4)",
-                "--card-border-hover": "rgba(251, 191, 36, 0.8)",
-                "--card-shadow": "0 8px 32px 0 rgba(96, 64, 0, 0.05)",
-                "--card-hover-shadow": "0 20px 40px rgba(96, 64, 0, 0.1), 0 0 30px rgba(251, 191, 36, 0.35)",
-                "--card-inset": "rgba(255, 255, 255, 0.7)",
-                "--icon-gradient": "linear-gradient(135deg, #604000 0%, #fbbf24 100%)",
-                "--search-bg": "rgba(255, 255, 255, 0.25)",
-                "--search-border": "rgba(252, 211, 77, 0.3)",
-                "--search-shadow": "0 10px 40px rgba(96, 64, 0, 0.02)",
-                "--tab-glow": "0 0 12px rgba(251, 191, 36, 0.4)"
-            }
-        },
-        nordic: {
-            title: "LaunchPad Frost",
-            footer: "Launchpad Nordic Frost // Minimal Architectural Matrix v3.5",
-            variables: {
-                "--bg-color": "#f8fafc",
-                "--text-color": "#334155",
-                "--mesh-gradient": "radial-gradient(at 0% 0%, #e2e8f0 0px, transparent 60%), radial-gradient(at 100% 0%, #f1f5f9 0px, transparent 50%), radial-gradient(at 100% 100%, #cbd5e1 0px, transparent 50%), radial-gradient(at 0% 100%, #e0f2fe 0px, transparent 50%)",
-                "--mesh-opacity": "0.7",
-                "--card-bg": "rgba(255, 255, 255, 0.4)",
-                "--card-bg-hover": "rgba(255, 255, 255, 0.7)",
-                "--card-border": "rgba(203, 213, 225, 0.6)",
-                "--card-border-hover": "rgba(148, 163, 184, 0.9)",
-                "--card-shadow": "0 10px 30px rgba(15, 23, 42, 0.03)",
-                "--card-hover-shadow": "0 20px 40px rgba(15, 23, 42, 0.08), 0 0 25px rgba(255,255,255,0.9)",
-                "--card-inset": "rgba(255, 255, 255, 0.8)",
-                "--icon-gradient": "linear-gradient(135deg, #1e293b 0%, #64748b 100%)",
-                "--search-bg": "rgba(255, 255, 255, 0.3)",
-                "--search-border": "rgba(203, 213, 225, 0.5)",
-                "--search-shadow": "0 4px 20px rgba(0,0,0,0.02)",
-                "--tab-glow": "0 0 8px rgba(51, 65, 85, 0.2)"
-            }
-        }
+  <script>
+    const credentials = {
+      "4": { password: "", role: "admin", allowedApps: ["all"] },
+      "luis": { password: "1967", role: "injusa_full", allowedApps: ["INJUSA 12W", "INJUSA CRM", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK", "INJUSA CONTROL TAREAS", "INJUSA NECESIDADES NETAS"] },
+      "ventas": { password: "injven", role: "injusa_sales", allowedApps: ["INJUSA 12W", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK"] },
+      "jose": { password: "jcan", role: "injusa_prod", allowedApps: ["INJUSA 12W", "INJUSA EVO STOCK"] }
     };
 
-    let activeSkin = localStorage.getItem('launchpad-skin') || 'emerald';
-
-    function applySkin(skinKey) {
-        const skin = skins[skinKey];
-        let styleContent = ":root {\n";
-        for (let [varName, varValue] of Object.entries(skin.variables)) {
-            styleContent += `${varName}: ${varValue};\n`;
-        }
-        styleContent += "}";
-        document.getElementById('skinStyles').innerHTML = styleContent;
-        document.getElementById('logoTitle').innerText = skin.title;
-        document.getElementById('footerText').innerText = skin.footer;
-        localStorage.setItem('launchpad-skin', skinKey);
-
-        Object.keys(skins).forEach(key => {
-            const opt = document.getElementById(`opt-${key}`);
-            if(opt) opt.querySelector('.dot').classList.toggle('hidden', key !== skinKey);
-        });
-    }
-
-    function toggleSkinMenu(event) {
-        event.stopPropagation();
-        document.getElementById('skinDropdown').classList.toggle('show');
-    }
-
-    function selectSkin(skinKey) {
-        activeSkin = skinKey;
-        applySkin(skinKey);
-        filterApps();
-        document.getElementById('skinDropdown').classList.remove('show');
-    }
-
-    document.addEventListener('click', () => {
-        document.getElementById('skinDropdown')?.classList.remove('show');
-    });
-
-    applySkin(activeSkin);
-
-    // Sistema de usuarios, permisos y reglas de filtrado
-    const credentials = {
-        "4": { password: "", role: "admin", allowedApps: ["all"] },
-        "luis": { password: "1967", role: "injusa_full", allowedApps: ["INJUSA 12W", "INJUSA CRM", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK", "INJUSA CONTROL TAREAS", "INJUSA NECESIDADES NETAS"] },
-        "ventas": { password: "injven", role: "injusa_sales", allowedApps: ["INJUSA 12W", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK"] },
-        "jose": { password: "jcan", role: "injusa_prod", allowedApps: ["INJUSA 12W", "INJUSA EVO STOCK"] }
+    const fallbackBgs = {
+      INJUSA: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2200&auto=format&fit=crop",
+      KOVA: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2200&auto=format&fit=crop",
+      DEFAULT: "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?q=80&w=2200&auto=format&fit=crop"
     };
 
     const apps = [
-        { name: "INJUSA 12W", url: "https://app-12-w.vercel.app/", icon: "bolt" },
-        { name: "INJUSA CRM", url: "https://app-crm-injusa.vercel.app/", icon: "hub" },
-        { name: "INJUSA VENTA PEQUEÑOS", url: "https://app-inventario-bice-tau.vercel.app/", icon: "inventory_2" },
-        { name: "INJUSA EVO STOCK", url: "https://script.google.com/macros/s/AKfycbyKe1hqdEdDZ7Gd2TZLV6rM-wKB7lhJ0VmAfhZzi2_4X0KUVPIBIQSakOVpdNBX7F_b/exec", icon: "package_2" },
-        { name: "INJUSA CONTROL TAREAS", url: "https://control-tareas.vercel.app/", icon: "task_alt" },
-        { name: "INJUSA NECESIDADES NETAS", url: "https://injusa-compras-webapp.vercel.app/", icon: "shopping_cart" },
-        { name: "KOVA SONG ARCHIVE", url: "https://kova-song-archive.vercel.app/", icon: "album" },
-        { name: "KOVA CONTENT OS", url: "https://kova-app-contenido.vercel.app/", icon: "video_library" },
-        { name: "KOVA LEAD MANAGER", url: "https://kova-crm.vercel.app/", icon: "trending_up" }
+      { name: "INJUSA 12W", url: "https://app-12-w.vercel.app/", icon: "bolt", category: "INJUSA", accent: "#a7c8ff", subtitle: "Forecast & pedidos", description: "Panel 12W para revisar demanda acumulada y evolución comercial.", bg: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA CRM", url: "https://app-crm-injusa.vercel.app/", icon: "hub", category: "INJUSA", accent: "#93c5fd", subtitle: "Relación comercial", description: "CRM operativo para seguimiento de clientes, oportunidades y acciones comerciales.", bg: "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA VENTA PEQUEÑOS", url: "https://app-inventario-bice-tau.vercel.app/", icon: "inventory_2", category: "INJUSA", accent: "#fbbf24", subtitle: "Inventario pequeño", description: "Consulta rápida de inventario y venta de referencias pequeñas.", bg: "https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA EVO STOCK", url: "https://script.google.com/macros/s/AKfycbyKe1hqdEdDZ7Gd2TZLV6rM-wKB7lhJ0VmAfhZzi2_4X0KUVPIBIQSakOVpdNBX7F_b/exec", icon: "package_2", category: "INJUSA", accent: "#34d399", subtitle: "Stock evolution", description: "Herramienta para consultar evolución de stock, coberturas y disponibilidad.", bg: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA CONTROL TAREAS", url: "https://control-tareas.vercel.app/", icon: "task_alt", category: "INJUSA", accent: "#c4b5fd", subtitle: "Operaciones", description: "Control de tareas, seguimiento interno y estado de ejecución.", bg: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA NECESIDADES NETAS", url: "https://injusa-compras-webapp.vercel.app/", icon: "shopping_cart", category: "INJUSA", accent: "#fb7185", subtitle: "Compras & necesidades", description: "Cálculo de necesidades netas para compras y aprovisionamiento.", bg: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2200&auto=format&fit=crop" },
+      { name: "KOVA SONG ARCHIVE", url: "https://kova-song-archive.vercel.app/", icon: "album", category: "KOVA", accent: "#f472b6", subtitle: "Archivo musical", description: "Biblioteca de canciones, referencias y material del estudio.", bg: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=2200&auto=format&fit=crop" },
+      { name: "KOVA CONTENT OS", url: "https://kova-app-contenido.vercel.app/", icon: "video_library", category: "KOVA", accent: "#f97316", subtitle: "Contenido & clips", description: "Sistema de producción, revisión y organización de contenido.", bg: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2200&auto=format&fit=crop" },
+      { name: "KOVA LEAD MANAGER", url: "https://kova-crm.vercel.app/", icon: "trending_up", category: "KOVA", accent: "#22d3ee", subtitle: "Leads & ventas", description: "Pipeline comercial para artistas, oportunidades y seguimiento de leads.", bg: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=2200&auto=format&fit=crop" }
     ];
 
     let currentUser = null;
     let currentTab = 'ALL';
-    let mouseX = 0, mouseY = 0;
+    let activeApp = null;
+
+    const mainBg = document.getElementById('mainBg');
+    const appTitle = document.getElementById('appTitle');
+    const appSubtitle = document.getElementById('appSubtitle');
+    const appDescription = document.getElementById('appDescription');
+
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function setBackground(app) {
+      const selected = app || { bg: fallbackBgs.DEFAULT, accent: '#a7c8ff', name: 'LaunchPad', subtitle: 'Sistema disponible', description: 'Selecciona un módulo para abrirlo en una nueva pestaña.' };
+      document.documentElement.style.setProperty('--active-accent', selected.accent || '#a7c8ff');
+      mainBg.style.opacity = '0';
+      setTimeout(() => {
+        mainBg.style.backgroundImage = `url('${selected.bg || fallbackBgs.DEFAULT}')`;
+        mainBg.style.opacity = '1';
+        appTitle.textContent = cleanName(selected.name || 'LaunchPad');
+        appSubtitle.textContent = selected.subtitle || selected.category || 'Sistema disponible';
+        appDescription.textContent = selected.description || 'Selecciona un módulo para abrirlo en una nueva pestaña.';
+      }, 140);
+    }
+
+    function cleanName(name) {
+      return name.replace(/^INJUSA\s+/i, '').replace(/^KOVA\s+/i, '');
+    }
 
     function handleLogin() {
-        const username = document.getElementById('usernameInput').value.trim().toLowerCase();
-        const password = document.getElementById('passwordInput').value.trim();
-        const errorDiv = document.getElementById('loginError');
+      const username = document.getElementById('usernameInput').value.trim().toLowerCase();
+      const password = document.getElementById('passwordInput').value.trim();
+      const errorDiv = document.getElementById('loginError');
 
-        if (credentials[username] && credentials[username].password === password) {
-            errorDiv.classList.add('hidden');
-            currentUser = credentials[username];
-            currentUser.name = username;
-            setupWorkspace();
-        } else {
-            errorDiv.classList.remove('hidden');
-        }
+      if (credentials[username] && credentials[username].password === password) {
+        errorDiv.classList.add('hidden');
+        currentUser = { ...credentials[username], name: username };
+        setupWorkspace();
+      } else {
+        errorDiv.classList.remove('hidden');
+      }
     }
 
     function handleLogout() {
-        currentUser = null;
-        document.getElementById('usernameInput').value = '';
-        document.getElementById('passwordInput').value = '';
-        document.getElementById('mainContent').classList.add('hidden');
-        document.getElementById('loginScreen').classList.remove('hidden');
+      currentUser = null;
+      activeApp = null;
+      document.getElementById('usernameInput').value = '';
+      document.getElementById('passwordInput').value = '';
+      document.getElementById('searchInput').value = '';
+      document.getElementById('searchInputMobile').value = '';
+      document.getElementById('mainContent').classList.add('hidden');
+      document.getElementById('loginScreen').classList.remove('hidden');
+      setBackground(null);
     }
 
     function setupWorkspace() {
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('hidden');
-        document.getElementById('userDisplay').innerText = `SYS // ${currentUser.name}`;
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('mainContent').classList.remove('hidden');
+      document.getElementById('userDisplay').textContent = `SYS // ${currentUser.name}`;
 
-        const dock = document.getElementById('navigationDock');
-        if (currentUser.role === 'admin') {
-            currentTab = 'ALL';
-            dock.innerHTML = `
-                <span onclick="switchTab('ALL')" id="tab-ALL" class="cursor-pointer hover:opacity-100 opacity-40 transition-opacity tab-btn-active">TODAS</span>
-                <span onclick="switchTab('INJUSA')" id="tab-INJUSA" class="cursor-pointer hover:opacity-100 opacity-40 transition-opacity">INJUSA</span>
-                <span onclick="switchTab('KOVA')" id="tab-KOVA" class="cursor-pointer hover:opacity-100 opacity-40 transition-opacity">KOVA</span>
-            `;
-        } else {
-            currentTab = 'INJUSA';
-            dock.innerHTML = `
-                <span id="tab-INJUSA" class="tab-btn-active opacity-100 tracking-[0.4em]">INJUSA PANEL</span>
-            `;
-        }
-        filterApps();
+      currentTab = currentUser.role === 'admin' ? 'ALL' : 'INJUSA';
+      renderNavigation();
+      filterApps();
+    }
+
+    function renderNavigation() {
+      const tabs = currentUser.role === 'admin'
+        ? [{ key: 'ALL', label: 'Todas', icon: 'home' }, { key: 'INJUSA', label: 'INJUSA', icon: 'factory' }, { key: 'KOVA', label: 'KOVA', icon: 'graphic_eq' }]
+        : [{ key: 'INJUSA', label: 'INJUSA Panel', icon: 'factory' }];
+
+      document.getElementById('topTabs').innerHTML = tabs.map(tab => `
+        <button onclick="switchTab('${tab.key}')" id="top-${tab.key}" class="tab-link text-sm uppercase tracking-[0.2em] font-bold text-white/45 border-b border-transparent pb-1 hover:text-white transition-all ${currentTab === tab.key ? 'tab-active' : ''}">${tab.label}</button>
+      `).join('');
+
+      document.getElementById('sideTabs').innerHTML = tabs.map(tab => `
+        <button onclick="switchTab('${tab.key}')" id="side-${tab.key}" class="quick-action text-white/40 hover:text-white cursor-pointer transition-transform ${currentTab === tab.key ? 'quick-action-active' : ''}" title="${tab.label}">
+          <span class="material-symbols-outlined text-2xl">${tab.icon}</span>
+        </button>
+      `).join('');
     }
 
     function switchTab(tab) {
-        currentTab = tab;
-        document.getElementById('tab-ALL')?.classList.toggle('tab-btn-active', tab === 'ALL');
-        document.getElementById('tab-INJUSA')?.classList.toggle('tab-btn-active', tab === 'INJUSA');
-        document.getElementById('tab-KOVA')?.classList.toggle('tab-btn-active', tab === 'KOVA');
-        filterApps();
+      if (!currentUser) return;
+      currentTab = tab;
+      renderNavigation();
+      filterApps();
     }
 
-    function syncAndFilter(mobileInput) {
-        document.getElementById('searchInput').value = mobileInput.value;
-        filterApps();
+    function syncAndFilter(input) {
+      document.getElementById('searchInput').value = input.value;
+      filterApps();
+    }
+
+    function allowedApps() {
+      return apps.filter(app => currentUser.role === 'admin' || currentUser.allowedApps.includes(app.name));
+    }
+
+    function filteredApps() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      return allowedApps().filter(app => {
+        const matchesTab = currentTab === 'ALL' || app.category === currentTab;
+        const matchesSearch = app.name.toLowerCase().includes(searchTerm) || app.description.toLowerCase().includes(searchTerm);
+        return matchesTab && matchesSearch;
+      });
     }
 
     function filterApps() {
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const gridContainer = document.getElementById('appContainerGrid');
-        const emptyState = document.getElementById('emptyState');
-        
-        const filtered = apps.filter(app => {
-            const isAllowed = currentUser.role === 'admin' || currentUser.allowedApps.includes(app.name);
-            const matchesTab = (currentTab === 'ALL') || app.name.toUpperCase().startsWith(currentTab);
-            const matchesSearch = app.name.toLowerCase().includes(searchTerm);
-            return isAllowed && matchesTab && matchesSearch;
-        });
+      const appReel = document.getElementById('appReel');
+      const visibleApps = filteredApps();
+      document.getElementById('moduleCount').textContent = `${visibleApps.length} módulo${visibleApps.length === 1 ? '' : 's'}`;
 
-        gridContainer.innerHTML = '';
+      if (!visibleApps.length) {
+        appReel.innerHTML = `
+          <div class="liquid-glass rounded-3xl px-8 py-8 text-center text-white/50">
+            <span class="material-symbols-outlined mb-3 text-5xl text-white/25">grid_off</span>
+            <p class="text-xs uppercase tracking-[0.28em] font-bold">No hay módulos asignados</p>
+          </div>
+        `;
+        renderActivity([]);
+        setBackground(null);
+        return;
+      }
 
-        if (filtered.length === 0) {
-            emptyState.classList.remove('hidden');
-        } else {
-            emptyState.classList.add('hidden');
-            filtered.forEach((app, index) => {
-                const layers = ['z-low', 'z-mid', 'z-high'];
-                const currentLayer = layers[index % layers.length];
-                const speedFactor = currentLayer === 'z-high' ? 1.4 : (currentLayer === 'z-mid' ? 0.9 : 0.4);
+      activeApp = visibleApps.includes(activeApp) ? activeApp : visibleApps[0];
+      setBackground(activeApp);
 
-                let cleanName = app.name.replace(/^INJUSA\s+/i, '').replace(/^KOVA\s+/i, '');
-
-                const appMarkup = `
-                    <div class="app-item-wrapper ${currentLayer} w-28 flex flex-col items-center" data-parallax-speed="${speedFactor}">
-                        <a class="group flex flex-col items-center gap-4 w-full" href="${app.url}" target="_blank">
-                            <div class="glass-card w-24 h-24 flex items-center justify-center">
-                                <span class="material-symbols-outlined" style="font-size: 2.8rem;">${app.icon}</span>
-                            </div>
-                            <span class="text-ultra-thin text-[11px] md:text-[12px] opacity-50 group-hover:opacity-100 tracking-[0.18em] font-normal text-center transition-opacity w-full truncate" style="color: inherit;">${cleanName}</span>
-                        </a>
-                    </div>
-                `;
-                gridContainer.innerHTML += appMarkup;
-            });
-        }
-        applyParallax();
+      appReel.innerHTML = visibleApps.map((app, index) => renderAppCard(app, index === 0)).join('');
+      renderActivity(visibleApps);
     }
 
-    function applyParallax() {
-        document.querySelectorAll('.app-item-wrapper').forEach(item => {
-            const speed = parseFloat(item.getAttribute('data-parallax-speed')) || 1;
-            item.style.transform = `translate(${mouseX * speed}px, ${mouseY * speed}px)`;
-        });
+    function renderAppCard(app, featured) {
+      const isActive = activeApp && activeApp.name === app.name;
+      const sizeClass = featured ? 'featured-card w-72 h-44' : 'regular-card w-40 h-40';
+      const image = app.bg ? `<img class="app-card-image" src="${app.bg}" alt="${app.name}"/>` : '';
+
+      return `
+        <div class="group flex flex-col gap-3 shrink-0">
+          <a href="${app.url}" target="_blank" rel="noopener noreferrer"
+             onmouseenter="activateApp('${app.name}')" onfocus="activateApp('${app.name}')"
+             class="app-card liquid-glass ${isActive ? 'liquid-glass-active' : ''} card-transition ${sizeClass} rounded-2xl overflow-hidden cursor-pointer relative flex items-center justify-center">
+            ${image}
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent"></div>
+            <div class="absolute left-4 bottom-4 flex items-center gap-3">
+              <div class="rounded-full p-2 shadow-lg" style="background:${app.accent}; color:#101010;">
+                <span class="material-symbols-outlined text-xl block" style="font-variation-settings:'FILL' 1;">${app.icon}</span>
+              </div>
+              ${featured ? `<div><p class="text-[10px] uppercase tracking-widest text-white/55 font-bold">${app.category}</p><p class="text-sm font-extrabold text-white">${cleanName(app.name)}</p></div>` : ''}
+            </div>
+            ${!featured ? `<span class="absolute right-4 top-4 material-symbols-outlined text-4xl text-white/38 group-hover:text-white/75 transition-colors">${app.icon}</span>` : ''}
+          </a>
+          <p class="max-w-[160px] truncate text-xs font-bold uppercase tracking-[0.18em] text-white/45 group-hover:text-white/80 transition-colors">${cleanName(app.name)}</p>
+        </div>
+      `;
+    }
+
+    function activateApp(appName) {
+      const selected = apps.find(app => app.name === appName);
+      if (!selected) return;
+      activeApp = selected;
+      setBackground(selected);
+      document.querySelectorAll('.app-card').forEach(card => card.classList.remove('liquid-glass-active'));
+      const cards = Array.from(document.querySelectorAll('.app-card'));
+      const match = cards.find(card => card.href === selected.url);
+      if (match) match.classList.add('liquid-glass-active');
+    }
+
+    function renderActivity(list) {
+      const row = document.getElementById('activityRow');
+      if (!list.length) {
+        row.innerHTML = '';
+        return;
+      }
+      const recent = list.slice(0, 4);
+      row.innerHTML = recent.map(app => `
+        <a href="${app.url}" target="_blank" rel="noopener noreferrer" onmouseenter="activateApp('${app.name}')" class="liquid-glass card-transition rounded-xl px-4 py-3 flex items-center gap-3 cursor-pointer hover:bg-white/10 min-w-[220px]">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:${app.accent}22; color:${app.accent};">
+            <span class="material-symbols-outlined text-lg">${app.icon}</span>
+          </div>
+          <div>
+            <div class="text-xs text-white/82 font-extrabold">${cleanName(app.name)}</div>
+            <div class="text-[10px] text-white/38 uppercase tracking-widest">${app.category}</div>
+          </div>
+        </a>
+      `).join('');
     }
 
     document.addEventListener('mousemove', (e) => {
-        mouseX = (window.innerWidth / 2 - e.pageX) / 55;
-        mouseY = (window.innerHeight / 2 - e.pageY) / 55;
-        applyParallax();
+      const moveX = (e.clientX / window.innerWidth - 0.5) * 20;
+      const moveY = (e.clientY / window.innerHeight - 0.5) * 20;
+      mainBg.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
     });
 
     document.getElementById('usernameInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
     document.getElementById('passwordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
-</script>
+
+    setBackground(null);
+  </script>
 </body>
 </html>
