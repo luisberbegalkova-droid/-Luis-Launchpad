@@ -23,7 +23,7 @@
           },
           spacing: {
             'margin-desktop': '64px',
-            'card-gap': '28px'
+            'card-gap': '32px'
           }
         }
       }
@@ -101,24 +101,33 @@
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
-    /* Modificado: Inicialmente completamente rectos (rounded-none) */
+    /* Estructura base de las tarjetas: +40% Tamaño e inicio Cuadrado con Bordes Redondeados */
     .app-card {
-      border-radius: 0px !important;
+      width: 350px;
+      /* 250px * 1.4 */
+      height: 350px;
+      /* 250px * 1.4 */
+      border-radius: 1.5rem !important;
+      /* Bordes redondeados por defecto */
+      transition: width 0.5s cubic-bezier(0.25, 1, 0.33, 1),
+        height 0.5s cubic-bezier(0.25, 1, 0.33, 1),
+        background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
     }
 
-    /* Al pasar por encima o estar activa, se transforma y redondea como el primer estado */
+    /* Comportamiento al pasar por encima (Hover) o Activa: Transición a Rectángulo Grande tipo 12W */
     .app-card:hover,
     .liquid-glass-active {
-      border-radius: 1rem !important;
-      /* Equivale a rounded-2xl */
+      width: 616px;
+      /* 440px * 1.4 (Proporción exacta ampliada un 40%) */
+      height: 350px;
+      /* Mantiene la altura convirtiéndose en el rectángulo horizontal */
       background: rgba(255, 255, 255, 0.09);
       border-color: rgba(255, 255, 255, 0.34);
       box-shadow: 0 0 50px color-mix(in srgb, var(--active-accent), transparent 68%), 0 20px 60px rgba(0, 0, 0, 0.45);
-      transform: scale(1.035) translateY(-5px);
     }
 
     .card-transition {
-      transition: all 0.5s cubic-bezier(0.25, 1, 0.33, 1);
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.33, 1);
     }
 
     .nav-minimal {
@@ -166,7 +175,6 @@
     .app-card:hover .app-card-image,
     .liquid-glass-active .app-card-image {
       opacity: 0.95;
-      transform: scale(1.04);
     }
 
     .scroll-row {
@@ -203,16 +211,6 @@
       }
     }
 
-    .featured-card {
-      width: 440px;
-      height: 260px;
-    }
-
-    .regular-card {
-      width: 250px;
-      height: 250px;
-    }
-
     @media (max-width: 900px) {
       body {
         overflow-y: auto;
@@ -246,14 +244,15 @@
         align-items: stretch;
       }
 
-      .featured-card {
-        width: min(100%, 440px) !important;
-        height: 230px !important;
+      .app-card {
+        width: 100% !important;
+        height: 220px !important;
       }
 
-      .regular-card {
-        width: 165px !important;
-        height: 165px !important;
+      .app-card:hover,
+      .liquid-glass-active {
+        width: 100% !important;
+        height: 220px !important;
       }
     }
   </style>
@@ -518,7 +517,7 @@
 
       if (!visibleApps.length) {
         appReel.innerHTML = `
-          <div class="liquid-glass px-8 py-8 text-center text-white/50" style="border-radius: 0px !important;">
+          <div class="liquid-glass px-8 py-8 text-center text-white/50" style="border-radius: 1.5rem !important;">
             <span class="material-symbols-outlined mb-3 text-5xl text-white/25">grid_off</span>
             <p class="text-xs uppercase tracking-[0.28em] font-bold">No hay módulos asignados</p>
           </div>
@@ -531,32 +530,35 @@
       activeApp = visibleApps.includes(activeApp) ? activeApp : visibleApps[0];
       setBackground(activeApp);
 
-      appReel.innerHTML = visibleApps.map((app, index) => renderAppCard(app, index === 0)).join('');
+      appReel.innerHTML = visibleApps.map((app) => renderAppCard(app)).join('');
       renderActivity(visibleApps);
     }
 
-    function renderAppCard(app, featured) {
+    function renderAppCard(app) {
       const isActive = activeApp && activeApp.name === app.name;
-      const sizeClass = featured ? 'featured-card' : 'regular-card';
-      const textMaxWidth = featured ? 'max-w-[400px]' : 'max-w-[250px]';
       const image = app.bg ? `<img class="app-card-image" src="${app.bg}" alt="${app.name}"/>` : '';
 
       return `
         <div class="group flex flex-col gap-3 shrink-0">
           <a href="${app.url}" target="_blank" rel="noopener noreferrer"
              onmouseenter="activateApp('${app.name}')" onfocus="activateApp('${app.name}')"
-             class="app-card liquid-glass ${isActive ? 'liquid-glass-active' : ''} card-transition ${sizeClass} overflow-hidden cursor-pointer relative flex items-center justify-center">
+             class="app-card liquid-glass ${isActive ? 'liquid-glass-active' : ''} overflow-hidden cursor-pointer relative flex items-center justify-center">
             ${image}
-            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent"></div>
-            <div class="absolute left-6 bottom-6 flex items-center gap-4">
-              <div class="rounded-xl p-3 shadow-lg flex items-center justify-center" style="background:${app.accent}; color:#101010;">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+            
+            <div class="absolute left-7 bottom-7 flex items-center gap-5 transition-all duration-300 opacity-0 group-hover:opacity-100 ${isActive ? 'opacity-100' : ''}">
+              <div class="rounded-2xl p-3.5 shadow-lg flex items-center justify-center" style="background:${app.accent}; color:#101010;">
                 <span class="material-symbols-outlined text-3xl block" style="font-variation-settings:'FILL' 1;">${app.icon}</span>
               </div>
-              ${featured ? `<div><p class="text-[10px] uppercase tracking-widest text-white/55 font-bold">${app.category}</p><p class="text-lg font-extrabold text-white leading-tight">${cleanName(app.name)}</p></div>` : ''}
+              <div>
+                <p class="text-[11px] uppercase tracking-widest text-white/60 font-bold">${app.category}</p>
+                <p class="text-xl font-extrabold text-white leading-tight">${cleanName(app.name)}</p>
+              </div>
             </div>
-            ${!featured ? `<span class="absolute right-6 top-6 material-symbols-outlined text-6xl text-white/25 group-hover:text-white/50 transition-colors">${app.icon}</span>` : ''}
+
+            <span class="absolute right-8 top-8 material-symbols-outlined text-7xl text-white/20 transition-all duration-300 group-hover:opacity-0 ${isActive ? 'opacity-0' : 'opacity-100'}">${app.icon}</span>
           </a>
-          <p class="${textMaxWidth} truncate text-xs font-bold uppercase tracking-[0.18em] text-white/45 group-hover:text-white/80 transition-colors pl-1">${cleanName(app.name)}</p>
+          <p class="max-w-[280px] truncate text-xs font-bold uppercase tracking-[0.18em] text-white/45 group-hover:text-white/80 transition-colors pl-1">${cleanName(app.name)}</p>
         </div>
       `;
     }
@@ -580,7 +582,7 @@
       }
       const recent = list.slice(0, 4);
       row.innerHTML = recent.map(app => `
-        <a href="${app.url}" target="_blank" rel="noopener noreferrer" onmouseenter="activateApp('${app.name}')" class="liquid-glass card-transition px-4 py-3 flex items-center gap-3 cursor-pointer hover:bg-white/10 min-w-[220px]" style="border-radius: 0px !important; transition: all 0.3s ease;">
+        <a href="${app.url}" target="_blank" rel="noopener noreferrer" onmouseenter="activateApp('${app.name}')" class="liquid-glass card-transition px-4 py-3 flex items-center gap-3 cursor-pointer hover:bg-white/10 min-w-[220px]" style="border-radius: 0.75rem !important;">
           <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:${app.accent}22; color:${app.accent};">
             <span class="material-symbols-outlined text-lg">${app.icon}</span>
           </div>
