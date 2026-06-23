@@ -101,7 +101,16 @@
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
+    /* Modificado: Inicialmente completamente rectos (rounded-none) */
+    .app-card {
+      border-radius: 0px !important;
+    }
+
+    /* Al pasar por encima o estar activa, se transforma y redondea como el primer estado */
+    .app-card:hover,
     .liquid-glass-active {
+      border-radius: 1rem !important;
+      /* Equivale a rounded-2xl */
       background: rgba(255, 255, 255, 0.09);
       border-color: rgba(255, 255, 255, 0.34);
       box-shadow: 0 0 50px color-mix(in srgb, var(--active-accent), transparent 68%), 0 20px 60px rgba(0, 0, 0, 0.45);
@@ -109,7 +118,7 @@
     }
 
     .card-transition {
-      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      transition: all 0.5s cubic-bezier(0.25, 1, 0.33, 1);
     }
 
     .nav-minimal {
@@ -160,12 +169,6 @@
       transform: scale(1.04);
     }
 
-    .app-icon-fallback {
-      background:
-        radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.22), transparent 30%),
-        linear-gradient(135deg, rgba(167, 200, 255, 0.18), rgba(255, 255, 255, 0.035));
-    }
-
     .scroll-row {
       scrollbar-width: none;
     }
@@ -200,7 +203,6 @@
       }
     }
 
-    /* Dimensiones con un aumento extra considerable para pantallas grandes */
     .featured-card {
       width: 440px;
       height: 260px;
@@ -516,7 +518,7 @@
 
       if (!visibleApps.length) {
         appReel.innerHTML = `
-          <div class="liquid-glass rounded-3xl px-8 py-8 text-center text-white/50">
+          <div class="liquid-glass px-8 py-8 text-center text-white/50" style="border-radius: 0px !important;">
             <span class="material-symbols-outlined mb-3 text-5xl text-white/25">grid_off</span>
             <p class="text-xs uppercase tracking-[0.28em] font-bold">No hay módulos asignados</p>
           </div>
@@ -543,7 +545,7 @@
         <div class="group flex flex-col gap-3 shrink-0">
           <a href="${app.url}" target="_blank" rel="noopener noreferrer"
              onmouseenter="activateApp('${app.name}')" onfocus="activateApp('${app.name}')"
-             class="app-card liquid-glass ${isActive ? 'liquid-glass-active' : ''} card-transition ${sizeClass} rounded-2xl overflow-hidden cursor-pointer relative flex items-center justify-center">
+             class="app-card liquid-glass ${isActive ? 'liquid-glass-active' : ''} card-transition ${sizeClass} overflow-hidden cursor-pointer relative flex items-center justify-center">
             ${image}
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/5 to-transparent"></div>
             <div class="absolute left-6 bottom-6 flex items-center gap-4">
@@ -578,7 +580,7 @@
       }
       const recent = list.slice(0, 4);
       row.innerHTML = recent.map(app => `
-        <a href="${app.url}" target="_blank" rel="noopener noreferrer" onmouseenter="activateApp('${app.name}')" class="liquid-glass card-transition rounded-xl px-4 py-3 flex items-center gap-3 cursor-pointer hover:bg-white/10 min-w-[220px]">
+        <a href="${app.url}" target="_blank" rel="noopener noreferrer" onmouseenter="activateApp('${app.name}')" class="liquid-glass card-transition px-4 py-3 flex items-center gap-3 cursor-pointer hover:bg-white/10 min-w-[220px]" style="border-radius: 0px !important; transition: all 0.3s ease;">
           <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:${app.accent}22; color:${app.accent};">
             <span class="material-symbols-outlined text-lg">${app.icon}</span>
           </div>
