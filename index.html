@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
+<html class="dark" lang="gl">
 
 <head>
   <meta charset="utf-8" />
@@ -101,29 +101,27 @@
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
-    /* Estructura base de las tarjetas: Reducido un 20% respecto al anterior */
+    /* Tamaño base Escritorio */
     .app-card {
       width: 280px;
-      /* 350px * 0.8 */
       height: 280px;
-      /* 350px * 0.8 */
       border-radius: 1.25rem !important;
-      /* Bordes redondeados adaptados proporcionalmente */
       transition: width 0.5s cubic-bezier(0.25, 1, 0.33, 1),
         height 0.5s cubic-bezier(0.25, 1, 0.33, 1),
         background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
     }
 
-    /* Estado Expandido (Hover / Activo) reducido un 20% en anchura proporcional */
-    .app-card:hover,
-    .liquid-glass-active {
-      width: 492px;
-      /* 616px * 0.8 (mantiene la proporción rectangular exacta) */
-      height: 280px;
-      /* Mantiene la altura */
-      background: rgba(255, 255, 255, 0.09);
-      border-color: rgba(255, 255, 255, 0.34);
-      box-shadow: 0 0 50px color-mix(in srgb, var(--active-accent), transparent 68%), 0 20px 60px rgba(0, 0, 0, 0.45);
+    /* Hover Escritorio (Rectángulo Grande) */
+    @media (min-width: 1025px) {
+
+      .app-card:hover,
+      .liquid-glass-active {
+        width: 492px;
+        height: 280px;
+        background: rgba(255, 255, 255, 0.09);
+        border-color: rgba(255, 255, 255, 0.34);
+        box-shadow: 0 0 50px color-mix(in srgb, var(--active-accent), transparent 68%), 0 20px 60px rgba(0, 0, 0, 0.45);
+      }
     }
 
     .card-transition {
@@ -211,7 +209,36 @@
       }
     }
 
-    @media (max-width: 900px) {
+    /* ADAPTACIÓN ESPECÍFICA PARA IPAD / TABLETA (769px ata 1024px) */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      body {
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      .desktop-left-space {
+        margin-left: 64px !important;
+      }
+
+      main {
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+        padding-bottom: 40px !important;
+      }
+
+      .app-card {
+        width: 220px !important;
+        height: 220px !important;
+      }
+
+      .liquid-glass-active {
+        width: 380px !important;
+        height: 220px !important;
+      }
+    }
+
+    /* ADAPTACIÓN ESPECÍFICA PARA MÓBIL (Ata 768px) */
+    @media (max-width: 768px) {
       body {
         overflow-y: auto;
         height: auto;
@@ -227,32 +254,44 @@
       }
 
       main {
-        padding-left: 24px !important;
-        padding-right: 24px !important;
-        padding-bottom: 32px !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        padding-bottom: 24px !important;
         justify-content: flex-start !important;
-        padding-top: 112px !important;
+        padding-top: 100px !important;
+        height: auto;
       }
 
       header {
-        padding-left: 24px !important;
-        padding-right: 24px !important;
+        padding-left: 20px !important;
+        padding-right: 20px !important;
       }
 
       .app-reel {
-        flex-wrap: wrap;
-        align-items: stretch;
+        flex-wrap: wrap !important;
+        align-items: stretch !important;
+        overflow-x: visible !important;
+        gap: 16px !important;
+      }
+
+      .app-card-wrapper {
+        width: 100% !important;
       }
 
       .app-card {
         width: 100% !important;
-        height: 210px !important;
+        height: 160px !important;
+        border-radius: 1rem !important;
       }
 
-      .app-card:hover,
-      .liquid-glass-active {
-        width: 100% !important;
-        height: 210px !important;
+      /* En móbil faise un deseño de listaxe colapsada elegante onde se ve o contido directamente */
+      .app-card .opacity-0 {
+        opacity: 100 !important;
+      }
+
+      .app-card .group-hover\:opacity-0,
+      .app-card .opacity-100 {
+        display: none !important;
       }
     }
   </style>
@@ -275,8 +314,8 @@
             <h1 class="text-3xl font-extrabold tracking-tight text-white">LaunchPad</h1>
           </div>
         </div>
-        <p class="text-sm text-white/45 leading-relaxed">Accede a tus módulos de INJUSA y KOVA con una interfaz tipo
-          consola, fondo dinámico y permisos por usuario.</p>
+        <p class="text-sm text-white/45 leading-relaxed">Accede aos teus módulos de INJUSA e KOVA cunha interface tipo
+          consola, fondo dinámico e permisos por usuario.</p>
       </div>
 
       <div class="flex flex-col gap-4">
@@ -294,7 +333,7 @@
         </label>
         <div id="loginError"
           class="hidden rounded-2xl border border-red-300/20 bg-red-500/10 px-4 py-3 text-center text-[10px] font-bold uppercase tracking-[0.22em] text-red-200">
-          Acceso denegado. Revise las credenciales.</div>
+          Acceso denegado. Revise as credenciais.</div>
         <button onclick="handleLogin()"
           class="liquid-glass card-transition mt-2 rounded-2xl py-4 text-xs font-extrabold uppercase tracking-[0.28em] text-white/85 hover:text-white hover:bg-white/10">Verify_</button>
       </div>
@@ -324,7 +363,7 @@
         </div>
         <button onclick="handleLogout()"
           class="liquid-glass card-transition rounded-full p-2 text-white/50 hover:text-red-300 hover:bg-red-400/10"
-          title="Cerrar sesión">
+          title="Pechar sesión">
           <span class="material-symbols-outlined text-[20px]">power_settings_new</span>
         </button>
       </div>
@@ -350,7 +389,7 @@
 
       <div id="contentInfo" class="mb-5 transform transition-all duration-700">
         <div class="mb-2 flex items-center gap-3">
-          <h2 id="appSubtitle" class="text-xs font-bold uppercase tracking-widest text-white/55">Sistema disponible</h2>
+          <h2 id="appSubtitle" class="text-xs font-bold uppercase tracking-widest text-white/55">Sistema dispoñible</h2>
           <span id="userDisplay"
             class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-white/45">SYS
             // --</span>
@@ -358,14 +397,14 @@
         <h1 id="appTitle"
           class="max-w-4xl text-5xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-2xl">LaunchPad</h1>
         <p id="appDescription" class="mt-2 max-w-xl text-sm leading-relaxed text-white/48">Selecciona un módulo para
-          abrirlo en una nueva pestaña.</p>
+          abrilo nunha nova pestana.</p>
       </div>
 
       <div id="appReel" class="app-reel scroll-row mb-6 flex items-end gap-card-gap overflow-x-auto pb-4"></div>
 
       <div class="border-t border-white/10 pt-4">
         <div class="mb-3 flex items-center justify-between gap-4">
-          <h3 class="text-xs font-extrabold uppercase tracking-widest text-white/40">Accesos y estado</h3>
+          <h3 class="text-xs font-extrabold uppercase tracking-widest text-white/40">Accesos e estado</h3>
           <span id="moduleCount" class="text-[10px] font-bold uppercase tracking-[0.25em] text-white/30">0
             módulos</span>
         </div>
@@ -389,15 +428,15 @@
     };
 
     const apps = [
-      { name: "INJUSA 12W", url: "https://app-12-w.vercel.app/", icon: "bolt", category: "INJUSA", accent: "#a7c8ff", subtitle: "Forecast & pedidos", description: "Panel 12W para revisar demanda acumulada y evolución comercial.", bg: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2200&auto=format&fit=crop" },
-      { name: "INJUSA CRM", url: "https://app-crm-injusa.vercel.app/", icon: "hub", category: "INJUSA", accent: "#93c5fd", subtitle: "Relación comercial", description: "CRM operativo para seguimiento de clientes, oportunidades y acciones comerciales.", bg: "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2200&auto=format&fit=crop" },
-      { name: "INJUSA VENTA PEQUEÑOS", url: "https://app-inventario-bice-tau.vercel.app/", icon: "inventory_2", category: "INJUSA", accent: "#fbbf24", subtitle: "Inventario pequeño", description: "Consulta rápida de inventario y venta de referencias pequeñas.", bg: "https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=2200&auto=format&fit=crop" },
-      { name: "INJUSA EVO STOCK", url: "https://script.google.com/macros/s/AKfycbyKe1hqdEdDZ7Gd2TZLV6rM-wKB7lhJ0VmAfhZzi2_4X0KUVPIBIQSakOVpdNBX7F_b/exec", icon: "package_2", category: "INJUSA", accent: "#34d399", subtitle: "Stock evolution", description: "Herramienta para consultar evolución de stock, coberturas y disponibilidad.", bg: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2200&auto=format&fit=crop" },
-      { name: "INJUSA CONTROL TAREAS", url: "https://control-tareas.vercel.app/", icon: "task_alt", category: "INJUSA", accent: "#c4b5fd", subtitle: "Operaciones", description: "Control de tareas, seguimiento interno y estado de ejecución.", bg: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=2200&auto=format&fit=crop" },
-      { name: "INJUSA NECESIDADES NETAS", url: "https://injusa-compras-webapp.vercel.app/", icon: "shopping_cart", category: "INJUSA", accent: "#fb7185", subtitle: "Compras & necesidades", description: "Cálculo de necesidades netas para compras y aprovisionamiento.", bg: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2200&auto=format&fit=crop" },
-      { name: "KOVA SONG ARCHIVE", url: "https://kova-song-archive.vercel.app/", icon: "album", category: "KOVA", accent: "#f472b6", subtitle: "Archivo musical", description: "Biblioteca de canciones, referencias y material del estudio.", bg: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=2200&auto=format&fit=crop" },
-      { name: "KOVA CONTENT OS", url: "https://kova-app-contenido.vercel.app/", icon: "video_library", category: "KOVA", accent: "#f97316", subtitle: "Contenido & clips", description: "Sistema de producción, revisión y organización de contenido.", bg: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2200&auto=format&fit=crop" },
-      { name: "KOVA LEAD MANAGER", url: "https://kova-crm.vercel.app/", icon: "trending_up", category: "KOVA", accent: "#22d3ee", subtitle: "Leads & ventas", description: "Pipeline comercial para artistas, oportunidades y seguimiento de leads.", bg: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=2200&auto=format&fit=crop" }
+      { name: "INJUSA 12W", url: "https://app-12-w.vercel.app/", icon: "bolt", category: "INJUSA", accent: "#a7c8ff", subtitle: "Forecast & pedidos", description: "Panel 12W para revisar demanda acumulada e evolución comercial.", bg: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA CRM", url: "https://app-crm-injusa.vercel.app/", icon: "hub", category: "INJUSA", accent: "#93c5fd", subtitle: "Relación comercial", description: "CRM operativo para seguimento de clientes, oportunidades e accións comerciais.", bg: "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA VENTA PEQUEÑOS", url: "https://app-inventario-bice-tau.vercel.app/", icon: "inventory_2", category: "INJUSA", accent: "#fbbf24", subtitle: "Inventario pequeno", description: "Consulta rápida de inventario e venda de referencias pequenas.", bg: "https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA EVO STOCK", url: "https://script.google.com/macros/s/AKfycbyKe1hqdEdDZ7Gd2TZLV6rM-wKB7lhJ0VmAfhZzi2_4X0KUVPIBIQSakOVpdNBX7F_b/exec", icon: "package_2", category: "INJUSA", accent: "#34d399", subtitle: "Stock evolution", description: "Ferramenta para consultar evolución de stock, coberturas e dispoñibilidade.", bg: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA CONTROL TAREAS", url: "https://control-tareas.vercel.app/", icon: "task_alt", category: "INJUSA", accent: "#c4b5fd", subtitle: "Operacións", description: "Control de tarefas, seguimento interno e estado de execución.", bg: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA NECESIDADES NETAS", url: "https://injusa-compras-webapp.vercel.app/", icon: "shopping_cart", category: "INJUSA", accent: "#fb7185", subtitle: "Compras & necesidades", description: "Cálculo de necesidades netas para compras e aprovisionamento.", bg: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2200&auto=format&fit=crop" },
+      { name: "KOVA SONG ARCHIVE", url: "https://kova-song-archive.vercel.app/", icon: "album", category: "KOVA", accent: "#f472b6", subtitle: "Arquivo musical", description: "Biblioteca de cancións, referencias e material do estudio.", bg: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=2200&auto=format&fit=crop" },
+      { name: "KOVA CONTENT OS", url: "https://kova-app-contenido.vercel.app/", icon: "video_library", category: "KOVA", accent: "#f97316", subtitle: "Contido & clips", description: "Sistema de produción, revisión e organización de contido.", bg: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2200&auto=format&fit=crop" },
+      { name: "KOVA LEAD MANAGER", url: "https://kova-crm.vercel.app/", icon: "trending_up", category: "KOVA", accent: "#22d3ee", subtitle: "Leads & vendas", description: "Pipeline comercial para artistas, oportunidades e seguimento de leads.", bg: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=2200&auto=format&fit=crop" }
     ];
 
     let currentUser = null;
@@ -417,15 +456,15 @@
     updateClock();
 
     function setBackground(app) {
-      const selected = app || { bg: fallbackBgs.DEFAULT, accent: '#a7c8ff', name: 'LaunchPad', subtitle: 'Sistema disponible', description: 'Selecciona un módulo para abrirlo en una nueva pestaña.' };
+      const selected = app || { bg: fallbackBgs.DEFAULT, accent: '#a7c8ff', name: 'LaunchPad', subtitle: 'Sistema dispoñible', description: 'Selecciona un módulo para abrilo nunha nova pestana.' };
       document.documentElement.style.setProperty('--active-accent', selected.accent || '#a7c8ff');
       mainBg.style.opacity = '0';
       setTimeout(() => {
         mainBg.style.backgroundImage = `url('${selected.bg || fallbackBgs.DEFAULT}')`;
         mainBg.style.opacity = '1';
         appTitle.textContent = cleanName(selected.name || 'LaunchPad');
-        appSubtitle.textContent = selected.subtitle || selected.category || 'Sistema disponible';
-        appDescription.textContent = selected.description || 'Selecciona un módulo para abrirlo en una nueva pestaña.';
+        appSubtitle.textContent = selected.subtitle || selected.category || 'Sistema dispoñible';
+        appDescription.textContent = selected.description || 'Selecciona un módulo para abrilo nunha nova pestana.';
       }, 140);
     }
 
@@ -497,6 +536,7 @@
       filterApps();
     }
 
+    // Filtra app según rol
     function allowedApps() {
       return apps.filter(app => currentUser.role === 'admin' || currentUser.allowedApps.includes(app.name));
     }
@@ -517,9 +557,9 @@
 
       if (!visibleApps.length) {
         appReel.innerHTML = `
-          <div class="liquid-glass px-8 py-8 text-center text-white/50" style="border-radius: 1.25rem !important;">
+          <div class="liquid-glass px-8 py-8 text-center text-white/50 w-full" style="border-radius: 1.25rem !important;">
             <span class="material-symbols-outlined mb-3 text-5xl text-white/25">grid_off</span>
-            <p class="text-xs uppercase tracking-[0.28em] font-bold">No hay módulos asignados</p>
+            <p class="text-xs uppercase tracking-[0.28em] font-bold">Non hai módulos asignados</p>
           </div>
         `;
         renderActivity([]);
@@ -539,14 +579,14 @@
       const image = app.bg ? `<img class="app-card-image" src="${app.bg}" alt="${app.name}"/>` : '';
 
       return `
-        <div class="group flex flex-col gap-3 shrink-0">
+        <div class="app-card-wrapper group flex flex-col gap-3 shrink-0">
           <a href="${app.url}" target="_blank" rel="noopener noreferrer"
              onmouseenter="activateApp('${app.name}')" onfocus="activateApp('${app.name}')"
              class="app-card liquid-glass ${isActive ? 'liquid-glass-active' : ''} overflow-hidden cursor-pointer relative flex items-center justify-center">
             ${image}
             <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
             
-            <div class="absolute left-6 bottom-6 flex items-center gap-4 transition-all duration-300 opacity-0 group-hover:opacity-100 ${isActive ? 'opacity-100' : ''}">
+            <div class="absolute left-6 bottom-6 flex items-center gap-4 transition-all duration-300 md:opacity-0 md:group-hover:opacity-100 ${isActive ? 'md:opacity-100' : ''}">
               <div class="rounded-xl p-2.5 shadow-lg flex items-center justify-center" style="background:${app.accent}; color:#101010;">
                 <span class="material-symbols-outlined text-2xl block" style="font-variation-settings:'FILL' 1;">${app.icon}</span>
               </div>
@@ -556,14 +596,15 @@
               </div>
             </div>
 
-            <span class="absolute right-6 top-6 material-symbols-outlined text-6xl text-white/20 transition-all duration-300 group-hover:opacity-0 ${isActive ? 'opacity-0' : 'opacity-100'}">${app.icon}</span>
+            <span class="absolute right-6 top-6 material-symbols-outlined text-6xl text-white/20 transition-all duration-300 md:group-hover:opacity-0 ${isActive ? 'md:opacity-0' : 'md:opacity-100'}">${app.icon}</span>
           </a>
-          <p class="max-w-[240px] truncate text-xs font-bold uppercase tracking-[0.18em] text-white/45 group-hover:text-white/80 transition-colors pl-1">${cleanName(app.name)}</p>
+          <p class="max-w-[240px] truncate text-xs font-bold uppercase tracking-[0.18em] text-white/45 md:group-hover:text-white/80 transition-colors pl-1 md:block hidden">${cleanName(app.name)}</p>
         </div>
       `;
     }
 
     function activateApp(appName) {
+      if (window.innerWidth <= 768) return; // Desactivar hover reactivo en móbil
       const selected = apps.find(app => app.name === appName);
       if (!selected) return;
       activeApp = selected;
@@ -582,7 +623,7 @@
       }
       const recent = list.slice(0, 4);
       row.innerHTML = recent.map(app => `
-        <a href="${app.url}" target="_blank" rel="noopener noreferrer" onmouseenter="activateApp('${app.name}')" class="liquid-glass card-transition px-4 py-3 flex items-center gap-3 cursor-pointer hover:bg-white/10 min-w-[220px]" style="border-radius: 0.75rem !important;">
+        <a href="${app.url}" target="_blank" rel="noopener noreferrer" class="liquid-glass card-transition px-4 py-3 flex items-center gap-3 cursor-pointer hover:bg-white/10 flex-1 min-w-[200px]" style="border-radius: 0.75rem !important;">
           <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:${app.accent}22; color:${app.accent};">
             <span class="material-symbols-outlined text-lg">${app.icon}</span>
           </div>
@@ -594,7 +635,9 @@
       `).join('');
     }
 
+    // Efecto Parallax suave de fondo con rato
     document.addEventListener('mousemove', (e) => {
+      if (window.innerWidth <= 768) return;
       const moveX = (e.clientX / window.innerWidth - 0.5) * 20;
       const moveY = (e.clientY / window.innerHeight - 0.5) * 20;
       mainBg.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
