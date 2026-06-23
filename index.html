@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html class="dark" lang="gl">
+<html class="dark" lang="ca">
 
 <head>
   <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
   <title>LaunchPad - Immersive OS</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
@@ -101,7 +101,7 @@
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
-    /* Tamaño base Escritorio */
+    /* Mida base Escriptori */
     .app-card {
       width: 280px;
       height: 280px;
@@ -111,7 +111,7 @@
         background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
     }
 
-    /* Hover Escritorio (Rectángulo Grande) */
+    /* Hover Escriptori (Rectangle Gran) */
     @media (min-width: 1025px) {
 
       .app-card:hover,
@@ -209,7 +209,7 @@
       }
     }
 
-    /* ADAPTACIÓN ESPECÍFICA PARA IPAD / TABLETA (769px ata 1024px) */
+    /* ADAPTACIÓ PER A IPAD / TABLET (769px fins a 1024px) */
     @media (min-width: 769px) and (max-width: 1024px) {
       body {
         overflow: hidden;
@@ -237,12 +237,13 @@
       }
     }
 
-    /* ADAPTACIÓN ESPECÍFICA PARA MÓBIL (Ata 768px) */
+    /* ADAPTACIÓ ESPECÍFICA PER A MÒBIL (Fins a 768px) */
     @media (max-width: 768px) {
       body {
         overflow-y: auto;
         height: auto;
         min-height: 100vh;
+        width: 100%;
       }
 
       .desktop-left-space {
@@ -253,25 +254,36 @@
         display: none !important;
       }
 
+      #mainContent {
+        height: auto !important;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
       main {
-        padding-left: 20px !important;
-        padding-right: 20px !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
         padding-bottom: 24px !important;
         justify-content: flex-start !important;
-        padding-top: 100px !important;
-        height: auto;
+        padding-top: 90px !important;
+        height: auto !important;
+        flex-grow: 1;
+        width: 100% !important;
       }
 
       header {
-        padding-left: 20px !important;
-        padding-right: 20px !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        width: 100% !important;
       }
 
       .app-reel {
         flex-wrap: wrap !important;
         align-items: stretch !important;
         overflow-x: visible !important;
-        gap: 16px !important;
+        gap: 14px !important;
+        width: 100% !important;
       }
 
       .app-card-wrapper {
@@ -280,11 +292,10 @@
 
       .app-card {
         width: 100% !important;
-        height: 160px !important;
+        height: 140px !important;
         border-radius: 1rem !important;
       }
 
-      /* En móbil faise un deseño de listaxe colapsada elegante onde se ve o contido directamente */
       .app-card .opacity-0 {
         opacity: 100 !important;
       }
@@ -314,8 +325,8 @@
             <h1 class="text-3xl font-extrabold tracking-tight text-white">LaunchPad</h1>
           </div>
         </div>
-        <p class="text-sm text-white/45 leading-relaxed">Accede aos teus módulos de INJUSA e KOVA cunha interface tipo
-          consola, fondo dinámico e permisos por usuario.</p>
+        <p class="text-sm text-white/45 leading-relaxed">Accedix als teus mòduls d'INJUSA i KOVA amb una interfície
+          tipus consola, fons dinàmic i permisos per usuari.</p>
       </div>
 
       <div class="flex flex-col gap-4">
@@ -333,7 +344,7 @@
         </label>
         <div id="loginError"
           class="hidden rounded-2xl border border-red-300/20 bg-red-500/10 px-4 py-3 text-center text-[10px] font-bold uppercase tracking-[0.22em] text-red-200">
-          Acceso denegado. Revise as credenciais.</div>
+          Accés denegat. Revisa les credencials.</div>
         <button onclick="handleLogin()"
           class="liquid-glass card-transition mt-2 rounded-2xl py-4 text-xs font-extrabold uppercase tracking-[0.28em] text-white/85 hover:text-white hover:bg-white/10">Verify_</button>
       </div>
@@ -343,7 +354,7 @@
   <section id="mainContent" class="hidden min-h-screen">
     <header class="nav-minimal fixed top-0 z-50 flex w-full items-center justify-between px-margin-desktop py-6">
       <div class="flex items-center gap-12">
-        <button class="flex items-center gap-3 text-left" onclick="switchTab('ALL')" title="Volver a todas">
+        <button class="flex items-center gap-3 text-left" onclick="switchTab('ALL')" title="Tornar a totes">
           <span class="font-extrabold text-2xl tracking-tighter text-white/85">LP</span>
           <span class="hidden sm:block text-[10px] uppercase tracking-[0.32em] text-white/40 font-bold">LaunchPad</span>
         </button>
@@ -355,7 +366,7 @@
           <span class="material-symbols-outlined text-[18px] text-white/40">search</span>
           <input id="searchInput" oninput="filterApps()"
             class="w-full bg-transparent border-none focus:ring-0 text-xs tracking-[0.16em] text-white placeholder:text-white/30"
-            placeholder="BUSCAR SISTEMAS..." type="text" />
+            placeholder="BUSCAR SISTEMES..." type="text" />
         </div>
         <div class="flex items-center gap-4 text-white/60 font-medium text-sm">
           <span id="clock">--:--</span>
@@ -363,7 +374,7 @@
         </div>
         <button onclick="handleLogout()"
           class="liquid-glass card-transition rounded-full p-2 text-white/50 hover:text-red-300 hover:bg-red-400/10"
-          title="Pechar sesión">
+          title="Tancar sessió">
           <span class="material-symbols-outlined text-[20px]">power_settings_new</span>
         </button>
       </div>
@@ -383,30 +394,29 @@
           <span class="material-symbols-outlined text-[18px] text-white/40">search</span>
           <input id="searchInputMobile" oninput="syncAndFilter(this)"
             class="w-full bg-transparent border-none focus:ring-0 text-xs tracking-[0.16em] text-white placeholder:text-white/30"
-            placeholder="BUSCAR SISTEMAS..." type="text" />
+            placeholder="BUSCAR SISTEMES..." type="text" />
         </div>
       </div>
 
       <div id="contentInfo" class="mb-5 transform transition-all duration-700">
         <div class="mb-2 flex items-center gap-3">
-          <h2 id="appSubtitle" class="text-xs font-bold uppercase tracking-widest text-white/55">Sistema dispoñible</h2>
+          <h2 id="appSubtitle" class="text-xs font-bold uppercase tracking-widest text-white/55">Sistema disponible</h2>
           <span id="userDisplay"
             class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-white/45">SYS
             // --</span>
         </div>
         <h1 id="appTitle"
           class="max-w-4xl text-5xl md:text-6xl font-extrabold tracking-tight text-white drop-shadow-2xl">LaunchPad</h1>
-        <p id="appDescription" class="mt-2 max-w-xl text-sm leading-relaxed text-white/48">Selecciona un módulo para
-          abrilo nunha nova pestana.</p>
+        <p id="appDescription" class="mt-2 max-w-xl text-sm leading-relaxed text-white/48">Selecciona un mòdul para
+          obrir-lo en una nova pestanya.</p>
       </div>
 
       <div id="appReel" class="app-reel scroll-row mb-6 flex items-end gap-card-gap overflow-x-auto pb-4"></div>
 
-      <div class="border-t border-white/10 pt-4">
+      <div class="border-t border-white/10 pt-4 w-full">
         <div class="mb-3 flex items-center justify-between gap-4">
-          <h3 class="text-xs font-extrabold uppercase tracking-widest text-white/40">Accesos e estado</h3>
-          <span id="moduleCount" class="text-[10px] font-bold uppercase tracking-[0.25em] text-white/30">0
-            módulos</span>
+          <h3 class="text-xs font-extrabold uppercase tracking-widest text-white/40">Accessos i estat</h3>
+          <span id="moduleCount" class="text-[10px] font-bold uppercase tracking-[0.25em] text-white/30">0 mòduls</span>
         </div>
         <div id="activityRow" class="flex flex-wrap gap-4"></div>
       </div>
@@ -428,15 +438,15 @@
     };
 
     const apps = [
-      { name: "INJUSA 12W", url: "https://app-12-w.vercel.app/", icon: "bolt", category: "INJUSA", accent: "#a7c8ff", subtitle: "Forecast & pedidos", description: "Panel 12W para revisar demanda acumulada e evolución comercial.", bg: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2200&auto=format&fit=crop" },
-      { name: "INJUSA CRM", url: "https://app-crm-injusa.vercel.app/", icon: "hub", category: "INJUSA", accent: "#93c5fd", subtitle: "Relación comercial", description: "CRM operativo para seguimento de clientes, oportunidades e accións comerciais.", bg: "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2200&auto=format&fit=crop" },
-      { name: "INJUSA VENTA PEQUEÑOS", url: "https://app-inventario-bice-tau.vercel.app/", icon: "inventory_2", category: "INJUSA", accent: "#fbbf24", subtitle: "Inventario pequeno", description: "Consulta rápida de inventario e venda de referencias pequenas.", bg: "https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=2200&auto=format&fit=crop" },
-      { name: "INJUSA EVO STOCK", url: "https://script.google.com/macros/s/AKfycbyKe1hqdEdDZ7Gd2TZLV6rM-wKB7lhJ0VmAfhZzi2_4X0KUVPIBIQSakOVpdNBX7F_b/exec", icon: "package_2", category: "INJUSA", accent: "#34d399", subtitle: "Stock evolution", description: "Ferramenta para consultar evolución de stock, coberturas e dispoñibilidade.", bg: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2200&auto=format&fit=crop" },
-      { name: "INJUSA CONTROL TAREAS", url: "https://control-tareas.vercel.app/", icon: "task_alt", category: "INJUSA", accent: "#c4b5fd", subtitle: "Operacións", description: "Control de tarefas, seguimento interno e estado de execución.", bg: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=2200&auto=format&fit=crop" },
-      { name: "INJUSA NECESIDADES NETAS", url: "https://injusa-compras-webapp.vercel.app/", icon: "shopping_cart", category: "INJUSA", accent: "#fb7185", subtitle: "Compras & necesidades", description: "Cálculo de necesidades netas para compras e aprovisionamento.", bg: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2200&auto=format&fit=crop" },
-      { name: "KOVA SONG ARCHIVE", url: "https://kova-song-archive.vercel.app/", icon: "album", category: "KOVA", accent: "#f472b6", subtitle: "Arquivo musical", description: "Biblioteca de cancións, referencias e material do estudio.", bg: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=2200&auto=format&fit=crop" },
-      { name: "KOVA CONTENT OS", url: "https://kova-app-contenido.vercel.app/", icon: "video_library", category: "KOVA", accent: "#f97316", subtitle: "Contido & clips", description: "Sistema de produción, revisión e organización de contido.", bg: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2200&auto=format&fit=crop" },
-      { name: "KOVA LEAD MANAGER", url: "https://kova-crm.vercel.app/", icon: "trending_up", category: "KOVA", accent: "#22d3ee", subtitle: "Leads & vendas", description: "Pipeline comercial para artistas, oportunidades e seguimento de leads.", bg: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=2200&auto=format&fit=crop" }
+      { name: "INJUSA 12W", url: "https://app-12-w.vercel.app/", icon: "bolt", category: "INJUSA", accent: "#a7c8ff", subtitle: "Forecast & pedidos", description: "Panell 12W per a revisar demanda acumulada i evolució comercial.", bg: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA CRM", url: "https://app-crm-injusa.vercel.app/", icon: "hub", category: "INJUSA", accent: "#93c5fd", subtitle: "Relació comercial", description: "CRM operatiu per al seguiment de clients, oportunitats i accions comercials.", bg: "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA VENTA PEQUEÑOS", url: "https://app-inventario-bice-tau.vercel.app/", icon: "inventory_2", category: "INJUSA", accent: "#fbbf24", subtitle: "Inventari xicotet", description: "Consulta ràpida d'inventari i venda de referències xicotetes.", bg: "https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA EVO STOCK", url: "https://script.google.com/macros/s/AKfycbyKe1hqdEdDZ7Gd2TZLV6rM-wKB7lhJ0VmAfhZzi2_4X0KUVPIBIQSakOVpdNBX7F_b/exec", icon: "package_2", category: "INJUSA", accent: "#34d399", subtitle: "Stock evolution", description: "Ferramenta per a consultar l'evolució d'estoc, cobertures i disponibilitat.", bg: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA CONTROL TAREAS", url: "https://control-tareas.vercel.app/", icon: "task_alt", category: "INJUSA", accent: "#c4b5fd", subtitle: "Operacions", description: "Control de tasques, seguiment intern i estat d'execució.", bg: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=2200&auto=format&fit=crop" },
+      { name: "INJUSA NECESIDADES NETAS", url: "https://injusa-compras-webapp.vercel.app/", icon: "shopping_cart", category: "INJUSA", accent: "#fb7185", subtitle: "Compres & necessitats", description: "Càlcul de necessitats netes per a compres i aprovisionament.", bg: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2200&auto=format&fit=crop" },
+      { name: "KOVA SONG ARCHIVE", url: "https://kova-song-archive.vercel.app/", icon: "album", category: "KOVA", accent: "#f472b6", subtitle: "Arxiu musical", description: "Biblioteca de cançons, referències i material de l'estudi.", bg: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=2200&auto=format&fit=crop" },
+      { name: "KOVA CONTENT OS", url: "https://kova-app-contenido.vercel.app/", icon: "video_library", category: "KOVA", accent: "#f97316", subtitle: "Contingut & clips", description: "Sistema de producció, revisió i organització de contingut.", bg: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2200&auto=format&fit=crop" },
+      { name: "KOVA LEAD MANAGER", url: "https://kova-crm.vercel.app/", icon: "trending_up", category: "KOVA", accent: "#22d3ee", subtitle: "Leads & vendes", description: "Pipeline comercial per a artistes, oportunitats i seguiment de leads.", bg: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=2200&auto=format&fit=crop" }
     ];
 
     let currentUser = null;
@@ -456,15 +466,15 @@
     updateClock();
 
     function setBackground(app) {
-      const selected = app || { bg: fallbackBgs.DEFAULT, accent: '#a7c8ff', name: 'LaunchPad', subtitle: 'Sistema dispoñible', description: 'Selecciona un módulo para abrilo nunha nova pestana.' };
+      const selected = app || { bg: fallbackBgs.DEFAULT, accent: '#a7c8ff', name: 'LaunchPad', subtitle: 'Sistema disponible', description: 'Selecciona un mòdul per a obrir-lo en una nova pestanya.' };
       document.documentElement.style.setProperty('--active-accent', selected.accent || '#a7c8ff');
       mainBg.style.opacity = '0';
       setTimeout(() => {
         mainBg.style.backgroundImage = `url('${selected.bg || fallbackBgs.DEFAULT}')`;
         mainBg.style.opacity = '1';
         appTitle.textContent = cleanName(selected.name || 'LaunchPad');
-        appSubtitle.textContent = selected.subtitle || selected.category || 'Sistema dispoñible';
-        appDescription.textContent = selected.description || 'Selecciona un módulo para abrilo nunha nova pestana.';
+        appSubtitle.textContent = selected.subtitle || selected.category || 'Sistema disponible';
+        appDescription.textContent = selected.description || 'Selecciona un mòdul per a obrir-lo en una nova pestanya.';
       }, 140);
     }
 
@@ -510,7 +520,7 @@
 
     function renderNavigation() {
       const tabs = currentUser.role === 'admin'
-        ? [{ key: 'ALL', label: 'Todas', icon: 'home' }, { key: 'INJUSA', label: 'INJUSA', icon: 'factory' }, { key: 'KOVA', label: 'KOVA', icon: 'graphic_eq' }]
+        ? [{ key: 'ALL', label: 'Totes', icon: 'home' }, { key: 'INJUSA', label: 'INJUSA', icon: 'factory' }, { key: 'KOVA', label: 'KOVA', icon: 'graphic_eq' }]
         : [{ key: 'INJUSA', label: 'INJUSA Panel', icon: 'factory' }];
 
       document.getElementById('topTabs').innerHTML = tabs.map(tab => `
@@ -536,7 +546,6 @@
       filterApps();
     }
 
-    // Filtra app según rol
     function allowedApps() {
       return apps.filter(app => currentUser.role === 'admin' || currentUser.allowedApps.includes(app.name));
     }
@@ -553,13 +562,13 @@
     function filterApps() {
       const appReel = document.getElementById('appReel');
       const visibleApps = filteredApps();
-      document.getElementById('moduleCount').textContent = `${visibleApps.length} módulo${visibleApps.length === 1 ? '' : 's'}`;
+      document.getElementById('moduleCount').textContent = `${visibleApps.length} mòdul${visibleApps.length === 1 ? '' : 's'}`;
 
       if (!visibleApps.length) {
         appReel.innerHTML = `
           <div class="liquid-glass px-8 py-8 text-center text-white/50 w-full" style="border-radius: 1.25rem !important;">
             <span class="material-symbols-outlined mb-3 text-5xl text-white/25">grid_off</span>
-            <p class="text-xs uppercase tracking-[0.28em] font-bold">Non hai módulos asignados</p>
+            <p class="text-xs uppercase tracking-[0.28em] font-bold">No hi ha mòduls assignats</p>
           </div>
         `;
         renderActivity([]);
@@ -604,7 +613,7 @@
     }
 
     function activateApp(appName) {
-      if (window.innerWidth <= 768) return; // Desactivar hover reactivo en móbil
+      if (window.innerWidth <= 768) return;
       const selected = apps.find(app => app.name === appName);
       if (!selected) return;
       activeApp = selected;
@@ -635,7 +644,6 @@
       `).join('');
     }
 
-    // Efecto Parallax suave de fondo con rato
     document.addEventListener('mousemove', (e) => {
       if (window.innerWidth <= 768) return;
       const moveX = (e.clientX / window.innerWidth - 0.5) * 20;
