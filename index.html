@@ -58,6 +58,16 @@
       background-size: cover;
       background-position: center;
       filter: saturate(1.05) contrast(1.02);
+      transform: scale(1.1);
+    }
+
+    #waveCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      transition: opacity 0.8s ease-in-out, transform 1.2s ease-out;
+      transform: scale(1.1);
+      background: linear-gradient(135deg, #070710 0%, #120e20 40%, #080512 80%, #030208 100%);
     }
 
     .ambient-orb {
@@ -310,6 +320,7 @@
 
 <body class="text-on-surface select-none">
   <div class="full-bleed-bg" id="mainBg"></div>
+  <canvas id="waveCanvas"></canvas>
   <div class="ambient-orb"></div>
   <div class="vignette"></div>
 
@@ -428,7 +439,7 @@
       "4": { password: "", role: "admin", allowedApps: ["all"] },
       "luis": { password: "1967", role: "injusa_full", allowedApps: ["INJUSA 12W", "INJUSA CRM", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK", "INJUSA CONTROL TAREAS", "INJUSA NECESIDADES NETAS", "INJUSA SIMULADOR PEDIDOS", "INJUSA ATLAS EXPEDICIONES", "INJUSA BOM ANALYZER"] },
       "ventas": { password: "injven", role: "injusa_sales", allowedApps: ["INJUSA 12W", "INJUSA VENTA PEQUEÑOS", "INJUSA EVO STOCK"] },
-      "jose": { password: "jcan", role: "injusa_prod", allowedApps: ["INJUSA 12W", "INJUSA EVO STOCK"] }
+      "jose": { password: "jcan", role: "injusa_prod", allowedApps: ["INJUSA 12W", "INJUSA EVO STOCK", "INJUSA NECESIDADES NETAS", "INJUSA SIMULADOR PEDIDOS", "INJUSA ATLAS EXPEDICIONES", "INJUSA BOM ANALYZER"] }
     };
 
     const fallbackBgs = {
@@ -455,6 +466,174 @@
     let currentUser = null;
     let currentTab = 'ALL';
     let activeApp = null;
+    let wavesManager = null;
+
+    class PS5Waves {
+      constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        if (!this.canvas) return;
+        this.ctx = this.canvas.getContext('2d');
+        this.waves = [];
+        this.particles = [];
+        this.animationFrameId = null;
+        this.isPaused = false;
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+
+        this.init();
+      }
+
+      init() {
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+
+        this.waves = [
+          {
+            yRatio: 0.5,
+            amplitude: 45,
+            wavelength: 0.0012,
+            speed: 0.0025,
+            phase: Math.random() * 100,
+            lineWidth: 180,
+            gradientColors: ['rgba(30, 27, 75, 0.4)', 'rgba(99, 102, 241, 0.25)', 'rgba(139, 92, 246, 0.15)']
+          },
+          {
+            yRatio: 0.58,
+            amplitude: 60,
+            wavelength: 0.0008,
+            speed: -0.0018,
+            phase: Math.random() * 100,
+            lineWidth: 240,
+            gradientColors: ['rgba(139, 92, 246, 0.25)', 'rgba(236, 72, 153, 0.15)', 'rgba(244, 63, 94, 0.05)']
+          },
+          {
+            yRatio: 0.42,
+            amplitude: 35,
+            wavelength: 0.0018,
+            speed: 0.0035,
+            phase: Math.random() * 100,
+            lineWidth: 110,
+            gradientColors: ['rgba(6, 182, 212, 0.3)', 'rgba(14, 165, 233, 0.2)', 'rgba(99, 102, 241, 0.1)']
+          },
+          {
+            yRatio: 0.48,
+            amplitude: 28,
+            wavelength: 0.0022,
+            speed: -0.0045,
+            phase: Math.random() * 100,
+            lineWidth: 80,
+            gradientColors: ['rgba(167, 200, 255, 0.35)', 'rgba(56, 189, 248, 0.2)', 'rgba(255, 255, 255, 0.05)']
+          }
+        ];
+
+        for (let i = 0; i < 25; i++) {
+          this.particles.push({
+            x: Math.random() * this.width,
+            y: Math.random() * this.height,
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: -Math.random() * 0.5 - 0.15,
+            radius: Math.random() * 2 + 0.6,
+            alpha: Math.random() * 0.4 + 0.1,
+            glow: Math.random() > 0.6
+          });
+        }
+
+        this.animate();
+      }
+
+      resize() {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        const dpr = window.devicePixelRatio || 1;
+        this.canvas.width = this.width * dpr;
+        this.canvas.height = this.height * dpr;
+        this.ctx.scale(dpr, dpr);
+      }
+
+      pause() {
+        this.isPaused = true;
+        if (this.animationFrameId) {
+          cancelAnimationFrame(this.animationFrameId);
+          this.animationFrameId = null;
+        }
+      }
+
+      resume() {
+        if (this.isPaused) {
+          this.isPaused = false;
+          this.animate();
+        }
+      }
+
+      animate() {
+        if (this.isPaused) return;
+
+        const ctx = this.ctx;
+        const w = this.width;
+        const h = this.height;
+
+        ctx.clearRect(0, 0, w, h);
+        ctx.globalCompositeOperation = 'screen';
+
+        this.waves.forEach(wave => {
+          wave.phase += wave.speed;
+          
+          ctx.beginPath();
+          for (let x = 0; x <= w; x += 15) {
+            const angle1 = x * wave.wavelength + wave.phase;
+            const angle2 = x * (wave.wavelength * 0.5) - wave.phase * 0.75;
+            const y = wave.yRatio * h + (Math.sin(angle1) + Math.cos(angle2) * 0.35) * wave.amplitude;
+            
+            if (x === 0) {
+              ctx.moveTo(x, y);
+            } else {
+              ctx.lineTo(x, y);
+            }
+          }
+
+          const grad = ctx.createLinearGradient(0, 0, w, 0);
+          wave.gradientColors.forEach((color, idx) => {
+            grad.addColorStop(idx / (wave.gradientColors.length - 1), color);
+          });
+
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = wave.lineWidth;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = wave.gradientColors[1];
+          ctx.stroke();
+        });
+
+        ctx.shadowBlur = 0;
+
+        this.particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0) p.x = w;
+          if (p.x > w) p.x = 0;
+          if (p.y < 0) {
+            p.y = h;
+            p.x = Math.random() * w;
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(167, 200, 255, ${p.alpha})`;
+          ctx.fill();
+
+          if (p.glow) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius * 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(167, 200, 255, ${p.alpha * 0.12})`;
+            ctx.fill();
+          }
+        });
+
+        this.animationFrameId = requestAnimationFrame(() => this.animate());
+      }
+    }
 
     const mainBg = document.getElementById('mainBg');
     const appTitle = document.getElementById('appTitle');
@@ -469,16 +648,44 @@
     updateClock();
 
     function setBackground(app) {
-      const selected = app || { bg: fallbackBgs.DEFAULT, accent: '#a7c8ff', name: 'LaunchPad', subtitle: 'Sistema disponible', description: 'Selecciona un mòdul per a obrir-lo en una nova pestanya.' };
+      const waveCanvas = document.getElementById('waveCanvas');
+      const selected = app || { bg: null, accent: '#a7c8ff', name: 'LaunchPad', subtitle: 'Sistema disponible', description: 'Selecciona un mòdul per a obrir-lo en una nova pestanya.' };
       document.documentElement.style.setProperty('--active-accent', selected.accent || '#a7c8ff');
-      mainBg.style.opacity = '0';
-      setTimeout(() => {
-        mainBg.style.backgroundImage = `url('${selected.bg || fallbackBgs.DEFAULT}')`;
-        mainBg.style.opacity = '1';
-        appTitle.textContent = cleanName(selected.name || 'LaunchPad');
-        appSubtitle.textContent = selected.subtitle || selected.category || 'Sistema disponible';
-        appDescription.textContent = selected.description || 'Selecciona un mòdul per a obrir-lo en una nova pestanya.';
-      }, 140);
+      
+      if (app) {
+        // App active
+        mainBg.style.opacity = '0';
+        if (waveCanvas) {
+          waveCanvas.style.opacity = '0';
+          setTimeout(() => {
+            if (waveCanvas.style.opacity === '0' && window.wavesManager) {
+              window.wavesManager.pause();
+            }
+          }, 1000);
+        }
+        setTimeout(() => {
+          mainBg.style.backgroundImage = `url('${selected.bg || fallbackBgs.DEFAULT}')`;
+          mainBg.style.opacity = '1';
+          appTitle.textContent = cleanName(selected.name || 'LaunchPad');
+          appSubtitle.textContent = selected.subtitle || selected.category || 'Sistema disponible';
+          appDescription.textContent = selected.description || 'Selecciona un mòdul per a obrir-lo en una nova pestanya.';
+        }, 140);
+      } else {
+        // Reset / waves background
+        mainBg.style.opacity = '0';
+        if (waveCanvas) {
+          if (window.wavesManager) {
+            window.wavesManager.resume();
+          }
+          waveCanvas.style.opacity = '1';
+        }
+        setTimeout(() => {
+          mainBg.style.backgroundImage = '';
+          appTitle.textContent = selected.name;
+          appSubtitle.textContent = selected.subtitle;
+          appDescription.textContent = selected.description;
+        }, 140);
+      }
     }
 
     function cleanName(name) {
@@ -579,7 +786,9 @@
         return;
       }
 
-      activeApp = visibleApps.includes(activeApp) ? activeApp : visibleApps[0];
+      if (activeApp && !visibleApps.includes(activeApp)) {
+        activeApp = null;
+      }
       setBackground(activeApp);
 
       appReel.innerHTML = visibleApps.map((app) => renderAppCard(app)).join('');
@@ -651,11 +860,23 @@
       if (window.innerWidth <= 768) return;
       const moveX = (e.clientX / window.innerWidth - 0.5) * 20;
       const moveY = (e.clientY / window.innerHeight - 0.5) * 20;
-      mainBg.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
+      const transformStr = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
+      mainBg.style.transform = transformStr;
+      const waveCanvas = document.getElementById('waveCanvas');
+      if (waveCanvas) waveCanvas.style.transform = transformStr;
     });
 
     document.getElementById('usernameInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
     document.getElementById('passwordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
+
+    wavesManager = new PS5Waves('waveCanvas');
+
+    document.getElementById('appReel').addEventListener('mouseleave', () => {
+      if (window.innerWidth <= 768) return;
+      activeApp = null;
+      setBackground(null);
+      document.querySelectorAll('.app-card').forEach(card => card.classList.remove('liquid-glass-active'));
+    });
 
     setBackground(null);
   </script>
