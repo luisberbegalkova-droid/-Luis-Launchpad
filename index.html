@@ -383,11 +383,30 @@
           <span id="clock">--:--</span>
           <span class="material-symbols-outlined text-[18px]">wifi</span>
         </div>
+        
+        <!-- Palette button for Skin Selector -->
+        <button onclick="toggleSkinSelector(event)" id="skinSelectorBtn"
+          class="liquid-glass card-transition rounded-full p-2 text-white/50 hover:text-primary hover:bg-white/10"
+          title="Canviar tema">
+          <span class="material-symbols-outlined text-[20px]">palette</span>
+        </button>
+
         <button onclick="handleLogout()"
           class="liquid-glass card-transition rounded-full p-2 text-white/50 hover:text-red-300 hover:bg-red-400/10"
           title="Tancar sessió">
           <span class="material-symbols-outlined text-[20px]">power_settings_new</span>
         </button>
+      </div>
+
+      <!-- Dropdown del Selector de Skins -->
+      <div id="skinDropdown" class="hidden absolute right-4 md:right-margin-desktop top-20 z-[100] w-64 rounded-2xl liquid-glass p-4 fade-slide shadow-2xl">
+        <div class="mb-3 pb-2 border-b border-white/10 flex items-center justify-between">
+          <span class="text-[10px] uppercase tracking-widest font-extrabold text-white/50">Temes de fons</span>
+          <span class="material-symbols-outlined text-xs text-white/30">palette</span>
+        </div>
+        <div class="flex flex-col gap-2" id="skinsList">
+          <!-- Rendered dynamically in JS -->
+        </div>
       </div>
     </header>
 
@@ -468,6 +487,69 @@
     let activeApp = null;
     let wavesManager = null;
 
+    const skins = {
+      cosmos: {
+        name: "Deep Cosmos",
+        bgGradient: "linear-gradient(135deg, #070710 0%, #120e20 40%, #080512 80%, #030208 100%)",
+        accent: "#a7c8ff",
+        waves: [
+          { yRatio: 0.5, amplitude: 45, wavelength: 0.0012, speed: 0.0025, lineWidth: 180, gradientColors: ['rgba(30, 27, 75, 0.4)', 'rgba(99, 102, 241, 0.25)', 'rgba(139, 92, 246, 0.15)'] },
+          { yRatio: 0.58, amplitude: 60, wavelength: 0.0008, speed: -0.0018, lineWidth: 240, gradientColors: ['rgba(139, 92, 246, 0.25)', 'rgba(236, 72, 153, 0.15)', 'rgba(244, 63, 94, 0.05)'] },
+          { yRatio: 0.42, amplitude: 35, wavelength: 0.0018, speed: 0.0035, lineWidth: 110, gradientColors: ['rgba(6, 182, 212, 0.3)', 'rgba(14, 165, 233, 0.2)', 'rgba(99, 102, 241, 0.1)'] },
+          { yRatio: 0.48, amplitude: 28, wavelength: 0.0022, speed: -0.0045, lineWidth: 80, gradientColors: ['rgba(167, 200, 255, 0.35)', 'rgba(56, 189, 248, 0.2)', 'rgba(255, 255, 255, 0.05)'] }
+        ],
+        particleColor: "rgba(167, 200, 255, "
+      },
+      aurora: {
+        name: "Neon Aurora",
+        bgGradient: "linear-gradient(135deg, #02120e 0%, #04221a 45%, #021611 80%, #010a08 100%)",
+        accent: "#34d399",
+        waves: [
+          { yRatio: 0.5, amplitude: 45, wavelength: 0.0012, speed: 0.0025, lineWidth: 180, gradientColors: ['rgba(2, 44, 34, 0.4)', 'rgba(20, 184, 166, 0.25)', 'rgba(16, 185, 129, 0.15)'] },
+          { yRatio: 0.58, amplitude: 60, wavelength: 0.0008, speed: -0.0018, lineWidth: 240, gradientColors: ['rgba(16, 185, 129, 0.25)', 'rgba(52, 211, 153, 0.15)', 'rgba(110, 231, 183, 0.05)'] },
+          { yRatio: 0.42, amplitude: 35, wavelength: 0.0018, speed: 0.0035, lineWidth: 110, gradientColors: ['rgba(14, 116, 144, 0.3)', 'rgba(6, 182, 212, 0.2)', 'rgba(20, 184, 166, 0.1)'] },
+          { yRatio: 0.48, amplitude: 28, wavelength: 0.0022, speed: -0.0045, lineWidth: 80, gradientColors: ['rgba(52, 211, 153, 0.35)', 'rgba(110, 231, 183, 0.2)', 'rgba(255, 255, 255, 0.05)'] }
+        ],
+        particleColor: "rgba(110, 231, 183, "
+      },
+      solar: {
+        name: "Solar Flare",
+        bgGradient: "linear-gradient(135deg, #140501 0%, #250b02 45%, #120401 80%, #060100 100%)",
+        accent: "#f59e0b",
+        waves: [
+          { yRatio: 0.5, amplitude: 45, wavelength: 0.0012, speed: 0.0025, lineWidth: 180, gradientColors: ['rgba(67, 20, 7, 0.4)', 'rgba(245, 158, 11, 0.25)', 'rgba(239, 68, 68, 0.15)'] },
+          { yRatio: 0.58, amplitude: 60, wavelength: 0.0008, speed: -0.0018, lineWidth: 240, gradientColors: ['rgba(239, 68, 68, 0.25)', 'rgba(249, 115, 22, 0.15)', 'rgba(251, 146, 60, 0.05)'] },
+          { yRatio: 0.42, amplitude: 35, wavelength: 0.0018, speed: 0.0035, lineWidth: 110, gradientColors: ['rgba(120, 53, 4, 0.3)', 'rgba(217, 119, 6, 0.2)', 'rgba(245, 158, 11, 0.1)'] },
+          { yRatio: 0.48, amplitude: 28, wavelength: 0.0022, speed: -0.0045, lineWidth: 80, gradientColors: ['rgba(249, 115, 22, 0.35)', 'rgba(251, 146, 60, 0.2)', 'rgba(255, 255, 255, 0.05)'] }
+        ],
+        particleColor: "rgba(251, 146, 60, "
+      },
+      cyberpunk: {
+        name: "Cyberpunk City",
+        bgGradient: "linear-gradient(135deg, #0e0116 0%, #1a0229 45%, #0f0117 80%, #06000a 100%)",
+        accent: "#ec4899",
+        waves: [
+          { yRatio: 0.5, amplitude: 45, wavelength: 0.0012, speed: 0.0025, lineWidth: 180, gradientColors: ['rgba(74, 4, 78, 0.4)', 'rgba(236, 72, 153, 0.25)', 'rgba(168, 85, 247, 0.15)'] },
+          { yRatio: 0.58, amplitude: 60, wavelength: 0.0008, speed: -0.0018, lineWidth: 240, gradientColors: ['rgba(219, 39, 119, 0.25)', 'rgba(236, 72, 153, 0.15)', 'rgba(139, 92, 246, 0.05)'] },
+          { yRatio: 0.42, amplitude: 35, wavelength: 0.0018, speed: 0.0035, lineWidth: 110, gradientColors: ['rgba(79, 70, 229, 0.3)', 'rgba(6, 182, 212, 0.2)', 'rgba(219, 39, 119, 0.1)'] },
+          { yRatio: 0.48, amplitude: 28, wavelength: 0.0022, speed: -0.0045, lineWidth: 80, gradientColors: ['rgba(236, 72, 153, 0.35)', 'rgba(168, 85, 247, 0.2)', 'rgba(255, 255, 255, 0.05)'] }
+        ],
+        particleColor: "rgba(236, 72, 153, "
+      },
+      platinum: {
+        name: "Platinum Mist",
+        bgGradient: "linear-gradient(135deg, #09090b 0%, #141417 45%, #0a0a0c 80%, #040405 100%)",
+        accent: "#e5e7eb",
+        waves: [
+          { yRatio: 0.5, amplitude: 45, wavelength: 0.0012, speed: 0.0025, lineWidth: 180, gradientColors: ['rgba(31, 41, 55, 0.4)', 'rgba(107, 114, 128, 0.25)', 'rgba(156, 163, 175, 0.15)'] },
+          { yRatio: 0.58, amplitude: 60, wavelength: 0.0008, speed: -0.0018, lineWidth: 240, gradientColors: ['rgba(156, 163, 175, 0.25)', 'rgba(209, 213, 219, 0.15)', 'rgba(243, 244, 246, 0.05)'] },
+          { yRatio: 0.42, amplitude: 35, wavelength: 0.0018, speed: 0.0035, lineWidth: 110, gradientColors: ['rgba(55, 65, 81, 0.3)', 'rgba(107, 114, 128, 0.2)', 'rgba(209, 213, 219, 0.1)'] },
+          { yRatio: 0.48, amplitude: 28, wavelength: 0.0022, speed: -0.0045, lineWidth: 80, gradientColors: ['rgba(156, 163, 175, 0.35)', 'rgba(243, 244, 246, 0.2)', 'rgba(255, 255, 255, 0.05)'] }
+        ],
+        particleColor: "rgba(229, 231, 235, "
+      }
+    };
+
     class PS5Waves {
       constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
@@ -479,6 +561,7 @@
         this.isPaused = false;
         this.width = window.innerWidth;
         this.height = window.innerHeight;
+        this.particleColorPattern = "rgba(167, 200, 255, ";
 
         this.init();
       }
@@ -487,44 +570,21 @@
         this.resize();
         window.addEventListener('resize', () => this.resize());
 
-        this.waves = [
-          {
-            yRatio: 0.5,
-            amplitude: 45,
-            wavelength: 0.0012,
-            speed: 0.0025,
-            phase: Math.random() * 100,
-            lineWidth: 180,
-            gradientColors: ['rgba(30, 27, 75, 0.4)', 'rgba(99, 102, 241, 0.25)', 'rgba(139, 92, 246, 0.15)']
-          },
-          {
-            yRatio: 0.58,
-            amplitude: 60,
-            wavelength: 0.0008,
-            speed: -0.0018,
-            phase: Math.random() * 100,
-            lineWidth: 240,
-            gradientColors: ['rgba(139, 92, 246, 0.25)', 'rgba(236, 72, 153, 0.15)', 'rgba(244, 63, 94, 0.05)']
-          },
-          {
-            yRatio: 0.42,
-            amplitude: 35,
-            wavelength: 0.0018,
-            speed: 0.0035,
-            phase: Math.random() * 100,
-            lineWidth: 110,
-            gradientColors: ['rgba(6, 182, 212, 0.3)', 'rgba(14, 165, 233, 0.2)', 'rgba(99, 102, 241, 0.1)']
-          },
-          {
-            yRatio: 0.48,
-            amplitude: 28,
-            wavelength: 0.0022,
-            speed: -0.0045,
-            phase: Math.random() * 100,
-            lineWidth: 80,
-            gradientColors: ['rgba(167, 200, 255, 0.35)', 'rgba(56, 189, 248, 0.2)', 'rgba(255, 255, 255, 0.05)']
-          }
-        ];
+        const activeSkinKey = localStorage.getItem('theme-skin') || 'cosmos';
+        const skin = skins[activeSkinKey] || skins.cosmos;
+        
+        this.canvas.style.background = skin.bgGradient;
+        this.particleColorPattern = skin.particleColor;
+
+        this.waves = skin.waves.map(w => ({
+          yRatio: w.yRatio,
+          amplitude: w.amplitude,
+          wavelength: w.wavelength,
+          speed: w.speed,
+          phase: Math.random() * 100,
+          lineWidth: w.lineWidth,
+          gradientColors: w.gradientColors
+        }));
 
         for (let i = 0; i < 25; i++) {
           this.particles.push({
@@ -548,6 +608,25 @@
         this.canvas.width = this.width * dpr;
         this.canvas.height = this.height * dpr;
         this.ctx.scale(dpr, dpr);
+      }
+
+      setSkin(skinKey) {
+        const skin = skins[skinKey];
+        if (!skin) return;
+
+        this.canvas.style.background = skin.bgGradient;
+        this.particleColorPattern = skin.particleColor;
+
+        skin.waves.forEach((w, idx) => {
+          if (this.waves[idx]) {
+            this.waves[idx].yRatio = w.yRatio;
+            this.waves[idx].amplitude = w.amplitude;
+            this.waves[idx].wavelength = w.wavelength;
+            this.waves[idx].speed = w.speed;
+            this.waves[idx].lineWidth = w.lineWidth;
+            this.waves[idx].gradientColors = w.gradientColors;
+          }
+        });
       }
 
       pause() {
@@ -620,13 +699,13 @@
 
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(167, 200, 255, ${p.alpha})`;
+          ctx.fillStyle = this.particleColorPattern + p.alpha + ")";
           ctx.fill();
 
           if (p.glow) {
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.radius * 3.5, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(167, 200, 255, ${p.alpha * 0.12})`;
+            ctx.fillStyle = this.particleColorPattern + (p.alpha * 0.12) + ")";
             ctx.fill();
           }
         });
@@ -649,7 +728,9 @@
 
     function setBackground(app) {
       const waveCanvas = document.getElementById('waveCanvas');
-      const selected = app || { bg: null, accent: '#a7c8ff', name: 'LaunchPad', subtitle: 'Sistema disponible', description: 'Selecciona un mòdul per a obrir-lo en una nova pestanya.' };
+      const activeSkinKey = localStorage.getItem('theme-skin') || 'cosmos';
+      const activeSkin = skins[activeSkinKey] || skins.cosmos;
+      const selected = app || { bg: null, accent: activeSkin.accent, name: 'LaunchPad', subtitle: 'Sistema disponible', description: 'Selecciona un mòdul per a obrir-lo en una nova pestanya.' };
       document.documentElement.style.setProperty('--active-accent', selected.accent || '#a7c8ff');
       
       if (app) {
@@ -868,6 +949,70 @@
 
     document.getElementById('usernameInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
     document.getElementById('passwordInput').addEventListener('keypress', (e) => { if (e.key === 'Enter') handleLogin(); });
+
+    function renderSkinsList() {
+      const skinsList = document.getElementById('skinsList');
+      if (!skinsList) return;
+      
+      const activeSkinKey = localStorage.getItem('theme-skin') || 'cosmos';
+      
+      skinsList.innerHTML = Object.keys(skins).map(key => {
+        const skin = skins[key];
+        const isActive = key === activeSkinKey;
+        const dotBg = skin.bgGradient;
+        
+        return `
+          <button onclick="selectSkin('${key}')" 
+            class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all hover:bg-white/10 text-left ${isActive ? 'bg-white/5' : ''}">
+            <div class="flex items-center gap-3">
+              <div class="w-5 h-5 rounded-full border border-white/20" style="background:${dotBg}; box-shadow: 0 0 10px ${skin.accent}33;"></div>
+              <span class="text-xs font-bold text-white/80">${skin.name}</span>
+            </div>
+            ${isActive ? `<span class="material-symbols-outlined text-sm text-primary">check_circle</span>` : ''}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function toggleSkinSelector(event) {
+      if (event) event.stopPropagation();
+      const dropdown = document.getElementById('skinDropdown');
+      if (!dropdown) return;
+      
+      const isHidden = dropdown.classList.contains('hidden');
+      if (isHidden) {
+        renderSkinsList();
+        dropdown.classList.remove('hidden');
+      } else {
+        dropdown.classList.add('hidden');
+      }
+    }
+
+    function selectSkin(skinKey) {
+      localStorage.setItem('theme-skin', skinKey);
+      if (window.wavesManager) {
+        window.wavesManager.setSkin(skinKey);
+      }
+      
+      const activeSkin = skins[skinKey] || skins.cosmos;
+      document.documentElement.style.setProperty('--active-accent', activeSkin.accent);
+      
+      if (!activeApp) {
+        setBackground(null);
+      }
+      
+      renderSkinsList();
+    }
+
+    document.addEventListener('click', (e) => {
+      const dropdown = document.getElementById('skinDropdown');
+      const btn = document.getElementById('skinSelectorBtn');
+      if (dropdown && !dropdown.classList.contains('hidden')) {
+        if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
+          dropdown.classList.add('hidden');
+        }
+      }
+    });
 
     wavesManager = new PS5Waves('waveCanvas');
 
