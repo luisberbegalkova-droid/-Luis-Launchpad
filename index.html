@@ -315,6 +315,95 @@
         display: none !important;
       }
     }
+
+    /* LIGHT SKIN SYSTEM */
+    body.skin-light {
+      color: #1a1a1a !important;
+    }
+    body.skin-light #appTitle {
+      color: #111827 !important;
+    }
+    body.skin-light #appSubtitle,
+    body.skin-light #userDisplay {
+      color: #4b5563 !important;
+      border-color: rgba(0, 0, 0, 0.15) !important;
+      background-color: rgba(0, 0, 0, 0.04) !important;
+    }
+    body.skin-light #appDescription {
+      color: #374151 !important;
+    }
+    body.skin-light .tab-link {
+      color: rgba(0, 0, 0, 0.55) !important;
+    }
+    body.skin-light .tab-link.tab-active {
+      color: #111827 !important;
+      border-bottom-color: rgba(0, 0, 0, 0.7) !important;
+    }
+    body.skin-light .quick-action {
+      color: rgba(0, 0, 0, 0.5) !important;
+    }
+    body.skin-light .quick-action-active {
+      color: var(--active-accent) !important;
+    }
+    body.skin-light #clock {
+      color: #1f2937 !important;
+    }
+    body.skin-light .material-symbols-outlined {
+      color: inherit;
+    }
+    body.skin-light header button {
+      color: rgba(0, 0, 0, 0.6) !important;
+    }
+    body.skin-light header button:hover {
+      color: #111827 !important;
+      background-color: rgba(0, 0, 0, 0.05) !important;
+    }
+    body.skin-light #searchInput {
+      color: #111827 !important;
+    }
+    body.skin-light #searchInput::placeholder {
+      color: rgba(0, 0, 0, 0.4) !important;
+    }
+    body.skin-light #moduleCount {
+      color: rgba(0, 0, 0, 0.45) !important;
+    }
+    body.skin-light h3 {
+      color: rgba(0, 0, 0, 0.45) !important;
+    }
+    body.skin-light .liquid-glass {
+      background: rgba(255, 255, 255, 0.35) !important;
+      border-color: rgba(0, 0, 0, 0.08) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+    }
+    body.skin-light .app-card-wrapper p {
+      color: #374151 !important;
+    }
+    body.skin-light .login-shell {
+      background: rgba(255, 255, 255, 0.6) !important;
+      border-color: rgba(0, 0, 0, 0.08) !important;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1) !important;
+    }
+    body.skin-light .login-shell h1,
+    body.skin-light .login-shell span {
+      color: #111827 !important;
+    }
+    body.skin-light .login-shell p {
+      color: #374151 !important;
+    }
+    body.skin-light .soft-input {
+      background: rgba(0, 0, 0, 0.04) !important;
+      border-color: rgba(0, 0, 0, 0.08) !important;
+      color: #111827 !important;
+    }
+    body.skin-light .soft-input::placeholder {
+      color: rgba(0, 0, 0, 0.3) !important;
+    }
+    body.skin-light .soft-input:focus {
+      border-color: var(--active-accent) !important;
+    }
+    body.skin-light .vignette {
+      background: radial-gradient(circle at center, transparent 30%, rgba(255, 255, 255, 0.15) 100%);
+    }
   </style>
 </head>
 
@@ -490,6 +579,8 @@
     const skins = {
       cosmos: {
         name: "Deep Cosmos",
+        isDark: true,
+        compositeOperation: "screen",
         bgGradient: "linear-gradient(135deg, #070710 0%, #120e20 40%, #080512 80%, #030208 100%)",
         accent: "#a7c8ff",
         waves: [
@@ -502,6 +593,8 @@
       },
       aurora: {
         name: "Neon Aurora",
+        isDark: true,
+        compositeOperation: "screen",
         bgGradient: "linear-gradient(135deg, #02120e 0%, #04221a 45%, #021611 80%, #010a08 100%)",
         accent: "#34d399",
         waves: [
@@ -514,6 +607,8 @@
       },
       solar: {
         name: "Solar Flare",
+        isDark: true,
+        compositeOperation: "screen",
         bgGradient: "linear-gradient(135deg, #140501 0%, #250b02 45%, #120401 80%, #060100 100%)",
         accent: "#f59e0b",
         waves: [
@@ -526,6 +621,8 @@
       },
       cyberpunk: {
         name: "Cyberpunk City",
+        isDark: true,
+        compositeOperation: "screen",
         bgGradient: "linear-gradient(135deg, #0e0116 0%, #1a0229 45%, #0f0117 80%, #06000a 100%)",
         accent: "#ec4899",
         waves: [
@@ -538,6 +635,8 @@
       },
       platinum: {
         name: "Platinum Mist",
+        isDark: true,
+        compositeOperation: "screen",
         bgGradient: "linear-gradient(135deg, #09090b 0%, #141417 45%, #0a0a0c 80%, #040405 100%)",
         accent: "#e5e7eb",
         waves: [
@@ -547,6 +646,77 @@
           { yRatio: 0.48, amplitude: 28, wavelength: 0.0022, speed: -0.0045, lineWidth: 80, gradientColors: ['rgba(156, 163, 175, 0.35)', 'rgba(243, 244, 246, 0.2)', 'rgba(255, 255, 255, 0.05)'] }
         ],
         particleColor: "rgba(229, 231, 235, "
+      },
+      // LIGHT SKINS
+      lightCosmos: {
+        name: "Nebula Light",
+        isDark: false,
+        compositeOperation: "source-over",
+        bgGradient: "linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 45%, #cbd5e1 80%, #94a3b8 100%)",
+        accent: "#3b82f6",
+        waves: [
+          { yRatio: 0.5, amplitude: 45, wavelength: 0.0012, speed: 0.0025, lineWidth: 180, gradientColors: ['rgba(59, 130, 246, 0.22)', 'rgba(99, 102, 241, 0.18)', 'rgba(139, 92, 246, 0.12)'] },
+          { yRatio: 0.58, amplitude: 60, wavelength: 0.0008, speed: -0.0018, lineWidth: 240, gradientColors: ['rgba(99, 102, 241, 0.18)', 'rgba(139, 92, 246, 0.12)', 'rgba(236, 72, 153, 0.08)'] },
+          { yRatio: 0.42, amplitude: 35, wavelength: 0.0018, speed: 0.0035, lineWidth: 110, gradientColors: ['rgba(6, 182, 212, 0.22)', 'rgba(14, 165, 233, 0.15)', 'rgba(99, 102, 241, 0.08)'] },
+          { yRatio: 0.48, amplitude: 28, wavelength: 0.0022, speed: -0.0045, lineWidth: 80, gradientColors: ['rgba(59, 130, 246, 0.25)', 'rgba(147, 197, 253, 0.15)', 'rgba(255, 255, 255, 0.25)'] }
+        ],
+        particleColor: "rgba(59, 130, 246, "
+      },
+      lightAurora: {
+        name: "Pastel Breeze",
+        isDark: false,
+        compositeOperation: "source-over",
+        bgGradient: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 45%, #bbf7d0 80%, #86efac 100%)",
+        accent: "#10b981",
+        waves: [
+          { yRatio: 0.5, amplitude: 45, wavelength: 0.0012, speed: 0.0025, lineWidth: 180, gradientColors: ['rgba(2, 120, 90, 0.2)', 'rgba(20, 184, 166, 0.18)', 'rgba(16, 185, 129, 0.12)'] },
+          { yRatio: 0.58, amplitude: 60, wavelength: 0.0008, speed: -0.0018, lineWidth: 240, gradientColors: ['rgba(16, 185, 129, 0.18)', 'rgba(52, 211, 153, 0.12)', 'rgba(110, 231, 183, 0.08)'] },
+          { yRatio: 0.42, amplitude: 35, wavelength: 0.0018, speed: 0.0035, lineWidth: 110, gradientColors: ['rgba(14, 116, 144, 0.22)', 'rgba(6, 182, 212, 0.15)', 'rgba(20, 184, 166, 0.08)'] },
+          { yRatio: 0.48, amplitude: 28, wavelength: 0.0022, speed: -0.0045, lineWidth: 80, gradientColors: ['rgba(52, 211, 153, 0.22)', 'rgba(167, 243, 208, 0.15)', 'rgba(255, 255, 255, 0.25)'] }
+        ],
+        particleColor: "rgba(16, 185, 129, "
+      },
+      lightSolar: {
+        name: "Sunset Glow",
+        isDark: false,
+        compositeOperation: "source-over",
+        bgGradient: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 45%, #fed7aa 80%, #fdba74 100%)",
+        accent: "#f97316",
+        waves: [
+          { yRatio: 0.5, amplitude: 45, wavelength: 0.0012, speed: 0.0025, lineWidth: 180, gradientColors: ['rgba(194, 65, 12, 0.2)', 'rgba(245, 158, 11, 0.18)', 'rgba(239, 68, 68, 0.12)'] },
+          { yRatio: 0.58, amplitude: 60, wavelength: 0.0008, speed: -0.0018, lineWidth: 240, gradientColors: ['rgba(239, 68, 68, 0.18)', 'rgba(249, 115, 22, 0.12)', 'rgba(251, 146, 60, 0.08)'] },
+          { yRatio: 0.42, amplitude: 35, wavelength: 0.0018, speed: 0.0035, lineWidth: 110, gradientColors: ['rgba(146, 64, 14, 0.22)', 'rgba(217, 119, 6, 0.15)', 'rgba(245, 158, 11, 0.08)'] },
+          { yRatio: 0.48, amplitude: 28, wavelength: 0.0022, speed: -0.0045, lineWidth: 80, gradientColors: ['rgba(249, 115, 22, 0.22)', 'rgba(253, 186, 116, 0.15)', 'rgba(255, 255, 255, 0.25)'] }
+        ],
+        particleColor: "rgba(249, 115, 22, "
+      },
+      lightCyberpunk: {
+        name: "Lavender Mist",
+        isDark: false,
+        compositeOperation: "source-over",
+        bgGradient: "linear-gradient(135deg, #faf5ff 0%, #f3e8ff 45%, #e9d5ff 80%, #d8b4fe 100%)",
+        accent: "#8b5cf6",
+        waves: [
+          { yRatio: 0.5, amplitude: 45, wavelength: 0.0012, speed: 0.0025, lineWidth: 180, gradientColors: ['rgba(109, 40, 217, 0.2)', 'rgba(236, 72, 153, 0.18)', 'rgba(168, 85, 247, 0.12)'] },
+          { yRatio: 0.58, amplitude: 60, wavelength: 0.0008, speed: -0.0018, lineWidth: 240, gradientColors: ['rgba(219, 39, 119, 0.18)', 'rgba(236, 72, 153, 0.12)', 'rgba(139, 92, 246, 0.08)'] },
+          { yRatio: 0.42, amplitude: 35, wavelength: 0.0018, speed: 0.0035, lineWidth: 110, gradientColors: ['rgba(67, 56, 202, 0.22)', 'rgba(6, 182, 212, 0.15)', 'rgba(219, 39, 119, 0.08)'] },
+          { yRatio: 0.48, amplitude: 28, wavelength: 0.0022, speed: -0.0045, lineWidth: 80, gradientColors: ['rgba(236, 72, 153, 0.22)', 'rgba(216, 180, 254, 0.15)', 'rgba(255, 255, 255, 0.25)'] }
+        ],
+        particleColor: "rgba(139, 92, 246, "
+      },
+      lightCherry: {
+        name: "Cherry Blossom",
+        isDark: false,
+        compositeOperation: "source-over",
+        bgGradient: "linear-gradient(135deg, #fff5f5 0%, #ffe3e3 45%, #ffc9c9 80%, #fca5a5 100%)",
+        accent: "#f43f5e",
+        waves: [
+          { yRatio: 0.5, amplitude: 45, wavelength: 0.0012, speed: 0.0025, lineWidth: 180, gradientColors: ['rgba(190, 24, 74, 0.2)', 'rgba(244, 63, 94, 0.18)', 'rgba(236, 72, 153, 0.12)'] },
+          { yRatio: 0.58, amplitude: 60, wavelength: 0.0008, speed: -0.0018, lineWidth: 240, gradientColors: ['rgba(236, 72, 153, 0.18)', 'rgba(244, 63, 94, 0.12)', 'rgba(251, 113, 133, 0.08)'] },
+          { yRatio: 0.42, amplitude: 35, wavelength: 0.0018, speed: 0.0035, lineWidth: 110, gradientColors: ['rgba(159, 18, 57, 0.22)', 'rgba(225, 29, 72, 0.15)', 'rgba(244, 63, 94, 0.08)'] },
+          { yRatio: 0.48, amplitude: 28, wavelength: 0.0022, speed: -0.0045, lineWidth: 80, gradientColors: ['rgba(244, 63, 94, 0.22)', 'rgba(253, 164, 175, 0.15)', 'rgba(255, 255, 255, 0.25)'] }
+        ],
+        particleColor: "rgba(244, 63, 94, "
       }
     };
 
@@ -562,6 +732,7 @@
         this.width = window.innerWidth;
         this.height = window.innerHeight;
         this.particleColorPattern = "rgba(167, 200, 255, ";
+        this.compositeOperation = "screen";
 
         this.init();
       }
@@ -575,6 +746,7 @@
         
         this.canvas.style.background = skin.bgGradient;
         this.particleColorPattern = skin.particleColor;
+        this.compositeOperation = skin.compositeOperation || 'screen';
 
         this.waves = skin.waves.map(w => ({
           yRatio: w.yRatio,
@@ -616,6 +788,7 @@
 
         this.canvas.style.background = skin.bgGradient;
         this.particleColorPattern = skin.particleColor;
+        this.compositeOperation = skin.compositeOperation || 'screen';
 
         skin.waves.forEach((w, idx) => {
           if (this.waves[idx]) {
@@ -652,7 +825,7 @@
         const h = this.height;
 
         ctx.clearRect(0, 0, w, h);
-        ctx.globalCompositeOperation = 'screen';
+        ctx.globalCompositeOperation = this.compositeOperation;
 
         this.waves.forEach(wave => {
           wave.phase += wave.speed;
@@ -733,14 +906,22 @@
       const selected = app || { bg: null, accent: activeSkin.accent, name: 'LaunchPad', subtitle: 'Sistema disponible', description: 'Selecciona un mòdul per a obrir-lo en una nova pestanya.' };
       document.documentElement.style.setProperty('--active-accent', selected.accent || '#a7c8ff');
       
+      // Update body class based on light/dark mode of the skin
+      const body = document.body;
+      if (activeSkin.isDark === false) {
+        body.classList.add('skin-light');
+      } else {
+        body.classList.remove('skin-light');
+      }
+
       if (app) {
         // App active
         mainBg.style.opacity = '0';
         if (waveCanvas) {
           waveCanvas.style.opacity = '0';
           setTimeout(() => {
-            if (waveCanvas.style.opacity === '0' && window.wavesManager) {
-              window.wavesManager.pause();
+            if (waveCanvas.style.opacity === '0' && wavesManager) {
+              wavesManager.pause();
             }
           }, 1000);
         }
@@ -755,8 +936,8 @@
         // Reset / waves background
         mainBg.style.opacity = '0';
         if (waveCanvas) {
-          if (window.wavesManager) {
-            window.wavesManager.resume();
+          if (wavesManager) {
+            wavesManager.resume();
           }
           waveCanvas.style.opacity = '1';
         }
@@ -990,8 +1171,8 @@
 
     function selectSkin(skinKey) {
       localStorage.setItem('theme-skin', skinKey);
-      if (window.wavesManager) {
-        window.wavesManager.setSkin(skinKey);
+      if (wavesManager) {
+        wavesManager.setSkin(skinKey);
       }
       
       const activeSkin = skins[skinKey] || skins.cosmos;
